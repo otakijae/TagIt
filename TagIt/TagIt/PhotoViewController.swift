@@ -1,0 +1,136 @@
+//
+//  PhotoViewController.swift
+//  TagIt
+//
+//  Created by 신재혁 on 11/02/2019.
+//  Copyright © 2019 ninetyfivejae. All rights reserved.
+//
+
+import UIKit
+import Photos
+
+class PhotoViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate {
+
+    var indexPath = IndexPath(item: 0, section: 0)
+    
+    var imageArray = [UIImage]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        grabPhotos()
+    }
+    
+    func grabPhotos() {
+        DispatchQueue.global(qos: .background).async {
+            print("This is run on the background queue")
+            let imgManager = PHImageManager.default()
+            
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.isSynchronous = true
+            requestOptions.deliveryMode = .highQualityFormat
+            
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            
+            let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+            print(fetchResult)
+            print(fetchResult.count)
+            
+            if fetchResult.count > 0 {
+                for i in 0..<fetchResult.count {
+                    imgManager.requestImage(for: fetchResult.object(at: i), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFit, options: requestOptions, resultHandler: {(image, error) in
+                        self.imageArray.append(image!)
+                    })
+                }
+            } else {
+                print("You got no photos.")
+            }
+            
+            print("imageArray count: \(self.imageArray.count)")
+            
+            DispatchQueue.main.async {
+                print("This is run on the main queue, after the previous code in outer block")
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imageArray.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+        
+        self.indexPath = indexPath
+        
+        //        let vc = ImagePreviewViewController()
+        //        vc.imgArray = self.imageArray
+        //        vc.passedContentOffset = indexPath
+        //        self.navigationController?.pushViewController(vc, animated: true)
+        
+        //        let imagePreviewViewController = storyboard?.instantiateViewController(withIdentifier: "ImagePreviewViewController") as! ImagePreviewViewController
+        //        imagePreviewViewController.imgArray = self.imageArray
+        //        imagePreviewViewController.passedContentOffset = indexPath
+        //        present(imagePreviewViewController, animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SelectedPhotoViewSegue" {
+            if let selectedPhotoViewController = segue.destination as? SelectedPhotoViewController {
+                selectedPhotoViewController.imgArray = self.imageArray
+                selectedPhotoViewController.passedContentOffset = self.indexPath
+            }
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        //Custom CollectionViewCell을 만들어서 사용하는 경우
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoItemCell", for: indexPath) as? PhotoItemCell else {
+            return UICollectionViewCell()
+        }
+        cell.imageView.image = imageArray[indexPath.item]
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let width = collectionView.frame.width
+        
+        if DeviceInfo.Orientation.isPortrait {
+            return CGSize(width: width/4 - 1, height: width/4 - 1)
+        } else {
+            return CGSize(width: width/6 - 1, height: width/6 - 1)
+        }
+    }
+    
+    //    override func viewWillLayoutSubviews() {
+    //        super.viewWillLayoutSubviews()
+    //        self.collectionView.collectionViewLayout.invalidateLayout()
+    //    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
+}
+
+struct DeviceInfo {
+    struct Orientation {
+        static var isLandscape: Bool {
+            get {
+                return UIDevice.current.orientation.isValidInterfaceOrientation ? UIDevice.current.orientation.isLandscape : UIApplication.shared.statusBarOrientation.isLandscape
+            }
+        }
+        
+        static var isPortrait: Bool {
+            get {
+                return UIDevice.current.orientation.isValidInterfaceOrientation ? UIDevice.current.orientation.isPortrait : UIApplication.shared.statusBarOrientation.isPortrait
+            }
+        }
+    }
+}
