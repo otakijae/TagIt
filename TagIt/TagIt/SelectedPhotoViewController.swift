@@ -1,75 +1,144 @@
 //
-//  SelectedViewController.swift
+//  SelectedPhotoViewController.swift
 //  TagIt
 //
-//  Created by 신재혁 on 11/02/2019.
+//  Created by 신재혁 on 12/02/2019.
 //  Copyright © 2019 ninetyfivejae. All rights reserved.
 //
 
 import UIKit
 
-class SelectedPhotoViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    let layout = UICollectionViewFlowLayout()
-    
-    var imgArray = [UIImage]()
-    var passedContentOffset = IndexPath()
+class SelectedPhotoViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    var myCollectionView: UICollectionView!
+    var imageArray = [UIImage]()
+    var passedContentOffset = IndexPath(row: 0, section: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.black
         
-        //        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        //        layout.minimumInteritemSpacing = 0
-        //        layout.minimumLineSpacing = 0
-        //        layout.scrollDirection = .horizontal
-        //
-        //        self.collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        //        self.collectionView.delegate = self
-        //        self.collectionView.dataSource = self
-        //        self.collectionView.register(ImagePreviewViewCell.self, forCellWithReuseIdentifier: "ImagePreviewViewCell")
-        //        self.collectionView.isPagingEnabled = true
-        //        self.collectionView.scrollToItem(at: passedContentOffset, at: .left, animated: true)
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        layout.scrollDirection = .horizontal
         
-        //        self.collectionView.autoresizingMask = UIView.AutoresizingMask(rawValue:
-        //            UIView.AutoresizingMask.RawValue(UInt8(UIView.AutoresizingMask.flexibleWidth.rawValue) |
-        //            UInt8(UIView.AutoresizingMask.flexibleHeight.rawValue)))
+        myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        myCollectionView.delegate = self
+        myCollectionView.dataSource = self
+        myCollectionView.register(ImagePreviewViewCell.self, forCellWithReuseIdentifier: "TestCell")
+        myCollectionView.isPagingEnabled = true
+        
+        self.view.addSubview(myCollectionView)
+        
+        myCollectionView.autoresizingMask = UIView.AutoresizingMask(rawValue:
+            UIView.AutoresizingMask.RawValue(UInt8(UIView.AutoresizingMask.flexibleWidth.rawValue) |
+                UInt8(UIView.AutoresizingMask.flexibleHeight.rawValue)))
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imgArray.count
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imageArray.count
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectedPhotoItemCell", for: indexPath) as! SelectedPhotoItemCell
-        cell.imageView.image = imgArray[indexPath.row]
-        
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TestCell", for: indexPath) as! ImagePreviewViewCell
+        cell.imgView.image = imageArray[indexPath.row]
         return cell
     }
     
-    //    override func viewWillLayoutSubviews() {
-    //        super.viewWillLayoutSubviews()
-    //
-    //        guard let flowLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-    //        flowLayout.itemSize = self.collectionView.frame.size
-    //        flowLayout.invalidateLayout()
-    //        self.collectionView.collectionViewLayout.invalidateLayout()
-    //    }
-    //
-    //    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    //        super.viewWillTransition(to: size, with: coordinator)
-    //
-    //        let offset = self.collectionView.contentOffset
-    //        let width = self.collectionView.bounds.size.width
-    //
-    //        let index = round(offset.x / width)
-    //        let newOffset = CGPoint(x: index * size.width, y: offset.y)
-    //
-    //        self.collectionView.setContentOffset(newOffset, animated: false)
-    //        coordinator.animate(alongsideTransition: { (context) in
-    //            self.collectionView.reloadData()
-    //            self.collectionView.setContentOffset(newOffset, animated: false)
-    //        }, completion: nil)
-    //    }
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        guard let flowLayout = myCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        flowLayout.itemSize = myCollectionView.frame.size
+        flowLayout.invalidateLayout()
+        myCollectionView.collectionViewLayout.invalidateLayout()
+        
+        myCollectionView.scrollToItem(at: passedContentOffset, at: .left, animated: false)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        let offset = myCollectionView.contentOffset
+        let width = myCollectionView.bounds.size.width
+        
+        let index = round(offset.x / width)
+        let newOffset = CGPoint(x: index * size.width, y: offset.y)
+        
+        myCollectionView.setContentOffset(newOffset, animated: false)
+        coordinator.animate(alongsideTransition: { (context) in
+            self.myCollectionView.reloadData()
+            self.myCollectionView.setContentOffset(newOffset, animated: false)
+        }, completion: nil)
+    }
+}
 
+class ImagePreviewViewCell: UICollectionViewCell, UIScrollViewDelegate {
+    var scrollImg: UIScrollView!
+    var imgView: UIImageView!
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        scrollImg = UIScrollView()
+        scrollImg.delegate = self
+        scrollImg.alwaysBounceVertical = false
+        scrollImg.alwaysBounceHorizontal = false
+        scrollImg.showsVerticalScrollIndicator = true
+        scrollImg.flashScrollIndicators()
+        
+        scrollImg.minimumZoomScale = 1.0
+        scrollImg.maximumZoomScale = 4.0
+        
+        let doubleTapGest = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapScrollView(recognizer:)))
+        doubleTapGest.numberOfTapsRequired = 2
+        scrollImg.addGestureRecognizer(doubleTapGest)
+        
+        self.addSubview(scrollImg)
+        
+        imgView = UIImageView()
+        imgView.image = UIImage(named: "user3")
+        scrollImg.addSubview(imgView!)
+        imgView.contentMode = .scaleAspectFit
+    }
+    
+    @objc func handleDoubleTapScrollView(recognizer: UITapGestureRecognizer) {
+        if scrollImg.zoomScale == 1 {
+            scrollImg.zoom(to: zoomRectForScale(scale: scrollImg.maximumZoomScale, center: recognizer.location(in: recognizer.view)), animated: true)
+        } else {
+            scrollImg.setZoomScale(1, animated: true)
+        }
+    }
+    
+    func zoomRectForScale(scale: CGFloat, center: CGPoint) -> CGRect {
+        var zoomRect = CGRect.zero
+        zoomRect.size.height = imgView.frame.size.height / scale
+        zoomRect.size.width  = imgView.frame.size.width  / scale
+        let newCenter = imgView.convert(center, from: scrollImg)
+        zoomRect.origin.x = newCenter.x - (zoomRect.size.width / 2.0)
+        zoomRect.origin.y = newCenter.y - (zoomRect.size.height / 2.0)
+        return zoomRect
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return self.imgView
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        scrollImg.frame = self.bounds
+        imgView.frame = self.bounds
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        scrollImg.setZoomScale(1, animated: true)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

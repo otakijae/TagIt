@@ -13,8 +13,7 @@
 		13CFD4DD2211AB5C009681EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13CFD4DB2211AB5C009681EF /* LaunchScreen.storyboard */; };
 		13CFD4E52211ACB9009681EF /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFD4E42211ACB9009681EF /* PhotoViewController.swift */; };
 		13CFD4E72211ADBC009681EF /* PhotoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFD4E62211ADBC009681EF /* PhotoItemCell.swift */; };
-		13CFD4E92211AE72009681EF /* SelectedPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFD4E82211AE72009681EF /* SelectedPhotoViewController.swift */; };
-		13CFD4EB2211AEBC009681EF /* SelectedPhotoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFD4EA2211AEBC009681EF /* SelectedPhotoItemCell.swift */; };
+		13CFD4F3221307F8009681EF /* SelectedPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFD4F2221307F8009681EF /* SelectedPhotoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,8 +25,7 @@
 		13CFD4DE2211AB5C009681EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13CFD4E42211ACB9009681EF /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		13CFD4E62211ADBC009681EF /* PhotoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoItemCell.swift; sourceTree = "<group>"; };
-		13CFD4E82211AE72009681EF /* SelectedPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedPhotoViewController.swift; sourceTree = "<group>"; };
-		13CFD4EA2211AEBC009681EF /* SelectedPhotoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedPhotoItemCell.swift; sourceTree = "<group>"; };
+		13CFD4F2221307F8009681EF /* SelectedPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedPhotoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,9 +61,8 @@
 				13CFD4D22211AB5A009681EF /* AppDelegate.swift */,
 				13CFD4E42211ACB9009681EF /* PhotoViewController.swift */,
 				13CFD4E62211ADBC009681EF /* PhotoItemCell.swift */,
+				13CFD4F2221307F8009681EF /* SelectedPhotoViewController.swift */,
 				13CFD4D62211AB5A009681EF /* Main.storyboard */,
-				13CFD4E82211AE72009681EF /* SelectedPhotoViewController.swift */,
-				13CFD4EA2211AEBC009681EF /* SelectedPhotoItemCell.swift */,
 				13CFD4D92211AB5C009681EF /* Assets.xcassets */,
 				13CFD4DB2211AB5C009681EF /* LaunchScreen.storyboard */,
 				13CFD4DE2211AB5C009681EF /* Info.plist */,
@@ -146,9 +143,8 @@
 			files = (
 				13CFD4E72211ADBC009681EF /* PhotoItemCell.swift in Sources */,
 				13CFD4D32211AB5A009681EF /* AppDelegate.swift in Sources */,
-				13CFD4EB2211AEBC009681EF /* SelectedPhotoItemCell.swift in Sources */,
+				13CFD4F3221307F8009681EF /* SelectedPhotoViewController.swift in Sources */,
 				13CFD4E52211ACB9009681EF /* PhotoViewController.swift in Sources */,
-				13CFD4E92211AE72009681EF /* SelectedPhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

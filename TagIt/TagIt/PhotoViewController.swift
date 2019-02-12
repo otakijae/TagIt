@@ -12,7 +12,6 @@ import Photos
 class PhotoViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate {
 
     var indexPath = IndexPath(item: 0, section: 0)
-    
     var imageArray = [UIImage]()
     
     override func viewDidLoad() {
@@ -65,21 +64,14 @@ class PhotoViewController: UICollectionViewController, UICollectionViewDelegateF
         
         self.indexPath = indexPath
         
-        //        let vc = ImagePreviewViewController()
-        //        vc.imgArray = self.imageArray
-        //        vc.passedContentOffset = indexPath
-        //        self.navigationController?.pushViewController(vc, animated: true)
-        
-        //        let imagePreviewViewController = storyboard?.instantiateViewController(withIdentifier: "ImagePreviewViewController") as! ImagePreviewViewController
-        //        imagePreviewViewController.imgArray = self.imageArray
-        //        imagePreviewViewController.passedContentOffset = indexPath
-        //        present(imagePreviewViewController, animated: true, completion: nil)
+        performSegue(withIdentifier: "SelectedPhotoSegue", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "SelectedPhotoViewSegue" {
+        print("prepare called")
+        if segue.identifier == "SelectedPhotoSegue" {
             if let selectedPhotoViewController = segue.destination as? SelectedPhotoViewController {
-                selectedPhotoViewController.imgArray = self.imageArray
+                selectedPhotoViewController.imageArray = self.imageArray
                 selectedPhotoViewController.passedContentOffset = self.indexPath
             }
         }
@@ -105,10 +97,10 @@ class PhotoViewController: UICollectionViewController, UICollectionViewDelegateF
         }
     }
     
-    //    override func viewWillLayoutSubviews() {
-    //        super.viewWillLayoutSubviews()
-    //        self.collectionView.collectionViewLayout.invalidateLayout()
-    //    }
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        //self.collectionView.collectionViewLayout.invalidateLayout()
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1.0
