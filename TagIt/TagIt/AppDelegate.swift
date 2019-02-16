@@ -7,15 +7,19 @@
 //
 
 import UIKit
+import Photos
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+
+        
+        
         return true
     }
 
@@ -41,6 +45,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    //MARK:- PHOTO LIBRARY ACCESS CHECK
+    func photoLibraryAvailabilityCheck() {
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+            
+        } else {
+            PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
+        }
+    }
+    
+    func requestAuthorizationHandler(status: PHAuthorizationStatus) {
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+            
+        } else {
+            alertToEncouragePhotoLibraryAccessWhenApplicationStarts()
+        }
+    }
+    
+    //MARK:- CAMERA & GALLERY NOT ALLOWING ACCESS - ALERT
+    func alertToEncourageCameraAccessWhenApplicationStarts() {
+        //Camera not available - Alert
+        let internetUnavailableAlertController = UIAlertController (title: "Camera Unavailable", message: "Please check to see if it is disconnected or in use by another application", preferredStyle: .alert)
+        
+        let settingsAction = UIAlertAction(title: "Settings", style: .destructive) { (_) -> Void in
+            let settingsUrl = NSURL(string: UIApplication.openSettingsURLString)
+            if let url = settingsUrl {
+                DispatchQueue.main.async {
+                    UIApplication.shared.open(url as URL, options: [:], completionHandler: nil) //(url as URL)
+                }
+                
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+        internetUnavailableAlertController .addAction(settingsAction)
+        internetUnavailableAlertController .addAction(cancelAction)
+        self.window?.rootViewController!.present(internetUnavailableAlertController , animated: true, completion: nil)
+    }
+    
+    func alertToEncouragePhotoLibraryAccessWhenApplicationStarts() {
+        //Photo Library not available - Alert
+        let cameraUnavailableAlertController = UIAlertController (title: "Photo Library Unavailable", message: "Please check to see if device settings doesn't allow photo library access", preferredStyle: .alert)
+        
+        let settingsAction = UIAlertAction(title: "Settings", style: .destructive) { (_) -> Void in
+            let settingsUrl = NSURL(string: UIApplication.openSettingsURLString)
+            if let url = settingsUrl {
+                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+        cameraUnavailableAlertController .addAction(settingsAction)
+        cameraUnavailableAlertController .addAction(cancelAction)
+        self.window?.rootViewController!.present(cameraUnavailableAlertController , animated: true, completion: nil)
+    }
 
 }
-
