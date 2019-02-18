@@ -1,8 +1,8 @@
 //
-//  ViewController.swift
+//  PhotoViewController.swift
 //  TagIt
 //
-//  Created by 신재혁 on 11/02/2019.
+//  Created by 신재혁 on 18/02/2019.
 //  Copyright © 2019 ninetyfivejae. All rights reserved.
 //
 
@@ -17,26 +17,30 @@ private extension UICollectionView {
     }
 }
 
-class PhotoViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDataSourcePrefetching {
 
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
+    
     var fetchResult: PHFetchResult<PHAsset>!
     var assetCollection: PHAssetCollection!
-    
-    
-//    var allPhotos: PHFetchResult<PHAsset>!
-//    var smartAlbums: PHFetchResult<PHAssetCollection>!
-//    var userCollections: PHFetchResult<PHCollection>!
-    
     
     fileprivate let imageManager = PHCachingImageManager()
     fileprivate var thumbnailSize: CGSize!
     fileprivate var previousPreheatRect = CGRect.zero
     
+    var imageArray: [UIImage?] = []
+    var cache: NSCache<AnyObject, UIImage> = NSCache()
+    
     // MARK: UIViewController / Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.prefetchDataSource = self
+        
         self.resetCachedAssets()
         PHPhotoLibrary.shared().register(self)
         
@@ -59,8 +63,8 @@ class PhotoViewController: UICollectionViewController, UICollectionViewDelegateF
         
         // Determine the size of the thumbnails to request from the PHCachingImageManager
         let scale = UIScreen.main.scale
-        let cellSize = (collectionViewLayout as! UICollectionViewFlowLayout).itemSize
-        thumbnailSize = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
+        let cellSize = (self.collectionViewFlowLayout as! UICollectionViewFlowLayout).itemSize
+        thumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,49 +73,99 @@ class PhotoViewController: UICollectionViewController, UICollectionViewDelegateF
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        guard let destination = segue.destination as? SelectedPhotoViewController else { fatalError("unexpected view controller for segue") }
-//
-//        let indexPath = collectionView!.indexPath(for: sender as! UICollectionViewCell)!
-//        destination.asset = fetchResult.object(at: indexPath.item)
-//        destination.assetCollection = assetCollection
-//
-//        //작업 중
-//        destination.fetchResult = self.fetchResult
-        
         guard let destination = segue.destination as? PageViewController else { fatalError("unexpected view controller for segue") }
-
-        let indexPath = collectionView!.indexPath(for: sender as! UICollectionViewCell)!
-//        destination.asset = fetchResult.object(at: indexPath.item)
-//        destination.assetCollection = assetCollection
-        //작업 중
-//        destination.fetchResult = self.fetchResult
         
+        let indexPath = self.collectionView.indexPath(for: sender as! UICollectionViewCell)!
+        //작업 중
+        destination.fetchResult = self.fetchResult
+        destination.selectedPhotoIndex = indexPath
     }
     
     // MARK: UICollectionView
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fetchResult.count
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let asset = fetchResult.object(at: indexPath.item)
         
         // Dequeue a GridViewCell.
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell
             else { fatalError("unexpected cell in collection view") }
         
-        // Request an image for the asset from the PHCachingImageManager.
+        //        // Request an image for the asset from the PHCachingImageManager.
+        //        cell.representedAssetIdentifier = asset.localIdentifier
+        //        imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+        //            // The cell may have been recycled by the time this handler gets called;
+        //            // set the cell's thumbnail image only if it's still showing the same asset.
+        //            if cell.representedAssetIdentifier == asset.localIdentifier {
+        //                cell.thumbnailImage = image
+        //            }
+        //        })
+        
+        print("cellForItemAt")
+        print(indexPath)
+        
+        //        if let cachedImage = cache.object(forKey: indexPath as AnyObject) {
+        //            // use the cached version
+        //            cell.thumbnailImage = cachedImage
+        //        } else {
+        //            cell.representedAssetIdentifier = asset.localIdentifier
+        //            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+        //                if cell.representedAssetIdentifier == asset.localIdentifier {
+        //                    cell.thumbnailImage = image
+        //                }
+        //            })
+        //        }
+        
+        
         cell.representedAssetIdentifier = asset.localIdentifier
+        
         imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-            // The cell may have been recycled by the time this handler gets called;
-            // set the cell's thumbnail image only if it's still showing the same asset.
             if cell.representedAssetIdentifier == asset.localIdentifier {
                 cell.thumbnailImage = image
+                
             }
         })
+        
+        
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        print("prefetch")
+        
+        var assets: [PHAsset] = []
+        for indexPath in indexPaths {
+            assets.append(fetchResult.object(at: indexPath.item))
+        }
+        
+        self.imageManager.startCachingImages(for: assets, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
+        
+        
+        
+        
+        //            self.imageManager.startCachingImages(for: assets, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
+        
+        
+        
+        
+        //
+        //        for indexPath in indexPaths {
+        //            print(indexPath)
+        //
+        //            let asset = fetchResult.object(at: indexPath.item)
+        //
+        //            imageManager.startCachingImages(for: <#T##[PHAsset]#>, targetSize: <#T##CGSize#>, contentMode: <#T##PHImageContentMode#>, options: <#T##PHImageRequestOptions?#>)
+        //            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+        ////                self.cache.setObject(image!, forKey: indexPath as AnyObject)
+        //               // self.imageArray.append(image!)
+        //            })
+        //        }
+    }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -134,7 +188,7 @@ class PhotoViewController: UICollectionViewController, UICollectionViewDelegateF
     
     // MARK: UIScrollView
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateCachedAssets()
     }
     

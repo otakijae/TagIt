@@ -9,7 +9,7 @@
 import UIKit
 
 class ZoomedPhotoViewController: UIViewController {
-
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     
@@ -18,16 +18,23 @@ class ZoomedPhotoViewController: UIViewController {
     @IBOutlet weak var imageViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint!
     
-    var photoName: String?
     var photoIndex: Int!
+    
+    var selectedImage: UIImage?
+    var imageSize = CGSize(width: 0, height: 0)
     
     override func viewDidLoad() {
         
-        scrollView.delegate = self
-
-        if let photoName = photoName {
-            imageView.image = UIImage(named: photoName)
+        if let image = selectedImage {
+            imageView.image = image
+            
+            let maxScale = image.size.width / scrollView.frame.size.width
+            scrollView.minimumZoomScale = 1.0
+            scrollView.maximumZoomScale = maxScale
+            scrollView.contentSize = CGSize(width: image.size.width, height: image.size.width)
         }
+        
+        scrollView.delegate = self
         
         let doubleTapGest = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapScrollView(recognizer:)))
         doubleTapGest.numberOfTapsRequired = 2
@@ -35,10 +42,10 @@ class ZoomedPhotoViewController: UIViewController {
     }
     
     @objc func handleDoubleTapScrollView(recognizer: UITapGestureRecognizer) {
-        if scrollView.zoomScale == 1 {
+        if scrollView.zoomScale > scrollView.minimumZoomScale {
+            scrollView.zoom(to: zoomRectForScale(scale: scrollView.minimumZoomScale, center: recognizer.location(in: recognizer.view)), animated: true)
+        }else {
             scrollView.zoom(to: zoomRectForScale(scale: scrollView.maximumZoomScale, center: recognizer.location(in: recognizer.view)), animated: true)
-        } else {
-            scrollView.setZoomScale(1, animated: true)
         }
     }
     
@@ -52,44 +59,10 @@ class ZoomedPhotoViewController: UIViewController {
         
         return zoomRect
     }
-    
-    fileprivate func updateMinZoomScaleForSize(_ size: CGSize) {
-        let widthScale = size.width / imageView.bounds.width
-        let heightScale = size.height / imageView.bounds.height
-        let minScale = min(widthScale, heightScale)
-        
-        scrollView.minimumZoomScale = minScale
-        
-        scrollView.zoomScale = minScale
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        updateMinZoomScaleForSize(view.bounds.size)
-    }
-    
-    fileprivate func updateConstraintsForSize(_ size: CGSize) {
-        let yOffset = max(0, (size.height - imageView.frame.height) / 2)
-        imageViewTopConstraint.constant = yOffset
-        imageViewBottomConstraint.constant = yOffset
-        
-        let xOffset = max(0, (size.width - imageView.frame.width) / 2)
-        imageViewLeadingConstraint.constant = xOffset
-        imageViewTrailingConstraint.constant = xOffset
-        
-        view.layoutIfNeeded()
-    }
-    
 }
 
 extension ZoomedPhotoViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
-    
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        updateConstraintsForSize(view.bounds.size)
-    }
-    
 }

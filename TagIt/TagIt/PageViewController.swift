@@ -13,28 +13,52 @@ class PageViewController: UIPageViewController {
     
     var fetchResult: PHFetchResult<PHAsset>!
     var assetCollection: PHAssetCollection!
-
-    var photos = ["photo1", "photo2", "photo3", "photo4", "photo5"]
-    var currentIndex: Int!
+    var selectedPhotoIndex: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         dataSource = self
         
-        // 1
-        if let viewController = viewZoomedPhotoViewController(currentIndex ?? 0) {
+        if let viewController = viewZoomedPhotoViewController(selectedPhotoIndex?.row ?? 0) {
             let viewControllers = [viewController]
-            // 2
             setViewControllers(viewControllers, direction: .forward, animated: false, completion: nil)
         }
     }
     
+//    var targetSize: CGSize {
+//        let scale = UIScreen.main.scale
+//        print(view.bounds)
+//        return CGSize(width: view.bounds.width * scale, height: view.bounds.height * scale)
+//    }
+//
+//    var targetSizeTest: CGSize {
+//        let scale = UIScreen.main.scale
+//        return CGSize(width: PHImageManagerMaximumSize.width, height: PHImageManagerMaximumSize.height)
+////        return CGSize(width: 1024, height: 768)
+//    }
+    
     func viewZoomedPhotoViewController(_ index: Int) -> ZoomedPhotoViewController? {
         if let storyboard = storyboard,
             let page = storyboard.instantiateViewController(withIdentifier: "ZoomedPhotoViewController") as? ZoomedPhotoViewController {
-            page.photoName = photos[index]
+            
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.isSynchronous = true
+            requestOptions.deliveryMode = .highQualityFormat
+            requestOptions.isNetworkAccessAllowed = true
+            requestOptions.resizeMode = .exact
+            
+            let asset: PHAsset = self.fetchResult.object(at: index)
+            PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: requestOptions, resultHandler: { image, _ in
+                
+                guard let image = image else { return }
+                page.selectedImage = image
+                
+                print(image.size)
+            })
+            
             page.photoIndex = index
+            
             return page
         }
         return nil
@@ -43,7 +67,7 @@ class PageViewController: UIPageViewController {
 
 //MARK: implementation of UIPageViewControllerDataSource
 extension PageViewController: UIPageViewControllerDataSource {
-    // 1
+    //Before
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         if let viewController = viewController as? ZoomedPhotoViewController, let index = viewController.photoIndex, index > 0 {
@@ -53,10 +77,10 @@ extension PageViewController: UIPageViewControllerDataSource {
         return nil
     }
     
-    // 2
+    //After
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        if let viewController = viewController as? ZoomedPhotoViewController, let index = viewController.photoIndex, (index + 1) < photos.count {
+        if let viewController = viewController as? ZoomedPhotoViewController, let index = viewController.photoIndex, (index + 1) < fetchResult.count {
             return viewZoomedPhotoViewController(index + 1)
         }
         
@@ -65,10 +89,10 @@ extension PageViewController: UIPageViewControllerDataSource {
     
     // MARK: UIPageControl
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return photos.count
+        return 7
     }
     
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return currentIndex ?? 0
+        return selectedPhotoIndex?.row ?? 0
     }
 }
