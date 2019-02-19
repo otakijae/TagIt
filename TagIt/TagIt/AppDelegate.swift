@@ -16,10 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-
-        
-        
         return true
     }
 
@@ -45,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    
+    
     //MARK:- PHOTO LIBRARY ACCESS CHECK
     func photoLibraryAvailabilityCheck() {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
@@ -97,5 +95,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cameraUnavailableAlertController .addAction(cancelAction)
         self.window?.rootViewController!.present(cameraUnavailableAlertController , animated: true, completion: nil)
     }
-
 }

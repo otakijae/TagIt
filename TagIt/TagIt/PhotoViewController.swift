@@ -17,7 +17,7 @@ private extension UICollectionView {
     }
 }
 
-class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDataSourcePrefetching {
+class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
@@ -28,9 +28,13 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     fileprivate let imageManager = PHCachingImageManager()
     fileprivate var thumbnailSize: CGSize!
     fileprivate var previousPreheatRect = CGRect.zero
+    fileprivate var requestOptions = PHImageRequestOptions()
     
-    var imageArray: [UIImage?] = []
-    var cache: NSCache<AnyObject, UIImage> = NSCache()
+    var cellSize: CGSize!
+    
+    var lastOffset: CGPoint? = CGPoint()
+    var lastOffsetCapture: TimeInterval? = 0
+    var isScrollingFast: Bool = false
     
     // MARK: UIViewController / Lifecycle
     
@@ -39,7 +43,8 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
-        self.collectionView.prefetchDataSource = self
+        
+        cellSize = self.collectionViewFlowLayout.itemSize
         
         self.resetCachedAssets()
         PHPhotoLibrary.shared().register(self)
@@ -50,7 +55,6 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
             let allPhotosOptions = PHFetchOptions()
             allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             self.fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
-            print(fetchResult.count)
         }
     }
     
@@ -62,8 +66,6 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         super.viewWillAppear(animated)
         
         // Determine the size of the thumbnails to request from the PHCachingImageManager
-        let scale = UIScreen.main.scale
-        let cellSize = (self.collectionViewFlowLayout as! UICollectionViewFlowLayout).itemSize
         thumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
     }
     
@@ -73,10 +75,11 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let destination = segue.destination as? PageViewController else { fatalError("unexpected view controller for segue") }
+        guard let destination = segue.destination as? PageViewController else {
+            fatalError("unexpected view controller for segue")
+        }
         
         let indexPath = self.collectionView.indexPath(for: sender as! UICollectionViewCell)!
-        //작업 중
         destination.fetchResult = self.fetchResult
         destination.selectedPhotoIndex = indexPath
     }
@@ -91,81 +94,42 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         let asset = fetchResult.object(at: indexPath.item)
         
         // Dequeue a GridViewCell.
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell
-            else { fatalError("unexpected cell in collection view") }
-        
-        //        // Request an image for the asset from the PHCachingImageManager.
-        //        cell.representedAssetIdentifier = asset.localIdentifier
-        //        imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-        //            // The cell may have been recycled by the time this handler gets called;
-        //            // set the cell's thumbnail image only if it's still showing the same asset.
-        //            if cell.representedAssetIdentifier == asset.localIdentifier {
-        //                cell.thumbnailImage = image
-        //            }
-        //        })
-        
-        print("cellForItemAt")
-        print(indexPath)
-        
-        //        if let cachedImage = cache.object(forKey: indexPath as AnyObject) {
-        //            // use the cached version
-        //            cell.thumbnailImage = cachedImage
-        //        } else {
-        //            cell.representedAssetIdentifier = asset.localIdentifier
-        //            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-        //                if cell.representedAssetIdentifier == asset.localIdentifier {
-        //                    cell.thumbnailImage = image
-        //                }
-        //            })
-        //        }
-        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell else {
+            fatalError("unexpected cell in collection view")
+        }
         
         cell.representedAssetIdentifier = asset.localIdentifier
-        
-        imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+
+        self.imageManager.requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
             if cell.representedAssetIdentifier == asset.localIdentifier {
                 cell.thumbnailImage = image
-                
             }
         })
-        
         
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        print("prefetch")
+    func checkScrollViewSpeed(_ scrollView: UIScrollView){
+        let currentOffset = scrollView.contentOffset
+        let currentTime = NSDate().timeIntervalSinceReferenceDate
+        let timeDiff = currentTime - lastOffsetCapture!
+        let captureInterval = 0.1
         
-        var assets: [PHAsset] = []
-        for indexPath in indexPaths {
-            assets.append(fetchResult.object(at: indexPath.item))
+        if timeDiff > captureInterval {
+            let distance = currentOffset.y - lastOffset!.y     // calc distance
+            let scrollSpeedNotAbs = (distance * 10) / 1000     // pixels per ms*10
+            let scrollSpeed = fabsf(Float(scrollSpeedNotAbs))  // absolute value
+            
+            if scrollSpeed > 10.0 {
+                isScrollingFast = true
+            } else {
+                isScrollingFast = false
+            }
+            
+            lastOffset = currentOffset
+            lastOffsetCapture = currentTime
         }
-        
-        self.imageManager.startCachingImages(for: assets, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
-        
-        
-        
-        
-        //            self.imageManager.startCachingImages(for: assets, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
-        
-        
-        
-        
-        //
-        //        for indexPath in indexPaths {
-        //            print(indexPath)
-        //
-        //            let asset = fetchResult.object(at: indexPath.item)
-        //
-        //            imageManager.startCachingImages(for: <#T##[PHAsset]#>, targetSize: <#T##CGSize#>, contentMode: <#T##PHImageContentMode#>, options: <#T##PHImageRequestOptions?#>)
-        //            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-        ////                self.cache.setObject(image!, forKey: indexPath as AnyObject)
-        //               // self.imageArray.append(image!)
-        //            })
-        //        }
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -190,6 +154,25 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateCachedAssets()
+        checkScrollViewSpeed(scrollView)
+        
+        if isScrollingFast {
+            thumbnailSize = CGSize(width: cellSize.width * 0.5, height: cellSize.height * 0.5)
+        }
+    }
+    
+    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        thumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
+        collectionView.reloadData()
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        perform(#selector(self.actionOnFinishedScrolling), with: nil, afterDelay: Double(velocity.x))
+    }
+    
+    @objc func actionOnFinishedScrolling() {
+        thumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
+        collectionView.reloadData()
     }
     
     // MARK: Asset Caching
@@ -233,21 +216,17 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     fileprivate func differencesBetweenRects(_ old: CGRect, _ new: CGRect) -> (added: [CGRect], removed: [CGRect]) {
         if old.intersects(new) {
             var added = [CGRect]()
-            
             if new.maxY > old.maxY {
                 added += [CGRect(x: new.origin.x, y: old.maxY, width: new.width, height: new.maxY - old.maxY)]
             }
-            
             if old.minY > new.minY {
                 added += [CGRect(x: new.origin.x, y: new.minY, width: new.width, height: old.minY - new.minY)]
             }
             
             var removed = [CGRect]()
-            
             if new.maxY < old.maxY {
                 removed += [CGRect(x: new.origin.x, y: new.maxY, width: new.width, height: old.maxY - new.maxY)]
             }
-            
             if old.minY < new.minY {
                 removed += [CGRect(x: new.origin.x, y: old.minY, width: new.width, height: new.minY - old.minY)]
             }
