@@ -37,6 +37,7 @@
 
   - 일단 상욱이형이 추천해준 방식, 애플 사진 앱 실행해보면서 이런 방식이지 않을까한 방식으로 구현해서 잘 된다
   - **스크롤이 빨라질 때 딜레이가 생기는 문제이기 때문에, 스크롤 속도를 구해서 딜레이 생기는 속도 지점에서는 requestImage targetSize를 많이 줄여서 받아와서 딜레이를 줄이고, 이후에 스크롤이 정지를 한 순간에 다시 collectionView의 데이터를 다시 로드하는 방식으로 구현**
+  - 애플 사진 앱은 동기 방식으로 이미지 가져오고, 카카오톡은 비동기 방식으로 이미지를 가져오는 것을 알 수 있었음
   - [스크롤이 멈추었는지 예측하는 코드 참고 링크](https://stackoverflow.com/questions/30582617/how-to-detect-when-a-uiscrollview-has-finished-scrolling-in-swift/30582692)
   - 애플 예제를 보다가 여기도 이미지를 빨리 가져오는데 prefetch 델리게이트 메소드를 굳이 사용하지 않았는데도, 이미지를 빨리 가져올 수 있어서 다른 방식으로 구현해봤음. 그리고 실제 앱에서도 이렇게 되는 것 같아서 해봤는데 잘 됐음
   - 애플 예제는 prefetch를 하지 않고, 스크롤 속도를 통해서 다른 처리 없이 캐싱만으로 해결을 한 거일 수도 있고, 안 한 것일 수 있는데 ==> 이후에 prefetch를 사용하는 경우([prefetch collectionView cell 애플예제 분석](https://developer.apple.com/documentation/uikit/uicollectionviewdatasourceprefetching/prefetching_collection_view_data)), 그냥 이렇게 캐싱만 사용하는 경우를 공부해서 장단점과 적절한 사용 예제를 정리해볼 것
@@ -114,6 +115,19 @@
 - 지금은 조금 미루는데, 아직 photo scroll할 때 이미지를 가운데로 가져와주는 기능이 안 되서 약간 부자연스러움
 - 이후에 스크롤뷰에 관한 공부 더 할 것
 - [페이지 뷰 컨트롤러 사용 및 스크롤 뷰로 확대 이미지 보기](https://www.raywenderlich.com/560-uiscrollview-tutorial-getting-started)
+
+### UIGestureRecognizer
+
+- https://stackoverflow.com/questions/29298567/allow-both-single-tap-gesture-recognizer-and-double-tap-in-uiscrollview/29299488
+- https://guides.codepath.com/ios/Using-Gesture-Recognizers
+- http://minsone.github.io/mac/ios/uigesturerecognizer
+- https://developer.apple.com/documentation/uikit/touches_presses_and_gestures/coordinating_multiple_gesture_recognizers/preferring_one_gesture_over_another
+- 제스처 지정 및 PageViewController indicator 안 보이게 설정
+
+  - singleTapGesture로 NavigationBar 및 ToolBar 안 보이게 설정
+  - 기존의 doubleTapGesture가 singleTapGesture랑 곂쳐서 동작하지 않도록 설정
+  - swipe down 제스처 추가하여 뒤로 가기 기능 구현. navigation controller이기 때문에 현재 view에 animation을 변형해서 사용. 인스타그램 swipe down 기능 참고하여 구현
+- 
 
 ## Todo
 
