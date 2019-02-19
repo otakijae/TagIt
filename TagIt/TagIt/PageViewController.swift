@@ -87,12 +87,13 @@ extension PageViewController: UIPageViewControllerDataSource {
         return nil
     }
     
-    // MARK: UIPageControl
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return 7
-    }
+//    // MARK: UIPageControl
+//    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+//        return 7
+//    }
+//
+//    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+//        return selectedPhotoIndex?.row ?? 0
+//    }
     
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return selectedPhotoIndex?.row ?? 0
-    }
 }

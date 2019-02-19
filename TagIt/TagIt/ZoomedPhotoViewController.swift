@@ -23,6 +23,8 @@ class ZoomedPhotoViewController: UIViewController {
     var selectedImage: UIImage?
     var imageSize = CGSize(width: 0, height: 0)
     
+    var isBarVisible: Bool = true
+    
     override func viewDidLoad() {
         
         if let image = selectedImage {
@@ -36,15 +38,59 @@ class ZoomedPhotoViewController: UIViewController {
         
         scrollView.delegate = self
         
-        let doubleTapGest = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapScrollView(recognizer:)))
-        doubleTapGest.numberOfTapsRequired = 2
-        scrollView.addGestureRecognizer(doubleTapGest)
+        let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+        singleTapGesture.cancelsTouchesInView = false
+        singleTapGesture.numberOfTapsRequired = 1
+        singleTapGesture.numberOfTouchesRequired = 1
+        scrollView.addGestureRecognizer(singleTapGesture)
+        
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapGesture(_:)))
+        doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.numberOfTouchesRequired = 1
+        scrollView.addGestureRecognizer(doubleTapGesture)
+        singleTapGesture.require(toFail: doubleTapGesture)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDownGesture(_:)))
+        swipeDown.direction = .down
+        scrollView.addGestureRecognizer(swipeDown)
     }
     
-    @objc func handleDoubleTapScrollView(recognizer: UITapGestureRecognizer) {
+    fileprivate func popViewControllerAnimatedFromBottom() {
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.isToolbarHidden = false
+        let transition = CATransition()
+        transition.duration = 0.4
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.reveal
+        transition.subtype = CATransitionSubtype.fromBottom
+        self.navigationController?.view.layer.add(transition, forKey: nil)
+        _ = self.navigationController?.popToRootViewController(animated: false)
+    }
+    
+    @objc func handleSwipeDownGesture(_ recognizer: UISwipeGestureRecognizer) {
+        popViewControllerAnimatedFromBottom()
+    }
+    
+    @objc func handleTapGesture(_ recognizer: UITapGestureRecognizer) {
+        if isBarVisible {
+            navigationController?.isNavigationBarHidden = true
+            navigationController?.isToolbarHidden = true
+            isBarVisible = false
+        } else {
+            navigationController?.isNavigationBarHidden = false
+            navigationController?.isToolbarHidden = false
+            isBarVisible = true
+        }
+    }
+    
+    @objc func handleDoubleTapGesture(_ recognizer: UITapGestureRecognizer) {
         if scrollView.zoomScale > scrollView.minimumZoomScale {
+            navigationController?.isNavigationBarHidden = true
+            navigationController?.isToolbarHidden = true
             scrollView.zoom(to: zoomRectForScale(scale: scrollView.minimumZoomScale, center: recognizer.location(in: recognizer.view)), animated: true)
-        }else {
+        } else {
+            navigationController?.isNavigationBarHidden = true
+            navigationController?.isToolbarHidden = true
             scrollView.zoom(to: zoomRectForScale(scale: scrollView.maximumZoomScale, center: recognizer.location(in: recognizer.view)), animated: true)
         }
     }
