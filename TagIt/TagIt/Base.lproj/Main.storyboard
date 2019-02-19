@@ -49,17 +49,53 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="Dg1-CU-XZg" id="jPe-1K-ogD"/>
-                                            <segue destination="Ltl-M9-n0b" kind="show" id="gYQ-k4-bDO"/>
+                                            <segue destination="Ltl-M9-n0b" kind="show" identifier="PageViewControllerSegue" id="gYQ-k4-bDO"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fxc-fy-Osn">
+                                <rect key="frame" x="47" y="142" width="281" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNk-If-qqM">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" red="0.49019607840000001" green="0.72549019609999998" blue="0.79215686269999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mvu-ju-F0Z">
+                                        <rect key="frame" x="70" y="0.0" width="211" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="어떤 사진을 찾으세요?">
+                                            <color key="titleColor" red="0.49019607840000001" green="0.72549019609999998" blue="0.79215686269999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="nfL-Yg-4rm" kind="show" id="3oH-fu-2RU"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="hNk-If-qqM" firstAttribute="height" secondItem="fxc-fy-Osn" secondAttribute="height" id="0Ms-sb-gFe"/>
+                                    <constraint firstItem="hNk-If-qqM" firstAttribute="leading" secondItem="fxc-fy-Osn" secondAttribute="leading" id="2qb-kG-08a"/>
+                                    <constraint firstItem="hNk-If-qqM" firstAttribute="width" secondItem="fxc-fy-Osn" secondAttribute="width" multiplier="1:4" id="XDU-oJ-SJS"/>
+                                    <constraint firstItem="mvu-ju-F0Z" firstAttribute="width" secondItem="fxc-fy-Osn" secondAttribute="width" multiplier="3:4" id="YqN-yS-vmo"/>
+                                    <constraint firstAttribute="height" constant="50" id="jTe-8D-HXL"/>
+                                    <constraint firstAttribute="trailing" secondItem="mvu-ju-F0Z" secondAttribute="trailing" id="jhP-pd-Eq1"/>
+                                    <constraint firstItem="hNk-If-qqM" firstAttribute="centerY" secondItem="fxc-fy-Osn" secondAttribute="centerY" id="n8d-bR-jGV"/>
+                                    <constraint firstItem="mvu-ju-F0Z" firstAttribute="centerY" secondItem="fxc-fy-Osn" secondAttribute="centerY" id="pbX-lG-uUH"/>
+                                    <constraint firstItem="mvu-ju-F0Z" firstAttribute="height" secondItem="fxc-fy-Osn" secondAttribute="height" id="zpH-eb-21X"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="fxc-fy-Osn" firstAttribute="centerY" secondItem="3xY-JW-vGG" secondAttribute="centerY" multiplier="1:2" id="Cyn-7I-nLp"/>
                             <constraint firstItem="zLY-il-2SS" firstAttribute="centerX" secondItem="FhN-NE-Ydl" secondAttribute="centerX" id="Xav-og-fSD"/>
                             <constraint firstItem="zLY-il-2SS" firstAttribute="width" secondItem="3xY-JW-vGG" secondAttribute="width" id="fbQ-8G-yci"/>
                             <constraint firstItem="zLY-il-2SS" firstAttribute="height" secondItem="3xY-JW-vGG" secondAttribute="height" id="gZL-QE-ZMF"/>
+                            <constraint firstItem="fxc-fy-Osn" firstAttribute="width" secondItem="3xY-JW-vGG" secondAttribute="width" multiplier="3:4" id="hAu-et-EgK"/>
+                            <constraint firstItem="fxc-fy-Osn" firstAttribute="centerX" secondItem="FhN-NE-Ydl" secondAttribute="centerX" id="ld0-yd-1FO"/>
                             <constraint firstItem="zLY-il-2SS" firstAttribute="centerY" secondItem="FhN-NE-Ydl" secondAttribute="centerY" id="xpv-ez-oeu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FhN-NE-Ydl"/>
@@ -98,6 +134,21 @@
             </objects>
             <point key="canvasLocation" x="1270" y="81"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="TDF-PA-jzj">
+            <objects>
+                <viewController id="nfL-Yg-4rm" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nda-71-irX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="mUr-sY-W2h"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vzh-BZ-cbX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1270" y="891"/>
+        </scene>
         <!--Zoomed Photo View Controller-->
         <scene sceneID="1QB-mq-yPn">
             <objects>
@@ -106,14 +157,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IeT-n4-Nxa">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IeT-n4-Nxa">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MnH-xl-LDR">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="MnH-xl-LDR" secondAttribute="bottom" id="OLY-6r-ZvL"/>
                                     <constraint firstItem="MnH-xl-LDR" firstAttribute="leading" secondItem="IeT-n4-Nxa" secondAttribute="leading" id="QZj-gW-54W"/>
@@ -160,6 +211,7 @@
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jwB-Uy-bEE">
                         <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </toolbar>
                     <connections>
                         <segue destination="7yk-LL-UdP" kind="relationship" relationship="rootViewController" id="WKg-yA-6Ve"/>

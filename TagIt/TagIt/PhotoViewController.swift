@@ -75,13 +75,15 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let destination = segue.destination as? PageViewController else {
-            fatalError("unexpected view controller for segue")
+        if segue.identifier == "PageViewControllerSegue" {
+            guard let destination = segue.destination as? PageViewController else {
+                fatalError("unexpected view controller for segue")
+            }
+            
+            let indexPath = self.collectionView.indexPath(for: sender as! UICollectionViewCell)!
+            destination.fetchResult = self.fetchResult
+            destination.selectedPhotoIndex = indexPath
         }
-        
-        let indexPath = self.collectionView.indexPath(for: sender as! UICollectionViewCell)!
-        destination.fetchResult = self.fetchResult
-        destination.selectedPhotoIndex = indexPath
     }
     
     // MARK: UICollectionView
