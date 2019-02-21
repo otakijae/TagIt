@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13547D84221EA84700E363AD /* PhotoPageContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D83221EA84700E363AD /* PhotoPageContainerViewController.swift */; };
+		13547D87221EA89A00E363AD /* ZoomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D86221EA89A00E363AD /* ZoomAnimator.swift */; };
+		13547D89221EA8B300E363AD /* ZoomDismissallInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D88221EA8B300E363AD /* ZoomDismissallInteractionController.swift */; };
+		13547D8B221EA8C400E363AD /* ZoomTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D8A221EA8C400E363AD /* ZoomTransitionController.swift */; };
+		13547D8D221EA9F400E363AD /* PhotoZoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D8C221EA9F400E363AD /* PhotoZoomViewController.swift */; };
 		13CFD4D32211AB5A009681EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFD4D22211AB5A009681EF /* AppDelegate.swift */; };
 		13CFD4D82211AB5A009681EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13CFD4D62211AB5A009681EF /* Main.storyboard */; };
 		13CFD4DA2211AB5C009681EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13CFD4D92211AB5C009681EF /* Assets.xcassets */; };
@@ -17,6 +22,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		13547D83221EA84700E363AD /* PhotoPageContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPageContainerViewController.swift; sourceTree = "<group>"; };
+		13547D86221EA89A00E363AD /* ZoomAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomAnimator.swift; sourceTree = "<group>"; };
+		13547D88221EA8B300E363AD /* ZoomDismissallInteractionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomDismissallInteractionController.swift; sourceTree = "<group>"; };
+		13547D8A221EA8C400E363AD /* ZoomTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTransitionController.swift; sourceTree = "<group>"; };
+		13547D8C221EA9F400E363AD /* PhotoZoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoZoomViewController.swift; sourceTree = "<group>"; };
 		13CFD4CF2211AB5A009681EF /* TagIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TagIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13CFD4D22211AB5A009681EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13CFD4D72211AB5A009681EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -39,6 +49,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13547D85221EA87C00E363AD /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				13547D86221EA89A00E363AD /* ZoomAnimator.swift */,
+				13547D88221EA8B300E363AD /* ZoomDismissallInteractionController.swift */,
+				13547D8A221EA8C400E363AD /* ZoomTransitionController.swift */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		13547D8E221EBA3800E363AD /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				13CFD4E42211ACB9009681EF /* PhotoViewController.swift */,
+				13547D83221EA84700E363AD /* PhotoPageContainerViewController.swift */,
+				13547D8C221EA9F400E363AD /* PhotoZoomViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		13547D8F221EBA4700E363AD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				13CFD4E62211ADBC009681EF /* PhotoItemCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		13547D90221EBA7C00E363AD /* ForTest */ = {
+			isa = PBXGroup;
+			children = (
+				13CFD4F2221307F8009681EF /* SelectedPhotoViewController.swift */,
+			);
+			path = ForTest;
+			sourceTree = "<group>";
+		};
 		13CFD4C62211AB5A009681EF = {
 			isa = PBXGroup;
 			children = (
@@ -59,9 +105,10 @@
 			isa = PBXGroup;
 			children = (
 				13CFD4D22211AB5A009681EF /* AppDelegate.swift */,
-				13CFD4E42211ACB9009681EF /* PhotoViewController.swift */,
-				13CFD4E62211ADBC009681EF /* PhotoItemCell.swift */,
-				13CFD4F2221307F8009681EF /* SelectedPhotoViewController.swift */,
+				13547D90221EBA7C00E363AD /* ForTest */,
+				13547D8E221EBA3800E363AD /* ViewControllers */,
+				13547D8F221EBA4700E363AD /* Views */,
+				13547D85221EA87C00E363AD /* Animation */,
 				13CFD4D62211AB5A009681EF /* Main.storyboard */,
 				13CFD4D92211AB5C009681EF /* Assets.xcassets */,
 				13CFD4DB2211AB5C009681EF /* LaunchScreen.storyboard */,
@@ -141,10 +188,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13547D84221EA84700E363AD /* PhotoPageContainerViewController.swift in Sources */,
+				13547D89221EA8B300E363AD /* ZoomDismissallInteractionController.swift in Sources */,
+				13547D8D221EA9F400E363AD /* PhotoZoomViewController.swift in Sources */,
 				13CFD4E72211ADBC009681EF /* PhotoItemCell.swift in Sources */,
 				13CFD4D32211AB5A009681EF /* AppDelegate.swift in Sources */,
 				13CFD4F3221307F8009681EF /* SelectedPhotoViewController.swift in Sources */,
+				13547D8B221EA8C400E363AD /* ZoomTransitionController.swift in Sources */,
 				13CFD4E52211ACB9009681EF /* PhotoViewController.swift in Sources */,
+				13547D87221EA89A00E363AD /* ZoomAnimator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
