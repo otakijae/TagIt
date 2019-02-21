@@ -36,6 +36,8 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     var lastOffsetCapture: TimeInterval? = 0
     var isScrollingFast: Bool = false
     
+    @IBOutlet weak var searchView: UIView!
+    
     // MARK: UIViewController / Lifecycle
     
     override func viewDidLoad() {
@@ -44,8 +46,9 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
-        cellSize = self.collectionViewFlowLayout.itemSize
+        searchView.layer.cornerRadius = 5
         
+        cellSize = self.collectionViewFlowLayout.itemSize
         self.resetCachedAssets()
         PHPhotoLibrary.shared().register(self)
         
@@ -160,6 +163,17 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         if isScrollingFast {
             thumbnailSize = CGSize(width: cellSize.width * 0.5, height: cellSize.height * 0.5)
+        }
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        let actualPosition = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
+        if (actualPosition.y > 0){
+            // Dragging down
+            searchView.isHidden = false
+        } else {
+            // Dragging up
+            searchView.isHidden = true
         }
     }
     

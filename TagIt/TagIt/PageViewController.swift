@@ -50,11 +50,8 @@ class PageViewController: UIPageViewController {
             
             let asset: PHAsset = self.fetchResult.object(at: index)
             PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: requestOptions, resultHandler: { image, _ in
-                
                 guard let image = image else { return }
                 page.selectedImage = image
-                
-                print(image.size)
             })
             
             page.photoIndex = index

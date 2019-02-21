@@ -24,6 +24,7 @@ class ZoomedPhotoViewController: UIViewController {
     var imageSize = CGSize(width: 0, height: 0)
     
     var isBarVisible: Bool = true
+    var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
     
     override func viewDidLoad() {
         
@@ -50,9 +51,32 @@ class ZoomedPhotoViewController: UIViewController {
         scrollView.addGestureRecognizer(doubleTapGesture)
         singleTapGesture.require(toFail: doubleTapGesture)
         
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDownGesture(_:)))
-        swipeDown.direction = .down
-        scrollView.addGestureRecognizer(swipeDown)
+//        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDownGesture(_:)))
+//        swipeDown.direction = .down
+//        scrollView.addGestureRecognizer(swipeDown)
+        
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
+//        scrollView.addGestureRecognizer(panGesture)
+    }
+    
+    @objc func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
+        let touchPoint = sender.location(in: self.view?.window)
+        
+        if sender.state == UIGestureRecognizer.State.began {
+            initialTouchPoint = touchPoint
+        } else if sender.state == UIGestureRecognizer.State.changed {
+            if touchPoint.y - initialTouchPoint.y > 0 {
+                self.view.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            }
+        } else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
+            if touchPoint.y - initialTouchPoint.y > 100 {
+                popViewControllerAnimatedFromBottom()
+            } else {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+                })
+            }
+        }
     }
     
     fileprivate func popViewControllerAnimatedFromBottom() {
