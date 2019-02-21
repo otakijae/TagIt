@@ -127,7 +127,23 @@
   - singleTapGesture로 NavigationBar 및 ToolBar 안 보이게 설정
   - 기존의 doubleTapGesture가 singleTapGesture랑 곂쳐서 동작하지 않도록 설정
   - swipe down 제스처 추가하여 뒤로 가기 기능 구현. navigation controller이기 때문에 현재 view에 animation을 변형해서 사용. 인스타그램 swipe down 기능 참고하여 구현
-- 
+
+### Search 기능
+
+- 이미지 검색으로 이동하는 버튼 추가
+  - UBER 검색 UI 참고하여, 사진 검색 기능으로 이동하기 위한 collectionView 위에 겹쳐진 버튼 추가
+  - 아래로 내리는 제스처(⬇️) 동안에는 위로 움직이면서 사라져있다가, 위로 올리는 제스처(⬆️) 동안에는 다시 위에서 내려오는 애니메이션 구현해보기
+  - segue 이동까지만 구현
+
+### SemiModalTransition
+
+- https://github.com/usagimaru/SemiModalTransition
+- 태그 추가하는 화면인 SemiModalPresentationController 추가
+  - 태그 추가하기를 누르면 나오는 화면을 다 채우지 않는 view controller 추가
+  - 그냥 half modal present와 다른 점은 이 반쯤만 나온 view 내부에서 navigation 이동을 할 수 있다는 점. 그리고 각 navigation controll view 내용 크기에 맞춰서 화면에 보여줄 수 있음
+  - 일단은 태그만 추가하는 기능으로 만들지만, 이후에 태그 추가 및 색깔 설정까지 할 수 있게 할 예정이라 이 방식을 차용함
+  - 맨 처음 PhotoViewController에서 검색 버튼을 스크롤을 올리면 사라지고, 내리면 보이게 설정. 애니메이션은 추가하지 않음
+- ==> 칼라 태그로 기능 추가 예정
 
 ## Todo
 
