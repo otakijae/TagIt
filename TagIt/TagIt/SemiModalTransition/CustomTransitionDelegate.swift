@@ -14,11 +14,10 @@ class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
 
         let semiModalPresentationController = SemiModalPresentationController(presentedViewController: presented, presenting: presenting)
 
-        semiModalPresentationController.dismissesOnTappingOutside = true
+        semiModalPresentationController.dismissesOnTappingOutside = false
         
         return semiModalPresentationController
     }
-    
 }
 
 class SemiModalTransitionSegue: UIStoryboardSegue {
@@ -30,5 +29,4 @@ class SemiModalTransitionSegue: UIStoryboardSegue {
         destination.transitioningDelegate = self.transitioningDelegatee
         super.perform()
     }
-    
 }

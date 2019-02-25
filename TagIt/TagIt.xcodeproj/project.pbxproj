@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		134E5BFC2222AD560047B8EE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134E5BFB2222AD560047B8EE /* SearchViewController.swift */; };
+		134E5BFE2223C6700047B8EE /* TaggingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134E5BFD2223C6700047B8EE /* TaggingViewCell.swift */; };
 		13547D7C221D42AA00E363AD /* TaggingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D7B221D42AA00E363AD /* TaggingViewController.swift */; };
 		13547D7E221D436700E363AD /* SemiModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D7D221D436700E363AD /* SemiModalPresentationController.swift */; };
 		13547D80221D43E700E363AD /* CustomTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D7F221D43E700E363AD /* CustomTransitionDelegate.swift */; };
 		13547D82221D440700E363AD /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D81221D440700E363AD /* UIView.swift */; };
+		13547D94221FBF6300E363AD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D93221FBF6300E363AD /* Extensions.swift */; };
+		13BBDBA82223E51400B7F943 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BBDBA72223E51400B7F943 /* ColorPickerViewController.swift */; };
 		13CFD4D32211AB5A009681EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFD4D22211AB5A009681EF /* AppDelegate.swift */; };
 		13CFD4D82211AB5A009681EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13CFD4D62211AB5A009681EF /* Main.storyboard */; };
 		13CFD4DA2211AB5C009681EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13CFD4D92211AB5C009681EF /* Assets.xcassets */; };
@@ -22,10 +26,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		134E5BFB2222AD560047B8EE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		134E5BFD2223C6700047B8EE /* TaggingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingViewCell.swift; sourceTree = "<group>"; };
 		13547D7B221D42AA00E363AD /* TaggingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingViewController.swift; sourceTree = "<group>"; };
 		13547D7D221D436700E363AD /* SemiModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemiModalPresentationController.swift; sourceTree = "<group>"; };
 		13547D7F221D43E700E363AD /* CustomTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransitionDelegate.swift; sourceTree = "<group>"; };
 		13547D81221D440700E363AD /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		13547D93221FBF6300E363AD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		13BBDBA72223E51400B7F943 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		13CFD4CF2211AB5A009681EF /* TagIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TagIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13CFD4D22211AB5A009681EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13CFD4D72211AB5A009681EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -59,6 +67,38 @@
 			path = SemiModalTransition;
 			sourceTree = "<group>";
 		};
+		13547D91221ED57200E363AD /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				13E884BA221AE83A00703ADD /* PhotoViewController.swift */,
+				13E64C4622172D5C00408A5D /* PageViewController.swift */,
+				134E5BFB2222AD560047B8EE /* SearchViewController.swift */,
+				13547D7B221D42AA00E363AD /* TaggingViewController.swift */,
+				13BBDBA72223E51400B7F943 /* ColorPickerViewController.swift */,
+				13E64C4822172D9A00408A5D /* ZoomedPhotoViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		13547D92221ED58400E363AD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				13CFD4DB2211AB5C009681EF /* LaunchScreen.storyboard */,
+				13CFD4D62211AB5A009681EF /* Main.storyboard */,
+				13CFD4FE2216887F009681EF /* PhotoItemCell.swift */,
+				134E5BFD2223C6700047B8EE /* TaggingViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		13547D95221FCDCE00E363AD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				13CFD4D92211AB5C009681EF /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		13CFD4C62211AB5A009681EF = {
 			isa = PBXGroup;
 			children = (
@@ -80,14 +120,10 @@
 			children = (
 				13547D7A221D420600E363AD /* SemiModalTransition */,
 				13CFD4D22211AB5A009681EF /* AppDelegate.swift */,
-				13E884BA221AE83A00703ADD /* PhotoViewController.swift */,
-				13CFD4FE2216887F009681EF /* PhotoItemCell.swift */,
-				13E64C4622172D5C00408A5D /* PageViewController.swift */,
-				13547D7B221D42AA00E363AD /* TaggingViewController.swift */,
-				13E64C4822172D9A00408A5D /* ZoomedPhotoViewController.swift */,
-				13CFD4D62211AB5A009681EF /* Main.storyboard */,
-				13CFD4D92211AB5C009681EF /* Assets.xcassets */,
-				13CFD4DB2211AB5C009681EF /* LaunchScreen.storyboard */,
+				13547D91221ED57200E363AD /* ViewControllers */,
+				13547D92221ED58400E363AD /* Views */,
+				13547D95221FCDCE00E363AD /* Resources */,
+				13547D93221FBF6300E363AD /* Extensions.swift */,
 				13CFD4DE2211AB5C009681EF /* Info.plist */,
 			);
 			path = TagIt;
@@ -164,11 +200,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13BBDBA82223E51400B7F943 /* ColorPickerViewController.swift in Sources */,
 				13E64C4922172D9A00408A5D /* ZoomedPhotoViewController.swift in Sources */,
+				134E5BFC2222AD560047B8EE /* SearchViewController.swift in Sources */,
 				13E64C4722172D5C00408A5D /* PageViewController.swift in Sources */,
 				13547D80221D43E700E363AD /* CustomTransitionDelegate.swift in Sources */,
+				134E5BFE2223C6700047B8EE /* TaggingViewCell.swift in Sources */,
 				13547D7C221D42AA00E363AD /* TaggingViewController.swift in Sources */,
 				13CFD4D32211AB5A009681EF /* AppDelegate.swift in Sources */,
+				13547D94221FBF6300E363AD /* Extensions.swift in Sources */,
 				13CFD4FF2216887F009681EF /* PhotoItemCell.swift in Sources */,
 				13E884BB221AE83A00703ADD /* PhotoViewController.swift in Sources */,
 				13547D82221D440700E363AD /* UIView.swift in Sources */,
