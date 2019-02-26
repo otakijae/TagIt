@@ -12,6 +12,7 @@ class ZoomedPhotoViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var textView: HashtagTextView!
     
     @IBOutlet weak var imageViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageViewBottomConstraint: NSLayoutConstraint!
@@ -27,7 +28,7 @@ class ZoomedPhotoViewController: UIViewController {
     var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
     
     //for test
-    var tagList = ["여행", "음식", "가족"]
+    var tagList: [String] = ["여행", "음식", "가족"]
     @IBOutlet weak var tagTextView: UITextView!
     
     override func viewDidLoad() {
@@ -38,15 +39,20 @@ class ZoomedPhotoViewController: UIViewController {
         
         scrollView.delegate = self
         
+        self.textView.delegate = self
+        
         imageZoomSettings()
         gestureSettings()
+        
+        self.textView.resolveHashTags()
+        self.textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.blue]
     }
     
     func imageZoomSettings() {
         if let image = self.selectedImage {
             self.imageView.image = image
             
-            let maxScale = image.size.width / scrollView.frame.size.width
+            //let maxScale = image.size.width / scrollView.frame.size.width
             self.scrollView.minimumZoomScale = 1.0
             //scrollView.maximumZoomScale = maxScale
             self.scrollView.maximumZoomScale = 4.0
@@ -120,7 +126,21 @@ class ZoomedPhotoViewController: UIViewController {
     }
 }
 
+extension ZoomedPhotoViewController: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        
+        performSegue(withIdentifier: "SemiModalTransitionSegue", sender: nil)
+        
+        return false
+    }
+    
+    //태그 추가 SemiModal 창에서 다시 이미지로 돌아오는 unwind
+    @IBAction func prepareUnwind(segue: UIStoryboardSegue) { }
+}
+
 extension ZoomedPhotoViewController: UIScrollViewDelegate {
+    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
 //        print("viewForZooming")
 //        print(scrollView.size)

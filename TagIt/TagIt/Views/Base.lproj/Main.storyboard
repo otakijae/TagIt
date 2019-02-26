@@ -101,7 +101,7 @@
                     <navigationItem key="navigationItem" title="날짜" id="oOd-sv-T9f">
                         <barButtonItem key="rightBarButtonItem" title="•••" id="fbz-gc-raZ">
                             <connections>
-                                <segue destination="ali-zv-mHo" kind="presentation" customClass="SemiModalTransitionSegue" customModule="TagIt" customModuleProvider="target" id="dyv-vX-3aU"/>
+                                <segue destination="ali-zv-mHo" kind="presentation" identifier="" customClass="SemiModalTransitionSegue" customModule="TagIt" customModuleProvider="target" id="dyv-vX-3aU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -245,12 +245,12 @@
                                     <constraint firstItem="MnH-xl-LDR" firstAttribute="centerX" secondItem="IeT-n4-Nxa" secondAttribute="centerX" id="nxu-SP-eXW"/>
                                 </constraints>
                             </scrollView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="#추가된 태그 ●" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zH6-L7-e95">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="#추가된 태그 ●aa" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zH6-L7-e95" customClass="HashtagTextView" customModule="TagIt" customModuleProvider="target">
                                 <rect key="frame" x="31.5" y="505.5" width="312.5" height="161.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" red="1" green="0.30980392159999998" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
@@ -276,6 +276,8 @@
                         <outlet property="imageViewTrailingConstraint" destination="jni-z1-GWh" id="Q9x-hY-VQ5"/>
                         <outlet property="scrollView" destination="IeT-n4-Nxa" id="Nha-fy-xE1"/>
                         <outlet property="tagTextView" destination="zH6-L7-e95" id="Igd-ZO-SlU"/>
+                        <outlet property="textView" destination="zH6-L7-e95" id="ks1-3I-iDc"/>
+                        <segue destination="ali-zv-mHo" kind="presentation" identifier="SemiModalTransitionSegue" customClass="SemiModalTransitionSegue" customModule="TagIt" customModuleProvider="target" id="9xB-Hy-gZp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rpQ-I4-nkl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -285,7 +287,7 @@
         <!--Tagging View Controller-->
         <scene sceneID="EYj-lo-WbW">
             <objects>
-                <viewController id="Y9Y-FF-blh" customClass="TaggingViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TaggingViewController" id="Y9Y-FF-blh" customClass="TaggingViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="zsz-PI-qgz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -342,6 +344,7 @@
                                                     <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.87843137250000003" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="b8O-Lc-rkm" firstAttribute="leading" secondItem="fWL-G3-Kwo" secondAttribute="trailing" constant="20" id="CsJ-I0-DCk"/>
                                                 <constraint firstItem="fWL-G3-Kwo" firstAttribute="leading" secondItem="ulj-m7-2LR" secondAttribute="leadingMargin" id="NZl-RL-40Y"/>
@@ -390,17 +393,19 @@
                     <navigationItem key="navigationItem" id="9al-Ca-PX2">
                         <barButtonItem key="rightBarButtonItem" title="완료" id="JIW-l5-omD">
                             <connections>
-                                <action selector="done:" destination="Y9Y-FF-blh" id="9LF-v9-Oc2"/>
+                                <segue destination="3xu-1b-O0e" kind="unwind" identifier="UnwindTaggingSegue" unwindAction="prepareUnwindWithSegue:" id="tR5-Eg-n5e"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="x9n-Ch-FyK" id="cgF-eQ-dYX"/>
                         <outlet property="tableViewHeightContraint" destination="emw-6r-A0t" id="0io-g2-xlE"/>
-                        <segue destination="zic-Is-zMn" kind="show" identifier="SuggestTagSegue" id="fMz-wI-bkL"/>
+                        <outlet property="textField" destination="Z6t-Ds-C25" id="Xb9-ZY-L1T"/>
+                        <segue destination="zic-Is-zMn" kind="show" identifier="AddTagSegue" id="fMz-wI-bkL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SVR-WM-sSG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="3xu-1b-O0e" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2089" y="888"/>
         </scene>
@@ -533,4 +538,7 @@
             <point key="canvasLocation" x="1270" y="888"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="9xB-Hy-gZp"/>
+    </inferredMetricsTieBreakers>
 </document>

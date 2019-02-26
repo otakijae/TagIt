@@ -15,6 +15,8 @@
 		13547D82221D440700E363AD /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D81221D440700E363AD /* UIView.swift */; };
 		13547D94221FBF6300E363AD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D93221FBF6300E363AD /* Extensions.swift */; };
 		13BBDBA82223E51400B7F943 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BBDBA72223E51400B7F943 /* ColorPickerViewController.swift */; };
+		13BBDBAC222434C200B7F943 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BBDBAB222434C200B7F943 /* Protocols.swift */; };
+		13BBDBAE2224E53800B7F943 /* HashtagTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BBDBAD2224E53800B7F943 /* HashtagTextView.swift */; };
 		13CFD4D32211AB5A009681EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFD4D22211AB5A009681EF /* AppDelegate.swift */; };
 		13CFD4D82211AB5A009681EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13CFD4D62211AB5A009681EF /* Main.storyboard */; };
 		13CFD4DA2211AB5C009681EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13CFD4D92211AB5C009681EF /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 		13547D81221D440700E363AD /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		13547D93221FBF6300E363AD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		13BBDBA72223E51400B7F943 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
+		13BBDBAB222434C200B7F943 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		13BBDBAD2224E53800B7F943 /* HashtagTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagTextView.swift; sourceTree = "<group>"; };
 		13CFD4CF2211AB5A009681EF /* TagIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TagIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13CFD4D22211AB5A009681EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13CFD4D72211AB5A009681EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -87,6 +91,7 @@
 				13CFD4D62211AB5A009681EF /* Main.storyboard */,
 				13CFD4FE2216887F009681EF /* PhotoItemCell.swift */,
 				134E5BFD2223C6700047B8EE /* TaggingViewCell.swift */,
+				13BBDBAD2224E53800B7F943 /* HashtagTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 				13547D92221ED58400E363AD /* Views */,
 				13547D95221FCDCE00E363AD /* Resources */,
 				13547D93221FBF6300E363AD /* Extensions.swift */,
+				13BBDBAB222434C200B7F943 /* Protocols.swift */,
 				13CFD4DE2211AB5C009681EF /* Info.plist */,
 			);
 			path = TagIt;
@@ -208,7 +214,9 @@
 				134E5BFE2223C6700047B8EE /* TaggingViewCell.swift in Sources */,
 				13547D7C221D42AA00E363AD /* TaggingViewController.swift in Sources */,
 				13CFD4D32211AB5A009681EF /* AppDelegate.swift in Sources */,
+				13BBDBAE2224E53800B7F943 /* HashtagTextView.swift in Sources */,
 				13547D94221FBF6300E363AD /* Extensions.swift in Sources */,
+				13BBDBAC222434C200B7F943 /* Protocols.swift in Sources */,
 				13CFD4FF2216887F009681EF /* PhotoItemCell.swift in Sources */,
 				13E884BB221AE83A00703ADD /* PhotoViewController.swift in Sources */,
 				13547D82221D440700E363AD /* UIView.swift in Sources */,

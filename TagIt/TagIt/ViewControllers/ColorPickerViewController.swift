@@ -15,6 +15,9 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
     
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     
+    var selectedTagIndex: IndexPath?
+    weak var updateColorDelegate: UpdateColorDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,9 +31,23 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
         return 1
     }
 
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 9
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let index = selectedTagIndex else {
+            return
+        }
+        
+        guard let cell = self.collectionView.cellForItem(at: indexPath) else {
+            return
+        }
+        
+        self.updateColorDelegate?.updateColor(indexPath: index, selectedColor: cell.backgroundColor!.toHexString())
+        
+        self.navigationController?.popViewController(animated: true)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

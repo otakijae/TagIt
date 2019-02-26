@@ -43,7 +43,7 @@ class ModalNavigationController: UINavigationController {
 
 class TaggingViewController: UIViewController {
 
-    
+    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeightContraint: NSLayoutConstraint!
     
@@ -55,6 +55,7 @@ class TaggingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.textField.delegate = self
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
@@ -102,11 +103,6 @@ class TaggingViewController: UIViewController {
             navi.semiModalPresentationController?.setModalViewHeight(height, animated: animated)
         }
     }
-
-    @IBAction func done(_ sender: Any) {
-        self.view.endEditing(true)
-        dismiss(animated: true, completion: nil)
-    }
 }
 
 // MARK: UITableView
@@ -129,24 +125,61 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.tagLabel.text = tagList[indexPath.row]
         
-        cell.accessoryType = indexPath == selectedIndexPath ? .checkmark : .none
-        cell.backgroundColor = UIColor.clear
-        
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = BGColor
-        cell.backgroundView = backgroundView
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "SuggestTagSegue", sender: self)
+        performSegue(withIdentifier: "AddTagSegue", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddTagSegue" {
+            guard let destination = segue.destination as? ColorPickerViewController else {
+                fatalError("unexpected view controller for segue")
+            }
+            
+            let indexPath = self.tableView.indexPathForSelectedRow
+            destination.updateColorDelegate = self
+            destination.selectedTagIndex = indexPath
+            
+        } else if segue.identifier == "UnwindTaggingSegue" {
+            guard let destination = segue.destination as? ZoomedPhotoViewController else {
+                fatalError("unexpected view controller for segue")
+            }
+            
+            var tagString: String = ""
+            for tag in tagList {
+                tagString.append("●" + tag + "\n")
+            }
+            
+            destination.textView.text = tagString
+            destination.textView.resolveHashTags()
+            destination.textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.blue]
+        }
+    }
+}
+
+extension TaggingViewController: UpdateColorDelegate {
+    func updateColor(indexPath: IndexPath, selectedColor: String) {
+        guard let cell = self.tableView.cellForRow(at: indexPath) as? TaggingViewCell else {
+            return
+        }
+        cell.colorTagView.backgroundColor = UIColor(hexFromString: selectedColor)
     }
 }
 
 // MARK: - keyboard handle
 
-extension TaggingViewController {
+extension TaggingViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        tagList.append(String(textField.text!))
+        self.tableView.reloadData()
+        self.textField.text = ""
+        self.textField.resignFirstResponder()
+        return true
+    }
     
     func keyboardSettings() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTextView(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -156,6 +189,7 @@ extension TaggingViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
+        self.textField.resignFirstResponder()
         self.view.endEditing(true)
     }
     

@@ -34,7 +34,7 @@ class PageViewController: UIPageViewController {
     func viewZoomedPhotoViewController(_ index: Int) -> ZoomedPhotoViewController? {
         if let storyboard = storyboard,
             let page = storyboard.instantiateViewController(withIdentifier: "ZoomedPhotoViewController") as? ZoomedPhotoViewController {
-            
+                        
             let requestOptions = PHImageRequestOptions()
             requestOptions.isSynchronous = true
             requestOptions.deliveryMode = .highQualityFormat
@@ -85,5 +85,4 @@ extension PageViewController: UIPageViewControllerDataSource {
 //    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
 //        return selectedPhotoIndex?.row ?? 0
 //    }
-    
 }
