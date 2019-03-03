@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class ZoomedPhotoViewController: UIViewController {
     
@@ -28,7 +29,9 @@ class ZoomedPhotoViewController: UIViewController {
     var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
     
     //for test
-    var tagList: [String] = ["여행", "음식", "가족"]
+    var fetchResult: PHFetchResult<PHAsset>!
+    var selectedPhoto: Photograph?
+
     @IBOutlet weak var tagTextView: UITextView!
     
     override func viewDidLoad() {
@@ -37,15 +40,49 @@ class ZoomedPhotoViewController: UIViewController {
 //        self.navigationController?.navigationBar.shadowImage = UIImage()
 //        self.navigationController?.navigationBar.isTranslucent = true
         
-        scrollView.delegate = self
-        
+        self.scrollView.delegate = self
         self.textView.delegate = self
         
         imageZoomSettings()
         gestureSettings()
+        imageTagSettings()
+    }
+    
+    func imageTagSettings() {
+        let asset: PHAsset = self.fetchResult.object(at: photoIndex)
         
-        self.textView.resolveHashTags()
-        self.textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.blue]
+        PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
+            if let info = info {
+                if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
+                    if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
+                        if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
+                            self.selectedPhoto = result
+                            self.setTagTextView()
+                            
+                        } else {
+                            print("태그 등록하지 않은 사진")
+                            self.selectedPhoto = Photograph()
+                            self.setTagTextView()
+                        }
+                    }
+                }
+            }
+        })
+    }
+    
+    func setTagTextView() {
+        var tagString: String = ""
+        
+        if let photo = self.selectedPhoto {
+            for tag in photo.listToArray(objectList: photo.tagList) {
+                tagString.append("●" + tag + "\n")
+            }
+            
+            self.textView.text = tagString
+            self.textView.resolveHashTags()
+            self.textView.font = UIFont.systemFont(ofSize: 17.0)
+            self.textView.textColor = .darkGray
+        }
     }
     
     func imageZoomSettings() {
@@ -127,6 +164,14 @@ class ZoomedPhotoViewController: UIViewController {
 }
 
 extension ZoomedPhotoViewController: UITextViewDelegate {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let taggingViewController = segue.destination as? TaggingViewController {
+            taggingViewController.selectedPhoto = self.selectedPhoto
+            taggingViewController.fetchResult = self.fetchResult
+            taggingViewController.selectedIndex = self.photoIndex
+        }
+    }
     
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         

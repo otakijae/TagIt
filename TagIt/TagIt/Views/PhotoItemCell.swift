@@ -11,6 +11,7 @@ import UIKit
 class PhotoItemCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var taggedLabel: UILabel!
     
     var representedAssetIdentifier: String!
     

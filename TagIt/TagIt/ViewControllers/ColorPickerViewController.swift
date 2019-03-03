@@ -37,16 +37,10 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let index = selectedTagIndex else {
-            return
-        }
-        
         guard let cell = self.collectionView.cellForItem(at: indexPath) else {
             return
         }
-        
-        self.updateColorDelegate?.updateColor(indexPath: index, selectedColor: cell.backgroundColor!.toHexString())
-        
+        self.updateColorDelegate?.updateColor(selectedColor: cell.backgroundColor!)
         self.navigationController?.popViewController(animated: true)
     }
 

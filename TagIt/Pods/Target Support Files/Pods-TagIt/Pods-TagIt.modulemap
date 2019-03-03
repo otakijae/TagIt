@@ -1,0 +1,6 @@
+framework module Pods_TagIt {
+  umbrella header "Pods-TagIt-umbrella.h"
+
+  export *
+  module * { export * }
+}

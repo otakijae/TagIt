@@ -14,6 +14,7 @@ class PageViewController: UIPageViewController {
     var fetchResult: PHFetchResult<PHAsset>!
     var assetCollection: PHAssetCollection!
     var selectedPhotoIndex: IndexPath?
+//    var selectedPhoto: Photograph?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,10 +47,30 @@ class PageViewController: UIPageViewController {
                 guard let image = image else { return }
                 page.selectedImage = image
                 page.photoIndex = index
+                page.fetchResult = self.fetchResult
             })
+            
             return page
         }
         return nil
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let taggingViewController = segue.destination as? TaggingViewController {
+//            taggingViewController.selectedPhoto = self.selectedPhoto
+            taggingViewController.fetchResult = self.fetchResult
+            taggingViewController.selectedIndex = self.selectedPhotoIndex?.row
+        }
+    }
+    
+    @IBAction func addTagButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: "SemiModalTransitionSegue", sender: nil)
+    }
+}
+
+extension PHAsset {
+    var originalFilename: String? {
+        return PHAssetResource.assetResources(for: self).first?.originalFilename
     }
 }
 

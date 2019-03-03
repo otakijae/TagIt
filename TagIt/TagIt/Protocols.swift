@@ -9,7 +9,7 @@
 import UIKit
 
 protocol UpdateColorDelegate: class {
-    func updateColor(indexPath: IndexPath, selectedColor: String)
+    func updateColor(selectedColor: UIColor)
 }
 
 protocol TaggingDelegate: class {
