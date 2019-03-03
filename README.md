@@ -134,6 +134,8 @@
   - UBER 검색 UI 참고하여, 사진 검색 기능으로 이동하기 위한 collectionView 위에 겹쳐진 버튼 추가
   - 아래로 내리는 제스처(⬇️) 동안에는 위로 움직이면서 사라져있다가, 위로 올리는 제스처(⬆️) 동안에는 다시 위에서 내려오는 애니메이션 구현해보기
   - segue 이동까지만 구현
+- 일단 이렇게 구현한 UI는 이미지 컬렉션 뷰 위에 띄워져있기 때문에 overlay 돼서 원치 않는 사람들이 있을 것 같아서 우측상단 네비게이션 바에 검색 아이콘을 누르면 present modally로 검색 화면이 뜨게 구현했음
+- ==> 추후 개선 사항은 검색 아이콘을 누르면 검색창이 이미지 컬렉션 뷰 위에 떠서(맥북 spotlight처럼) 이미지를 검색할 수 있게 구현할 예정
 
 ### SemiModalTransition
 
@@ -143,7 +145,7 @@
   - 그냥 half modal present와 다른 점은 이 반쯤만 나온 view 내부에서 navigation 이동을 할 수 있다는 점. 그리고 각 navigation controll view 내용 크기에 맞춰서 화면에 보여줄 수 있음
   - 일단은 태그만 추가하는 기능으로 만들지만, 이후에 태그 추가 및 색깔 설정까지 할 수 있게 할 예정이라 이 방식을 차용함
   - 맨 처음 PhotoViewController에서 검색 버튼을 스크롤을 올리면 사라지고, 내리면 보이게 설정. 애니메이션은 추가하지 않음
-- ==> 칼라 태그로 기능 추가 예정
+- ==> 이미지마다 색깔 태그를 가질 수 있게 구현. 데이터베이스 작업 남음
 
 ### 데이터 전달
 
@@ -153,7 +155,7 @@
 ### Realm
 
 - [Realm](http://realm.io/) is a cross-platform mobile database solution designed for mobile applications that you can integrate with your iOS projects. Unlike wrappers around Core Data, Realm doesn’t rely on Core Data or even an SQLite back end.
-- 
+- 이미지 저장할 때
 
 ## Todo
 
@@ -167,13 +169,11 @@
   - 이미지 캐싱 이슈 분석 및 정리하기
     - [collectionView prefetch apple example](https://developer.apple.com/documentation/uikit/uicollectionviewdatasourceprefetching/prefetching_collection_view_data)
     - [photos framework apple example](https://developer.apple.com/library/archive/samplecode/UsingPhotosFramework/Introduction/Intro.html#//apple_ref/doc/uid/TP40014575-Intro-DontLinkElementID_2)
-  - 코드 리팩토링 / 지금까지 한 것 정리
+  - 코드 리팩토링 / Manager, Collection, Handler의 차이에 대해서 알아보기
   - 권한 문제: 맨 처음 받아오면 이미지 갯수 0으로 되고, 다시 이미지 띄워주지 못하는 이슈
-  - 페이지 뷰 컨트롤러 하단 dot 표시 인스타그램처럼 표시하기 ==> 일단 오픈소스 사용
-  - 검색 기능 present modally로 변경
   - 이미지 상세 보기 한 번 클릭하면 navigation bar / tool bar 사라지고, 다시 한 번 더 누르면 나타나기 기능 추가
-  - 태그 추가 기능 realm DB 연동 및 다른 DB와 비교 정리. Photos Framework에서 이미지를 저장할 identifier와 데이터베이스 설계, 사진 파일 이름 변경 가능한지, 설명 추가 기능까지
-  - 선택 / 공유 /. 삭제 기능
-  - 동영상 재생 기능
+  - 태그 추가 기능 realm DB 연동 및 다른 DB와 비교 정리
+  - 선택 / 공유 / 삭제 기능
+  - 동영상 재생 기능 / 앨범에 따라 이미지를 가져올 수 있게 구현
   - 태그 추가된 이미지는 컬렉션 뷰에서 태그 표시 해주기
-  - 태그 생성 및 추가 해주는 기능
+- 
