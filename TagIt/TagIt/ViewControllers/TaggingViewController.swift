@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 let BGColor = UIColor(displayP3Red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
 
@@ -48,9 +49,12 @@ class TaggingViewController: UIViewController {
     @IBOutlet weak var tableViewHeightContraint: NSLayoutConstraint!
     
     private var isFirst: Bool = true
-    private var selectedIndexPath: IndexPath?
+    var selectedIndex: Int?
     
-    var tagList = ["여행", "음식", "가족"]
+    var selectedColor: UIColor = UIColor(hexFromString: "555555")
+    
+    var selectedPhoto: Photograph?
+    var fetchResult: PHFetchResult<PHAsset>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,31 +114,63 @@ class TaggingViewController: UIViewController {
 extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section:Int) -> String? {
-        return "추가된 태그"
+        if section == 0 {
+            return "설정"
+        } else {
+            return "추가된 태그"
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tagList.count
+        if section == 0 {
+            return 1
+        } else {
+            if let photo = self.selectedPhoto {
+                return photo.tagList.count
+            } else {
+                return 0
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TaggingViewCell", for: indexPath) as? TaggingViewCell else {
-            return UITableViewCell()
+        if indexPath.section == 0 {
+            let cell = UITableViewCell()
+            cell.backgroundColor = BGColor
+            cell.textLabel?.textColor = .darkGray
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 17.0)
+            cell.textLabel?.text = "🍑 색깔 추가"
+            return cell
+            
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TaggingViewCell", for: indexPath) as? TaggingViewCell else {
+                return UITableViewCell()
+            }
+            
+            if let photo = selectedPhoto {
+                cell.tagLabel.text = photo.listToArray(objectList: photo.tagList)[indexPath.row]
+                cell.colorTagView.backgroundColor = UIColor(hexFromString: photo.colorId)
+            }
+            cell.selectionStyle = .none
+            
+            return cell
         }
-        
-        cell.tagLabel.text = tagList[indexPath.row]
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "AddTagSegue", sender: self)
-        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 0 {
+            performSegue(withIdentifier: "AddColorSegue", sender: self)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AddTagSegue" {
+        if segue.identifier == "AddColorSegue" {
             guard let destination = segue.destination as? ColorPickerViewController else {
                 fatalError("unexpected view controller for segue")
             }
@@ -147,25 +183,51 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
             guard let destination = segue.destination as? ZoomedPhotoViewController else {
                 fatalError("unexpected view controller for segue")
             }
+//            let photograph: Photograph = Photograph(name: "IMG_3945.JPG", localIdentifier: "31F10CB8-530F-4684-9673-96CB2338AA70/L0/001", colorId: "FDA293", tagArray: ["여행", "음식"])
+//            RealmManager.sharedInstance.saveObjects(object: photograph)
             
-            var tagString: String = ""
-            for tag in tagList {
-                tagString.append("●" + tag + "\n")
-            }
+            print(RealmManager.sharedInstance.getObjects(type: Photograph.self))
             
-            destination.textView.text = tagString
+//            var tagString: String = ""
+//            for tag in tagList {
+//                tagString.append("● " + tag + "\n")
+//            }
+//
+//            destination.textView.text = tagString
             destination.textView.resolveHashTags()
-            destination.textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.blue]
+            destination.textView.font = UIFont.systemFont(ofSize: 17.0)
+            destination.textView.textColor = .darkGray
         }
+    }
+    
+    func imageTagSettings() {
+        let asset: PHAsset = self.fetchResult.object(at: self.selectedIndex!)
+        
+        PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
+            if let info = info {
+                if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
+                    if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
+                        if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
+                            self.selectedPhoto = result
+                            
+                        } else {
+                            self.selectedPhoto = Photograph()
+                            
+                        }
+                    }
+                }
+            }
+        })
     }
 }
 
 extension TaggingViewController: UpdateColorDelegate {
-    func updateColor(indexPath: IndexPath, selectedColor: String) {
-        guard let cell = self.tableView.cellForRow(at: indexPath) as? TaggingViewCell else {
-            return
-        }
-        cell.colorTagView.backgroundColor = UIColor(hexFromString: selectedColor)
+    func updateColor(selectedColor: UIColor) {
+        self.selectedColor = selectedColor
+        self.tableView.reloadData()
+        
+        //color add
+        
     }
 }
 
@@ -174,7 +236,7 @@ extension TaggingViewController: UpdateColorDelegate {
 extension TaggingViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        tagList.append(String(textField.text!))
+//        tagList.append(String(textField.text!))
         self.tableView.reloadData()
         self.textField.text = ""
         self.textField.resignFirstResponder()

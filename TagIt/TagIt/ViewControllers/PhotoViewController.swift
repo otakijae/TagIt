@@ -92,11 +92,32 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let asset = fetchResult.object(at: indexPath.item)
         cell.representedAssetIdentifier = asset.localIdentifier
         
-        self.imageCachingManager.requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+        self.imageCachingManager.requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, info in
             if cell.representedAssetIdentifier == asset.localIdentifier {
+                //configure
                 cell.thumbnailImage = image
+                //cell.taggedLabel.isHidden = false
             }
         })
+        
+        
+        //보류
+        //select 해당 사진 파일해서, 데이터 있고 태그가 달려있으면 collectionView에 표시해주기 / 이 부분 때문에 느려져서 prefetching에서 데이터를 가져와야할듯함
+//        self.imageCachingManager.requestImageData(
+//            for: asset, options: self.requestOptions, resultHandler: { (imagedata, dataUTI, orientation, info) in
+//                if let info = info {
+//                    if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
+//                        if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
+//                            RealmManager.sharedInstance.testRealmMananger()
+//                            if path.lastPathComponent == "IMG_1234" {
+//                                print("JACKPOT!!! JACKPOT!!! JACKPOT!!!")
+//                            }
+//                        }
+//                    }
+//                }
+//        })
+        
+        
         
         return cell
     }

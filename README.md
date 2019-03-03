@@ -145,6 +145,16 @@
   - 맨 처음 PhotoViewController에서 검색 버튼을 스크롤을 올리면 사라지고, 내리면 보이게 설정. 애니메이션은 추가하지 않음
 - ==> 칼라 태그로 기능 추가 예정
 
+### 데이터 전달
+
+- ColorPickerViewController에서 고른 색깔을 TaggingViewController TableView에 표시할 때 델리게이트 사용
+- TaggingViewController에서 태그 추가 완료하고 다시 이미지 보기로 돌아갈 때 ZoomedPhotoViewController에 Unwind 사용
+
+### Realm
+
+- [Realm](http://realm.io/) is a cross-platform mobile database solution designed for mobile applications that you can integrate with your iOS projects. Unlike wrappers around Core Data, Realm doesn’t rely on Core Data or even an SQLite back end.
+- 
+
 ## Todo
 
 - 스터디 프로젝트 사진 검색 애플리케이션 Tag It

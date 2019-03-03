@@ -39,16 +39,28 @@
                                                 <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dg1-CU-XZg">
                                                     <rect key="frame" x="0.0" y="0.0" width="175" height="164"/>
                                                 </imageView>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="•••" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vV8-2p-gFW">
+                                                    <rect key="frame" x="141" y="141" width="26" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="15" id="Vx7-YK-kgR"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <color key="textColor" red="0.99215686270000003" green="0.5450980392" blue="0.69411764710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </view>
                                         <constraints>
                                             <constraint firstItem="Dg1-CU-XZg" firstAttribute="height" secondItem="MGD-RX-PTx" secondAttribute="height" id="1qO-LF-1nK"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="vV8-2p-gFW" secondAttribute="bottom" id="PWR-mr-wuu"/>
                                             <constraint firstItem="Dg1-CU-XZg" firstAttribute="centerY" secondItem="MGD-RX-PTx" secondAttribute="centerY" id="QIP-ve-1kS"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="vV8-2p-gFW" secondAttribute="trailing" id="bzv-j6-ReM"/>
                                             <constraint firstItem="Dg1-CU-XZg" firstAttribute="width" secondItem="MGD-RX-PTx" secondAttribute="width" id="urV-J9-nyA"/>
                                             <constraint firstItem="Dg1-CU-XZg" firstAttribute="centerX" secondItem="MGD-RX-PTx" secondAttribute="centerX" id="vV2-eX-fLL"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="Dg1-CU-XZg" id="jPe-1K-ogD"/>
+                                            <outlet property="taggedLabel" destination="vV8-2p-gFW" id="SF6-jW-plF"/>
                                             <segue destination="Ltl-M9-n0b" kind="show" identifier="PageViewControllerSegue" id="gYQ-k4-bDO"/>
                                         </connections>
                                     </collectionViewCell>
@@ -101,11 +113,14 @@
                     <navigationItem key="navigationItem" title="날짜" id="oOd-sv-T9f">
                         <barButtonItem key="rightBarButtonItem" title="•••" id="fbz-gc-raZ">
                             <connections>
-                                <segue destination="ali-zv-mHo" kind="presentation" identifier="" customClass="SemiModalTransitionSegue" customModule="TagIt" customModuleProvider="target" id="dyv-vX-3aU"/>
+                                <action selector="addTagButtonTapped:" destination="Ltl-M9-n0b" id="Ffk-bg-1X0"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="ali-zv-mHo" kind="presentation" identifier="SemiModalTransitionSegue" customClass="SemiModalTransitionSegue" customModule="TagIt" customModuleProvider="target" id="lGP-xe-S6b"/>
+                    </connections>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ULU-ug-HbZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -301,7 +316,7 @@
                                 </constraints>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x9n-Ch-FyK">
                                 <rect key="frame" x="0.0" y="50" width="375" height="300"/>
@@ -401,7 +416,7 @@
                         <outlet property="tableView" destination="x9n-Ch-FyK" id="cgF-eQ-dYX"/>
                         <outlet property="tableViewHeightContraint" destination="emw-6r-A0t" id="0io-g2-xlE"/>
                         <outlet property="textField" destination="Z6t-Ds-C25" id="Xb9-ZY-L1T"/>
-                        <segue destination="zic-Is-zMn" kind="show" identifier="AddTagSegue" id="fMz-wI-bkL"/>
+                        <segue destination="zic-Is-zMn" kind="show" identifier="AddColorSegue" id="fMz-wI-bkL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SVR-WM-sSG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -539,6 +554,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="9xB-Hy-gZp"/>
+        <segue reference="lGP-xe-S6b"/>
     </inferredMetricsTieBreakers>
 </document>
