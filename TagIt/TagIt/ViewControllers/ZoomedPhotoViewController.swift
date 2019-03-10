@@ -49,42 +49,22 @@ class ZoomedPhotoViewController: UIViewController {
     }
     
     func imageTagSettings() {
-        let asset: PHAsset = self.fetchResult.object(at: photoIndex)
-        
-        PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
-            if let info = info {
-                if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
-                    if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
-                        if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
-                            self.selectedPhoto = result
-                            self.setTagTextView()
-                            
-                        } else {
-                            print("태그 등록하지 않은 사진")
-                            self.selectedPhoto = Photograph()
-                            self.setTagTextView()
-                        }
-                    }
-                }
-            }
-        })
+			var tagString: String = ""
+			
+			PhotographManager.sharedInstance.requestImageData(selectedIndexPath: photoIndex) { photograph in
+				if let photo = photograph {
+					for tag in photo.listToArray(objectList: photo.tagList) {
+						tagString.append("●" + tag + "\n")
+					}
+					
+					self.textView.text = tagString
+					self.textView.resolveHashTags()
+					self.textView.font = UIFont.systemFont(ofSize: 17.0)
+					self.textView.textColor = UIColor(hexFromString: photo.colorId)
+				}
+			}
     }
-    
-    func setTagTextView() {
-        var tagString: String = ""
-        
-        if let photo = self.selectedPhoto {
-            for tag in photo.listToArray(objectList: photo.tagList) {
-                tagString.append("●" + tag + "\n")
-            }
-            
-            self.textView.text = tagString
-            self.textView.resolveHashTags()
-            self.textView.font = UIFont.systemFont(ofSize: 17.0)
-            self.textView.textColor = .darkGray
-        }
-    }
-    
+	
     func imageZoomSettings() {
         if let image = self.selectedImage {
             self.imageView.image = image

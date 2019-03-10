@@ -10,12 +10,9 @@ import UIKit
 import Photos
 
 class PageViewController: UIPageViewController {
-    
-    var fetchResult: PHFetchResult<PHAsset>!
-    var assetCollection: PHAssetCollection!
+
     var selectedPhotoIndex: IndexPath?
-//    var selectedPhoto: Photograph?
-    
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,15 +38,13 @@ class PageViewController: UIPageViewController {
             requestOptions.deliveryMode = .highQualityFormat
             requestOptions.isNetworkAccessAllowed = true
             requestOptions.resizeMode = .exact
-            
-            let asset: PHAsset = self.fetchResult.object(at: index)
-            PHCachingImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: requestOptions, resultHandler: { image, _ in
-                guard let image = image else { return }
-                zoomedPhotoViewController.selectedImage = image
-                zoomedPhotoViewController.photoIndex = index
-                zoomedPhotoViewController.fetchResult = self.fetchResult
-            })
-            
+					
+					PhotographManager.sharedInstance.requestOriginalImage(options: requestOptions, selectedIndexPath: index) { image in
+						zoomedPhotoViewController.selectedImage = image
+						zoomedPhotoViewController.photoIndex = index
+						zoomedPhotoViewController.fetchResult = PhotographManager.sharedInstance.fetchResult
+					}
+					
             return zoomedPhotoViewController
         }
         return nil
@@ -95,7 +90,7 @@ extension PageViewController: UIPageViewControllerDataSource {
     //After
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        if let viewController = viewController as? ZoomedPhotoViewController, let index = viewController.photoIndex, (index + 1) < fetchResult.count {
+        if let viewController = viewController as? ZoomedPhotoViewController, let index = viewController.photoIndex, (index + 1) < PhotographManager.sharedInstance.fetchResult.count {
             return viewZoomedPhotoViewController(index + 1)
         }
         

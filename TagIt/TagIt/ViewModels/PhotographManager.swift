@@ -18,6 +18,8 @@ class PhotographManager {
 	var previousPreheatRect = CGRect.zero
 	var requestOptions = PHImageRequestOptions()
 	
+	var selectedPhotograph: Photograph?
+	
 	static let sharedInstance = PhotographManager()
 
 	init() {
@@ -29,22 +31,6 @@ class PhotographManager {
 	}
 	
 //	open func requestImage(for asset: PHAsset, targetSize: CGSize, contentMode: PHImageContentMode, options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) -> PHImageRequestID
-	
-//    func requestIamge(with asset: PHAsset?, thumbnailSize: CGSize, completion: @escaping (UIImage?) -> Void) {
-//        guard let asset = asset else {
-//            completion(nil)
-//            return
-//        }
-//        self.representedAssetIdentifier = asset.localIdentifier
-//        self.imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, info in
-//            // UIKit may have recycled this cell by the handler's activation time.
-//            //  print(info?["PHImageResultIsDegradedKey"])
-//            // Set the cell's thumbnail image only if it's still showing the same asset.
-//            if self.representedAssetIdentifier == asset.localIdentifier {
-//                completion(image)
-//            }
-//        })
-//    }
 
 	func requestThumnailImage(targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: PhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
 		let asset = fetchResult.object(at: selectedIndexPath)
@@ -57,23 +43,40 @@ class PhotographManager {
 		})
 	}
 	
-	func requestOriginalImage(for asset: PHAsset, targetSize: CGSize, contentMode: PHImageContentMode, options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) {
+	func requestOriginalImage(options: PHImageRequestOptions?, selectedIndexPath: Int, resultHandler: @escaping (UIImage?) -> Void) {
 		
+		let asset = fetchResult.object(at: selectedIndexPath)
+		
+		self.imageCachingManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+			resultHandler(image)
+		})
+		
+		self.requestImageData(selectedIndexPath: selectedIndexPath) { photograph in
+			self.selectedPhotograph = photograph
+		}
 	}
-	
-	//보류
-	//select 해당 사진 파일해서, 데이터 있고 태그가 달려있으면 collectionView에 표시해주기 / 이 부분 때문에 느려져서 prefetching에서 데이터를 가져와야할듯함
-	//        self.imageCachingManager.requestImageData(
-	//            for: asset, options: self.requestOptions, resultHandler: { (imagedata, dataUTI, orientation, info) in
-	//                if let info = info {
-	//                    if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
-	//                        if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
-	//                            RealmManager.sharedInstance.testRealmMananger()
-	//                            if path.lastPathComponent == "IMG_1234" {
-	//                                print("JACKPOT!!! JACKPOT!!! JACKPOT!!!")
-	//                            }
-	//                        }
-	//                    }
-	//                }
-	//        })
+
+	func requestImageData(selectedIndexPath: Int, resultHandler: @escaping (Photograph?) -> Void) {
+		
+		let asset: PHAsset = self.fetchResult.object(at: selectedIndexPath)
+
+		PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
+			if let info = info {
+				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
+					if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
+						if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
+							resultHandler(result)
+						} else {
+							print("태그 등록하지 않은 사진")
+							let unTaggedPhotograph = Photograph()
+							unTaggedPhotograph.name = ""
+							unTaggedPhotograph.localIdentifier = ""
+							unTaggedPhotograph.colorId = "555555"
+							resultHandler(unTaggedPhotograph)
+						}
+					}
+				}
+			}
+		})
+	}
 }

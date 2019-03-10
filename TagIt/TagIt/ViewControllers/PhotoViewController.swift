@@ -60,7 +60,6 @@ class PhotoViewController: UIViewController {
             }
             
             let indexPath = self.collectionView.indexPath(for: sender as! UICollectionViewCell)!
-            pageViewController.fetchResult = PhotographManager.sharedInstance.fetchResult
             pageViewController.selectedPhotoIndex = indexPath
         }
     }

@@ -56,6 +56,8 @@ class TaggingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+			
+			print(PhotographManager.sharedInstance.selectedPhotograph)
 
         self.textField.delegate = self
         self.tableView.delegate = self
