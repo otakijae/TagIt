@@ -34,7 +34,7 @@ class PageViewController: UIPageViewController {
     
     func viewZoomedPhotoViewController(_ index: Int) -> ZoomedPhotoViewController? {
         if let storyboard = storyboard,
-            let page = storyboard.instantiateViewController(withIdentifier: "ZoomedPhotoViewController") as? ZoomedPhotoViewController {
+            let zoomedPhotoViewController = storyboard.instantiateViewController(withIdentifier: "ZoomedPhotoViewController") as? ZoomedPhotoViewController {
                         
             let requestOptions = PHImageRequestOptions()
             requestOptions.isSynchronous = true
@@ -45,21 +45,25 @@ class PageViewController: UIPageViewController {
             let asset: PHAsset = self.fetchResult.object(at: index)
             PHCachingImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: requestOptions, resultHandler: { image, _ in
                 guard let image = image else { return }
-                page.selectedImage = image
-                page.photoIndex = index
-                page.fetchResult = self.fetchResult
+                zoomedPhotoViewController.selectedImage = image
+                zoomedPhotoViewController.photoIndex = index
+                zoomedPhotoViewController.fetchResult = self.fetchResult
             })
             
-            return page
+            return zoomedPhotoViewController
         }
         return nil
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let taggingViewController = segue.destination as? TaggingViewController {
-//            taggingViewController.selectedPhoto = self.selectedPhoto
-            taggingViewController.fetchResult = self.fetchResult
-            taggingViewController.selectedIndex = self.selectedPhotoIndex?.row
+//        if let taggingViewController = segue.destination as? TaggingViewController {
+//            print(self.selectedPhotoIndex?.row)
+//            taggingViewController.fetchResult = self.fetchResult
+//            taggingViewController.selectedIndex = self.selectedPhotoIndex?.row
+//            print("TEST TEST")
+//        }
+        if segue.identifier == "SemiModalTransitionSegue" {
+					
         }
     }
     
@@ -98,12 +102,4 @@ extension PageViewController: UIPageViewControllerDataSource {
         return nil
     }
     
-//    // MARK: UIPageControl
-//    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-//        return 7
-//    }
-//
-//    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-//        return selectedPhotoIndex?.row ?? 0
-//    }
 }

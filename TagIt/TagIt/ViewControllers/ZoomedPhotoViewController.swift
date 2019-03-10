@@ -43,9 +43,9 @@ class ZoomedPhotoViewController: UIViewController {
         self.scrollView.delegate = self
         self.textView.delegate = self
         
+        imageTagSettings()
         imageZoomSettings()
         gestureSettings()
-        imageTagSettings()
     }
     
     func imageTagSettings() {
@@ -169,7 +169,6 @@ extension ZoomedPhotoViewController: UITextViewDelegate {
         if let taggingViewController = segue.destination as? TaggingViewController {
             taggingViewController.selectedPhoto = self.selectedPhoto
             taggingViewController.fetchResult = self.fetchResult
-            taggingViewController.selectedIndex = self.photoIndex
         }
     }
     
