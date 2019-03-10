@@ -51,9 +51,9 @@ class PhotographManager {
 			resultHandler(image)
 		})
 		
-		self.requestImageData(selectedIndexPath: selectedIndexPath) { photograph in
-			self.selectedPhotograph = photograph
-		}
+//		self.requestImageData(selectedIndexPath: selectedIndexPath) { photograph in
+//			self.selectedPhotograph = photograph
+//		}
 	}
 
 	func requestImageData(selectedIndexPath: Int, resultHandler: @escaping (Photograph?) -> Void) {
@@ -65,13 +65,16 @@ class PhotographManager {
 				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
 					if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
 						if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
+							self.selectedPhotograph = result
 							resultHandler(result)
 						} else {
-							print("태그 등록하지 않은 사진")
+//							print("태그 등록하지 않은 사진")
 							let unTaggedPhotograph = Photograph()
 							unTaggedPhotograph.name = ""
 							unTaggedPhotograph.localIdentifier = ""
 							unTaggedPhotograph.colorId = "555555"
+							
+							self.selectedPhotograph = unTaggedPhotograph
 							resultHandler(unTaggedPhotograph)
 						}
 					}

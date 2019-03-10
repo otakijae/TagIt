@@ -50,10 +50,10 @@ class TaggingViewController: UIViewController {
     
     private var isFirst: Bool = true
     var selectedColor: UIColor = UIColor(hexFromString: "555555")
-    
-    var selectedPhoto: Photograph?
-    var fetchResult: PHFetchResult<PHAsset>!
-    
+
+//    var selectedPhoto: Photograph?
+//    var fetchResult: PHFetchResult<PHAsset>!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 			
@@ -129,7 +129,7 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             return 1
         } else {
-            if let photo = self.selectedPhoto {
+            if let photo = PhotographManager.sharedInstance.selectedPhotograph {
                 return photo.tagList.count
             } else {
                 return 0
@@ -152,7 +152,7 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             
-            if let photo = selectedPhoto {
+            if let photo = PhotographManager.sharedInstance.selectedPhotograph {
                 cell.tagLabel.text = photo.listToArray(objectList: photo.tagList)[indexPath.row]
                 cell.colorTagView.backgroundColor = UIColor(hexFromString: photo.colorId)
             }
@@ -168,6 +168,14 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
+	
+		public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+			if editingStyle == .delete {
+				//realm delete aciton 추가해야함
+//				PhotographManager.sharedInstance.selectedPhotograph?.tagList.remove(at: indexPath.row)
+//				self.tableView.deleteRows(at: [indexPath], with: .automatic)
+			}
+		}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddColorSegue" {
@@ -186,24 +194,6 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
     }
-    
-//    func imageTagSettings() {
-//        PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
-//            if let info = info {
-//                if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
-//                    if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
-//                        if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
-//                            self.selectedPhoto = result
-//
-//                        } else {
-//                            self.selectedPhoto = Photograph()
-//
-//                        }
-//                    }
-//                }
-//            }
-//        })
-//    }
 }
 
 extension TaggingViewController: UpdateColorDelegate {

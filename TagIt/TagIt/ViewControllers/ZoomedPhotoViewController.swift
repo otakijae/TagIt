@@ -29,7 +29,6 @@ class ZoomedPhotoViewController: UIViewController {
     var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
     
     //for test
-    var fetchResult: PHFetchResult<PHAsset>!
     var selectedPhoto: Photograph?
 
     @IBOutlet weak var tagTextView: UITextView!
@@ -147,8 +146,8 @@ extension ZoomedPhotoViewController: UITextViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let taggingViewController = segue.destination as? TaggingViewController {
-            taggingViewController.selectedPhoto = self.selectedPhoto
-            taggingViewController.fetchResult = self.fetchResult
+//            taggingViewController.selectedPhoto = self.selectedPhoto
+//            taggingViewController.fetchResult = self.fetchResult
         }
     }
     

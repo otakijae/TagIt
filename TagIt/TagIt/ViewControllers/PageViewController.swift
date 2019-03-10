@@ -16,8 +16,11 @@ class PageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+				print(self.selectedPhotoIndex?.item)
+			
         self.dataSource = self
-        
+				self.delegate = self
+			
         if let viewController = viewZoomedPhotoViewController(selectedPhotoIndex?.row ?? 0) {
             let viewControllers = [viewController]
             setViewControllers(viewControllers, direction: .forward, animated: false, completion: nil)
@@ -30,9 +33,10 @@ class PageViewController: UIPageViewController {
     }
     
     func viewZoomedPhotoViewController(_ index: Int) -> ZoomedPhotoViewController? {
+						
         if let storyboard = storyboard,
             let zoomedPhotoViewController = storyboard.instantiateViewController(withIdentifier: "ZoomedPhotoViewController") as? ZoomedPhotoViewController {
-                        
+					
             let requestOptions = PHImageRequestOptions()
             requestOptions.isSynchronous = true
             requestOptions.deliveryMode = .highQualityFormat
@@ -42,7 +46,6 @@ class PageViewController: UIPageViewController {
 					PhotographManager.sharedInstance.requestOriginalImage(options: requestOptions, selectedIndexPath: index) { image in
 						zoomedPhotoViewController.selectedImage = image
 						zoomedPhotoViewController.photoIndex = index
-						zoomedPhotoViewController.fetchResult = PhotographManager.sharedInstance.fetchResult
 					}
 					
             return zoomedPhotoViewController
@@ -58,7 +61,12 @@ class PageViewController: UIPageViewController {
 //            print("TEST TEST")
 //        }
         if segue.identifier == "SemiModalTransitionSegue" {
-					
+					guard let index = self.selectedPhotoIndex?.item else {
+						return
+					}
+					PhotographManager.sharedInstance.requestImageData(selectedIndexPath: index) { photograph in
+						print(photograph)
+					}
         }
     }
     
@@ -73,15 +81,24 @@ extension PHAsset {
     }
 }
 
-//MARK: UIPageViewControllerDataSource
+//MARK: UIPageViewControllerDataSource, UIPageViewControllerDelegate
 
-extension PageViewController: UIPageViewControllerDataSource {
-    
+extension PageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+	
+		func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+			if (completed && finished) {
+				if let currentVC = pageViewController.viewControllers?.last as? ZoomedPhotoViewController {
+					self.selectedPhotoIndex?.item = currentVC.photoIndex
+					print(self.selectedPhotoIndex?.item)
+				}
+			}
+		}
+	
     //Before
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         if let viewController = viewController as? ZoomedPhotoViewController, let index = viewController.photoIndex, index > 0 {
-            return viewZoomedPhotoViewController(index - 1)
+						return viewZoomedPhotoViewController(index - 1)
         }
         
         return nil
@@ -96,5 +113,4 @@ extension PageViewController: UIPageViewControllerDataSource {
         
         return nil
     }
-    
 }
