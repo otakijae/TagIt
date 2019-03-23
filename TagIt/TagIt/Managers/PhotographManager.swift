@@ -47,6 +47,8 @@ class PhotographManager {
 		
 		let asset = fetchResult.object(at: selectedIndexPath)
 		
+		print(asset.localIdentifier)
+		
 		self.imageCachingManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
 			resultHandler(image)
 		})
@@ -64,17 +66,19 @@ class PhotographManager {
 			if let info = info {
 				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
 					if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
+						print(path.lastPathComponent)
 						if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
 							self.selectedPhotograph = result
 							resultHandler(result)
 						} else {
-//							print("태그 등록하지 않은 사진")
 							let unTaggedPhotograph = Photograph()
-							unTaggedPhotograph.name = ""
+							unTaggedPhotograph.name = path.lastPathComponent
 							unTaggedPhotograph.localIdentifier = ""
 							unTaggedPhotograph.colorId = "555555"
 							
 							self.selectedPhotograph = unTaggedPhotograph
+							guard let photo: Photograph = self.selectedPhotograph else { return }
+							RealmManager.sharedInstance.saveObjects(object: photo)
 							resultHandler(unTaggedPhotograph)
 						}
 					}

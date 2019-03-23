@@ -57,8 +57,6 @@ class TaggingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 			
-			print(PhotographManager.sharedInstance.selectedPhotograph)
-
         self.textField.delegate = self
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -72,6 +70,10 @@ class TaggingViewController: UIViewController {
         self.view.backgroundColor = BGColor
         self.tableView.backgroundColor = BGColor
     }
+	
+		func makeSelectedPhotographEditable() {
+			
+		}
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -171,9 +173,11 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
 	
 		public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 			if editingStyle == .delete {
+				
 				//realm delete aciton 추가해야함
 //				PhotographManager.sharedInstance.selectedPhotograph?.tagList.remove(at: indexPath.row)
 //				self.tableView.deleteRows(at: [indexPath], with: .automatic)
+				
 			}
 		}
     
@@ -191,7 +195,7 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
             guard let destination = segue.destination as? ZoomedPhotoViewController else {
                 fatalError("unexpected view controller for segue")
             }
-            
+						destination.imageTagSettings()
         }
     }
 }
@@ -211,11 +215,16 @@ extension TaggingViewController: UpdateColorDelegate {
 extension TaggingViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        tagList.append(String(textField.text!))
-        self.tableView.reloadData()
-        self.textField.text = ""
-        self.textField.resignFirstResponder()
-        return true
+				guard
+					var photo: Photograph = PhotographManager.sharedInstance.selectedPhotograph,
+					let tag: String = textField.text else { return false }
+			
+				photo.appendTag(tag: tag)
+				print(RealmManager.sharedInstance.getObjects(type: Photograph.self))
+				self.tableView.reloadData()
+				self.textField.text = ""
+				self.textField.resignFirstResponder()
+				return true
     }
     
     func keyboardSettings() {
