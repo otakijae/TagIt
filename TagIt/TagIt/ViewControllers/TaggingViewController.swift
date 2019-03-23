@@ -172,13 +172,11 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
     }
 	
 		public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-			if editingStyle == .delete {
-				
-				//realm delete aciton 추가해야함
-//				PhotographManager.sharedInstance.selectedPhotograph?.tagList.remove(at: indexPath.row)
-//				self.tableView.deleteRows(at: [indexPath], with: .automatic)
-				
-			}
+				if editingStyle == .delete {
+						guard var photo: Photograph = PhotographManager.sharedInstance.selectedPhotograph else { return }
+						photo.deleteTag(tagIndexPath: indexPath)
+						self.tableView.deleteRows(at: [indexPath], with: .automatic)
+				}
 		}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -218,9 +216,7 @@ extension TaggingViewController: UITextFieldDelegate {
 				guard
 					var photo: Photograph = PhotographManager.sharedInstance.selectedPhotograph,
 					let tag: String = textField.text else { return false }
-			
 				photo.appendTag(tag: tag)
-				print(RealmManager.sharedInstance.getObjects(type: Photograph.self))
 				self.tableView.reloadData()
 				self.textField.text = ""
 				self.textField.resignFirstResponder()

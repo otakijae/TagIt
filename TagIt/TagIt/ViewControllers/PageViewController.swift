@@ -29,6 +29,8 @@ class PageViewController: UIPageViewController {
 			//test 값 임의로 추가하는 코드
 //			let photograph: Photograph = Photograph(name: "IMG_0033.JPG", localIdentifier: "69676321-F746-4F2C-9489-07522BA9EBC5/L0/001", colorId: "FDA293", tagArray: ["신발", "패션"])
 //			RealmManager.sharedInstance.saveObjects(object: photograph)
+			
+//			print(RealmManager.sharedInstance.getObjects(type: Photograph.self))
     }
     
     var targetSize: CGSize {

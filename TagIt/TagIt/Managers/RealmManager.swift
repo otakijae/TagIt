@@ -41,8 +41,15 @@ class RealmManager {
         })
     }
 	
-		// append tag
-		func appendObjects(object: Photograph, tag: String) {
+		// delete tags
+		func deleteTagObjects(object: Photograph, tagIndexPath: IndexPath) {
+				try! realm.write({
+						object.tagList.remove(at: tagIndexPath.row)
+				})
+		}
+	
+		// append tags
+		func appendTagObjects(object: Photograph, tag: String) {
 				try! realm.write ({
 						object.tagList.append(tag)
 				})
