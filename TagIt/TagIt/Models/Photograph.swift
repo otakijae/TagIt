@@ -46,8 +46,12 @@ final class Photograph: Object {
         return objectArray
     }
 	
+		func deleteTag(tagIndexPath: IndexPath) {
+				RealmManager.sharedInstance.deleteTagObjects(object: self, tagIndexPath: tagIndexPath)
+		}
+	
 		func appendTag(tag: String) {
-			RealmManager.sharedInstance.appendObjects(object: self, tag: tag)
+				RealmManager.sharedInstance.appendTagObjects(object: self, tag: tag)
 		}
 }
 
