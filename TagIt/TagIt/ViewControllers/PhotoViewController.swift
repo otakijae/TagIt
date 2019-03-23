@@ -14,10 +14,7 @@ class PhotoViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
-    
-    var fetchResult: PHFetchResult<PHAsset>!
-    var assetCollection: PHAssetCollection!
-    let imageCachingManager = PHCachingImageManager()
+
     var thumbnailSize: CGSize!
     var previousPreheatRect = CGRect.zero
     var requestOptions = PHImageRequestOptions()
@@ -41,12 +38,6 @@ class PhotoViewController: UIViewController {
     func prepareUsingPhotos() {
         self.resetCachedAssets()
         PHPhotoLibrary.shared().register(self)
-        
-        if self.fetchResult == nil {
-            let allPhotosOptions = PHFetchOptions()
-            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-            self.fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
-        }
     }
     
     deinit {
@@ -64,13 +55,12 @@ class PhotoViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PageViewControllerSegue" {
-            guard let destination = segue.destination as? PageViewController else {
+            guard let pageViewController = segue.destination as? PageViewController else {
                 fatalError("unexpected view controller for segue")
             }
             
             let indexPath = self.collectionView.indexPath(for: sender as! UICollectionViewCell)!
-            destination.fetchResult = self.fetchResult
-            destination.selectedPhotoIndex = indexPath
+            pageViewController.selectedPhotoIndex = indexPath
         }
     }
 }
@@ -80,46 +70,19 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchResult.count
+        return PhotographManager.sharedInstance.fetchResult.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell else {
-            fatalError("unexpected cell in collection view")
-        }
-        
-        let asset = fetchResult.object(at: indexPath.item)
-        cell.representedAssetIdentifier = asset.localIdentifier
-        
-        self.imageCachingManager.requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, info in
-            if cell.representedAssetIdentifier == asset.localIdentifier {
-                //configure
-                cell.thumbnailImage = image
-                //cell.taggedLabel.isHidden = false
-            }
-        })
-        
-        
-        //보류
-        //select 해당 사진 파일해서, 데이터 있고 태그가 달려있으면 collectionView에 표시해주기 / 이 부분 때문에 느려져서 prefetching에서 데이터를 가져와야할듯함
-//        self.imageCachingManager.requestImageData(
-//            for: asset, options: self.requestOptions, resultHandler: { (imagedata, dataUTI, orientation, info) in
-//                if let info = info {
-//                    if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
-//                        if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
-//                            RealmManager.sharedInstance.testRealmMananger()
-//                            if path.lastPathComponent == "IMG_1234" {
-//                                print("JACKPOT!!! JACKPOT!!! JACKPOT!!!")
-//                            }
-//                        }
-//                    }
-//                }
-//        })
-        
-        
-        
-        return cell
+			
+			guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell else {
+					fatalError("unexpected cell in collection view")
+			}
+			
+			PhotographManager.sharedInstance.requestThumnailImage(targetSize: self.thumbnailSize, options: nil, selectedIndexPath: indexPath.item, cell: cell) { image in
+				cell.thumbnailImage = image
+			}
+			return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -196,7 +159,7 @@ extension PhotoViewController: UICollectionViewDelegateFlowLayout {
 extension PhotoViewController {
     
     fileprivate func resetCachedAssets() {
-        imageCachingManager.stopCachingImagesForAllAssets()
+        PhotographManager.sharedInstance.imageCachingManager.stopCachingImagesForAllAssets()
         previousPreheatRect = .zero
     }
     
@@ -212,15 +175,13 @@ extension PhotoViewController {
         let (addedRects, removedRects) = differencesBetweenRects(previousPreheatRect, preheatRect)
         let addedAssets = addedRects
             .flatMap { rect in collectionView!.indexPathsForElements(in: rect) }
-            .map { indexPath in fetchResult.object(at: indexPath.item) }
+            .map { indexPath in PhotographManager.sharedInstance.fetchResult.object(at: indexPath.item) }
         let removedAssets = removedRects
             .flatMap { rect in collectionView!.indexPathsForElements(in: rect) }
-            .map { indexPath in fetchResult.object(at: indexPath.item) }
+            .map { indexPath in PhotographManager.sharedInstance.fetchResult.object(at: indexPath.item) }
         
-        imageCachingManager.startCachingImages(for: addedAssets,
-                                        targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
-        imageCachingManager.stopCachingImages(for: removedAssets,
-                                       targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
+        PhotographManager.sharedInstance.imageCachingManager.startCachingImages(for: addedAssets, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
+        PhotographManager.sharedInstance.imageCachingManager.stopCachingImages(for: removedAssets, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
         
         previousPreheatRect = preheatRect
     }
@@ -255,10 +216,10 @@ extension PhotoViewController {
 extension PhotoViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         
-        guard let changes = changeInstance.changeDetails(for: fetchResult) else { return }
+        guard let changes = changeInstance.changeDetails(for: PhotographManager.sharedInstance.fetchResult) else { return }
         
         DispatchQueue.main.sync {
-            fetchResult = changes.fetchResultAfterChanges
+            PhotographManager.sharedInstance.fetchResult = changes.fetchResultAfterChanges
             if changes.hasIncrementalChanges {
                 guard let collectionView = self.collectionView else { fatalError() }
                 collectionView.performBatchUpdates({

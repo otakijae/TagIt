@@ -260,11 +260,11 @@
                                     <constraint firstItem="MnH-xl-LDR" firstAttribute="centerX" secondItem="IeT-n4-Nxa" secondAttribute="centerX" id="nxu-SP-eXW"/>
                                 </constraints>
                             </scrollView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="#추가된 태그 ●aa" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zH6-L7-e95" customClass="HashtagTextView" customModule="TagIt" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zH6-L7-e95" customClass="HashtagTextView" customModule="TagIt" customModuleProvider="target">
                                 <rect key="frame" x="31.5" y="505.5" width="312.5" height="161.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="textColor" red="1" green="0.30980392159999998" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -554,6 +554,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lGP-xe-S6b"/>
+        <segue reference="9xB-Hy-gZp"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -14,7 +14,7 @@ let BGColor = UIColor(displayP3Red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
 class ModalNavigationController: UINavigationController {
     
     weak var semiModalPresentationController: SemiModalPresentationController?
-    
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,16 +49,14 @@ class TaggingViewController: UIViewController {
     @IBOutlet weak var tableViewHeightContraint: NSLayoutConstraint!
     
     private var isFirst: Bool = true
-    var selectedIndex: Int?
-    
     var selectedColor: UIColor = UIColor(hexFromString: "555555")
-    
-    var selectedPhoto: Photograph?
-    var fetchResult: PHFetchResult<PHAsset>!
-    
+
+//    var selectedPhoto: Photograph?
+//    var fetchResult: PHFetchResult<PHAsset>!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-
+			
         self.textField.delegate = self
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -72,6 +70,10 @@ class TaggingViewController: UIViewController {
         self.view.backgroundColor = BGColor
         self.tableView.backgroundColor = BGColor
     }
+	
+		func makeSelectedPhotographEditable() {
+			
+		}
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -129,7 +131,7 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             return 1
         } else {
-            if let photo = self.selectedPhoto {
+            if let photo = PhotographManager.sharedInstance.selectedPhotograph {
                 return photo.tagList.count
             } else {
                 return 0
@@ -152,7 +154,7 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             
-            if let photo = selectedPhoto {
+            if let photo = PhotographManager.sharedInstance.selectedPhotograph {
                 cell.tagLabel.text = photo.listToArray(objectList: photo.tagList)[indexPath.row]
                 cell.colorTagView.backgroundColor = UIColor(hexFromString: photo.colorId)
             }
@@ -168,6 +170,16 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
+	
+		public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+			if editingStyle == .delete {
+				
+				//realm delete aciton 추가해야함
+//				PhotographManager.sharedInstance.selectedPhotograph?.tagList.remove(at: indexPath.row)
+//				self.tableView.deleteRows(at: [indexPath], with: .automatic)
+				
+			}
+		}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddColorSegue" {
@@ -183,41 +195,8 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
             guard let destination = segue.destination as? ZoomedPhotoViewController else {
                 fatalError("unexpected view controller for segue")
             }
-//            let photograph: Photograph = Photograph(name: "IMG_3945.JPG", localIdentifier: "31F10CB8-530F-4684-9673-96CB2338AA70/L0/001", colorId: "FDA293", tagArray: ["여행", "음식"])
-//            RealmManager.sharedInstance.saveObjects(object: photograph)
-            
-            print(RealmManager.sharedInstance.getObjects(type: Photograph.self))
-            
-//            var tagString: String = ""
-//            for tag in tagList {
-//                tagString.append("● " + tag + "\n")
-//            }
-//
-//            destination.textView.text = tagString
-            destination.textView.resolveHashTags()
-            destination.textView.font = UIFont.systemFont(ofSize: 17.0)
-            destination.textView.textColor = .darkGray
+						destination.imageTagSettings()
         }
-    }
-    
-    func imageTagSettings() {
-        let asset: PHAsset = self.fetchResult.object(at: self.selectedIndex!)
-        
-        PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
-            if let info = info {
-                if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
-                    if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
-                        if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
-                            self.selectedPhoto = result
-                            
-                        } else {
-                            self.selectedPhoto = Photograph()
-                            
-                        }
-                    }
-                }
-            }
-        })
     }
 }
 
@@ -236,11 +215,16 @@ extension TaggingViewController: UpdateColorDelegate {
 extension TaggingViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        tagList.append(String(textField.text!))
-        self.tableView.reloadData()
-        self.textField.text = ""
-        self.textField.resignFirstResponder()
-        return true
+				guard
+					var photo: Photograph = PhotographManager.sharedInstance.selectedPhotograph,
+					let tag: String = textField.text else { return false }
+			
+				photo.appendTag(tag: tag)
+				print(RealmManager.sharedInstance.getObjects(type: Photograph.self))
+				self.tableView.reloadData()
+				self.textField.text = ""
+				self.textField.resignFirstResponder()
+				return true
     }
     
     func keyboardSettings() {

@@ -123,13 +123,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		13BBDBD22226ECCB00B7F943 /* ViewModels */ = {
+		13BBDBD22226ECCB00B7F943 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				13BBDBD32226ECE300B7F943 /* RealmManager.swift */,
 				13BBDBD5222AE4B800B7F943 /* PhotographManager.swift */,
 			);
-			path = ViewModels;
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		13CFD4C62211AB5A009681EF = {
@@ -155,7 +155,7 @@
 			children = (
 				13547D7A221D420600E363AD /* SemiModalTransition */,
 				13CFD4D22211AB5A009681EF /* AppDelegate.swift */,
-				13BBDBD22226ECCB00B7F943 /* ViewModels */,
+				13BBDBD22226ECCB00B7F943 /* Managers */,
 				13BBDBCF2226E1E700B7F943 /* Models */,
 				13547D91221ED57200E363AD /* ViewControllers */,
 				13547D92221ED58400E363AD /* Views */,

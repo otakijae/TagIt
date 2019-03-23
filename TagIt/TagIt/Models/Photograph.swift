@@ -13,7 +13,7 @@ final class Photograph: Object {
     @objc dynamic var name: String!
     @objc dynamic var localIdentifier: String!
     @objc dynamic var colorId: String!
-    var tagList = List<String>()
+    let tagList = List<String>()
     
     override static func primaryKey() -> String? {
         return "name"
@@ -24,7 +24,6 @@ final class Photograph: Object {
         self.name = name
         self.localIdentifier = localIdentifier
         self.colorId = colorId
-        self.tagList = arrayToList(objectArray: tagArray)
     }
     
     func arrayToList(objectArray: [String]) -> List<String> {
@@ -46,6 +45,10 @@ final class Photograph: Object {
         
         return objectArray
     }
+	
+		func appendTag(tag: String) {
+			RealmManager.sharedInstance.appendObjects(object: self, tag: tag)
+		}
 }
 
 class Tag: Object {
