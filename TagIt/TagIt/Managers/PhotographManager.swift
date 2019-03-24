@@ -77,6 +77,18 @@ class PhotographManager {
 			}
 		})
 	}
+	
+	func imageData(asset: PHAsset, resultHandler: @escaping (String?) -> Void) {
+		PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
+			if let info = info {
+				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
+					if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
+						resultHandler(path.lastPathComponent)
+					}
+				}
+			}
+		})
+	}
 
 	func requestSearchedThumnailImage(by tag: String, targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: SearchedPhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
 		
@@ -85,9 +97,21 @@ class PhotographManager {
 		guard let result = RealmManager.sharedInstance.getObjects(type: Photograph.self) else { return }
 		result.forEach {
 			if $0.tagList.contains(tag) {
-				self.imageCachingManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { image, info in
-					resultHandler(image)
-				})
+				print($0.name)
+				let name = $0.name
+				
+				self.imageData(asset: asset) { test in
+					if name == test {
+						print("### TEST ... test")
+						print(test)
+						//원하는 asset을 어떻게 가져오는가만 해결하면 끝남
+						self.imageCachingManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { image, info in
+							resultHandler(image)
+						})
+					} else {
+						return
+					}
+				}
 			}
 		}
 	}

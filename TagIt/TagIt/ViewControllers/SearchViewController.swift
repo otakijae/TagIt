@@ -98,12 +98,12 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		
-		let count = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter {
-			$0.tagList.contains(self.searchTextField.text!)
-		}
-		guard let items = count?.count else { return 0 }
-		return items
-		//return PhotographManager.sharedInstance.searchedResultCount!
+//		let count = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter {
+//			$0.tagList.contains(self.searchTextField.text!)
+//		}
+//		guard let items = count?.count else { return 0 }
+//		return items
+		return PhotographManager.sharedInstance.fetchResult.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -114,6 +114,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 		
 		guard let tag = self.searchTextField.text else { return UICollectionViewCell() }
 		PhotographManager.sharedInstance.requestSearchedThumnailImage(by: tag, targetSize: self.thumbnailSize, options: nil, selectedIndexPath: indexPath.item, cell: cell) { image in
+			//보여줄 필요 없는 셀은 안 보이게, 이미지를 반환하지 않도록 설정하기
 			cell.thumbnailImage = image
 		}
 		return cell
