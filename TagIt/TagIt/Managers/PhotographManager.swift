@@ -30,8 +30,6 @@ class PhotographManager {
 		}
 	}
 	
-//	open func requestImage(for asset: PHAsset, targetSize: CGSize, contentMode: PHImageContentMode, options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) -> PHImageRequestID
-
 	func requestThumnailImage(targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: PhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
 		let asset = fetchResult.object(at: selectedIndexPath)
 		cell.representedAssetIdentifier = asset.localIdentifier
@@ -44,29 +42,21 @@ class PhotographManager {
 	}
 	
 	func requestOriginalImage(options: PHImageRequestOptions?, selectedIndexPath: Int, resultHandler: @escaping (UIImage?) -> Void) {
-		
 		let asset = fetchResult.object(at: selectedIndexPath)
-		
-		print(asset.localIdentifier)
 		
 		self.imageCachingManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
 			resultHandler(image)
 		})
-		
-//		self.requestImageData(selectedIndexPath: selectedIndexPath) { photograph in
-//			self.selectedPhotograph = photograph
-//		}
 	}
 
 	func requestImageData(selectedIndexPath: Int, resultHandler: @escaping (Photograph?) -> Void) {
-		
 		let asset: PHAsset = self.fetchResult.object(at: selectedIndexPath)
 
 		PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
 			if let info = info {
 				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
 					if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
-						if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
+						if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent!).first {
 							self.selectedPhotograph = result
 							resultHandler(result)
 						} else {
@@ -85,4 +75,33 @@ class PhotographManager {
 			}
 		})
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	func requestSearchedThumnailImage(targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: SearchedPhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
+		let asset = fetchResult.object(at: selectedIndexPath)
+		cell.representedAssetIdentifier = asset.localIdentifier
+
+		self.imageCachingManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { image, info in
+			if cell.representedAssetIdentifier == asset.localIdentifier {
+				resultHandler(image)
+			}
+		})
+	}
+
+//	func requestSearchedImage(by tagName: String, options: PHImageRequestOptions?, selectedIndexPath: Int, resultHandler: @escaping (UIImage?) -> Void) {
+//		let asset = fetchResult.object(at: selectedIndexPath)
+//
+//		self.imageCachingManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+//			resultHandler(image)
+//		})
+//	}
+	
 }

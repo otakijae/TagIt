@@ -179,7 +179,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="7e9-iC-8D9">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SearchedPhotoItemCell" id="7e9-iC-8D9" customClass="SearchedPhotoItemCell" customModule="TagIt" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="174" height="158"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -197,6 +197,9 @@
                                             <constraint firstItem="CTe-BH-GJu" firstAttribute="centerX" secondItem="7e9-iC-8D9" secondAttribute="centerX" id="WsB-kl-1sT"/>
                                             <constraint firstItem="CTe-BH-GJu" firstAttribute="width" secondItem="7e9-iC-8D9" secondAttribute="width" id="qiv-YB-3hB"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="CTe-BH-GJu" id="67u-bV-I8P"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -228,6 +231,8 @@
                         <viewLayoutGuide key="safeArea" id="mUr-sY-W2h"/>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="Nq3-3x-kup" id="VOc-R9-Rgn"/>
+                        <outlet property="collectionViewFlowLayout" destination="q1r-pq-1Mf" id="qqw-Qm-Pfl"/>
                         <outlet property="searchTextField" destination="7MN-2O-eSf" id="vjk-W3-35v"/>
                     </connections>
                 </viewController>
