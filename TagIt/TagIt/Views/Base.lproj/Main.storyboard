@@ -86,7 +86,7 @@
                             <barButtonItem title="•••" id="S0J-Oi-Euv"/>
                             <barButtonItem systemItem="search" id="bVE-KE-fFm">
                                 <connections>
-                                    <segue destination="nfL-Yg-4rm" kind="presentation" id="DqY-Dl-sA6"/>
+                                    <segue destination="I2L-XG-X7x" kind="presentation" id="DqY-Dl-sA6"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -135,7 +135,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dfa-Uh-ZnR">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -154,7 +154,7 @@
                                 </items>
                             </navigationBar>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="사진을 검색해보세요." textAlignment="justified" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="7MN-2O-eSf">
-                                <rect key="frame" x="0.0" y="64" width="375" height="55"/>
+                                <rect key="frame" x="0.0" y="108" width="375" height="55"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -170,7 +170,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Nq3-3x-kup">
-                                <rect key="frame" x="0.0" y="119" width="375" height="548"/>
+                                <rect key="frame" x="0.0" y="163" width="375" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="q1r-pq-1Mf">
                                     <size key="itemSize" width="174" height="158"/>
@@ -186,7 +186,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="174" height="158"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CTe-BH-GJu">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CTe-BH-GJu">
                                                     <rect key="frame" x="0.0" y="0.0" width="174" height="158"/>
                                                 </imageView>
                                             </subviews>
@@ -199,6 +199,7 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="CTe-BH-GJu" id="67u-bV-I8P"/>
+                                            <segue destination="Ltl-M9-n0b" kind="show" identifier="PageViewControllerSegue" id="D6V-le-AFq"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -230,6 +231,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mUr-sY-W2h"/>
                     </view>
+                    <navigationItem key="navigationItem" id="p1N-eu-K5A"/>
                     <connections>
                         <outlet property="collectionView" destination="Nq3-3x-kup" id="VOc-R9-Rgn"/>
                         <outlet property="collectionViewFlowLayout" destination="q1r-pq-1Mf" id="qqw-Qm-Pfl"/>
@@ -238,7 +240,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vzh-BZ-cbX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="460" y="888.30584707646187"/>
+            <point key="canvasLocation" x="460" y="887"/>
         </scene>
         <!--Zoomed Photo View Controller-->
         <scene sceneID="1QB-mq-yPn">
@@ -302,7 +304,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rpQ-I4-nkl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2090" y="81"/>
+            <point key="canvasLocation" x="2039" y="81"/>
         </scene>
         <!--Tagging View Controller-->
         <scene sceneID="EYj-lo-WbW">
@@ -427,7 +429,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SVR-WM-sSG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="3xu-1b-O0e" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2089" y="888"/>
+            <point key="canvasLocation" x="2039" y="887"/>
         </scene>
         <!--Color Picker View Controller-->
         <scene sceneID="K7v-7a-xvm">
@@ -490,7 +492,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IDt-B6-snM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2895" y="888"/>
+            <point key="canvasLocation" x="2852" y="887"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6DN-gi-Zhh">
@@ -555,10 +557,29 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OqI-wH-VYQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1270" y="888"/>
+            <point key="canvasLocation" x="1270" y="887"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="E2M-40-I5v">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I2L-XG-X7x" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Fve-Pb-Vc6">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="nfL-Yg-4rm" kind="relationship" relationship="rootViewController" id="Diq-sb-aNN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WFd-lC-v1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-330" y="887"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="9xB-Hy-gZp"/>
+        <segue reference="D6V-le-AFq"/>
     </inferredMetricsTieBreakers>
 </document>

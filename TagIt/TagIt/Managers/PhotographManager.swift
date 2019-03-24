@@ -20,6 +20,8 @@ class PhotographManager {
 	
 	var selectedPhotograph: Photograph?
 	
+	var searchedResult: PHFetchResult<PHAsset>?
+	
 	static let sharedInstance = PhotographManager()
 
 	init() {
@@ -62,7 +64,7 @@ class PhotographManager {
 						} else {
 							let unTaggedPhotograph = Photograph()
 							unTaggedPhotograph.name = path.lastPathComponent
-							unTaggedPhotograph.localIdentifier = ""
+							unTaggedPhotograph.localIdentifier = asset.localIdentifier
 							unTaggedPhotograph.colorId = "555555"
 							
 							self.selectedPhotograph = unTaggedPhotograph
@@ -75,33 +77,19 @@ class PhotographManager {
 			}
 		})
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	func requestSearchedThumnailImage(targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: SearchedPhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
+
+	func requestSearchedThumnailImage(by tag: String, targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: SearchedPhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
+		
 		let asset = fetchResult.object(at: selectedIndexPath)
-		cell.representedAssetIdentifier = asset.localIdentifier
-
-		self.imageCachingManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { image, info in
-			if cell.representedAssetIdentifier == asset.localIdentifier {
-				resultHandler(image)
+		
+		guard let result = RealmManager.sharedInstance.getObjects(type: Photograph.self) else { return }
+		result.forEach {
+			if $0.tagList.contains(tag) {
+				self.imageCachingManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { image, info in
+					resultHandler(image)
+				})
 			}
-		})
+		}
 	}
-
-//	func requestSearchedImage(by tagName: String, options: PHImageRequestOptions?, selectedIndexPath: Int, resultHandler: @escaping (UIImage?) -> Void) {
-//		let asset = fetchResult.object(at: selectedIndexPath)
-//
-//		self.imageCachingManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
-//			resultHandler(image)
-//		})
-//	}
 	
 }

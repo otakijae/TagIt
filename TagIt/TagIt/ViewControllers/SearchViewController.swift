@@ -56,6 +56,17 @@ class SearchViewController: UIViewController {
 		super.viewDidAppear(animated)
 		self.updateCachedAssets()
 	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "PageViewControllerSegue" {
+			guard let pageViewController = segue.destination as? PageViewController else {
+				fatalError("unexpected view controller for segue")
+			}
+			
+			let indexPath = self.collectionView.indexPath(for: sender as! UICollectionViewCell)!
+			pageViewController.selectedPhotoIndex = indexPath
+		}
+	}
 		
 	@IBAction func doneButtonTapped(_ sender: Any) {
 		self.view.endEditing(true)
@@ -68,8 +79,8 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UITextFieldDelegate {
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		self.searchTextField.text = ""
 		self.searchTextField.resignFirstResponder()
+		self.collectionView.reloadData()
 		return true
 	}
 	
@@ -86,7 +97,13 @@ extension SearchViewController: UITextFieldDelegate {
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return PhotographManager.sharedInstance.fetchResult.count
+		
+		let count = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter {
+			$0.tagList.contains(self.searchTextField.text!)
+		}
+		guard let items = count?.count else { return 0 }
+		return items
+		//return PhotographManager.sharedInstance.searchedResultCount!
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -95,7 +112,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 			fatalError("unexpected cell in collection view")
 		}
 		
-		PhotographManager.sharedInstance.requestSearchedThumnailImage(targetSize: self.thumbnailSize, options: nil, selectedIndexPath: indexPath.item, cell: cell) { image in
+		guard let tag = self.searchTextField.text else { return UICollectionViewCell() }
+		PhotographManager.sharedInstance.requestSearchedThumnailImage(by: tag, targetSize: self.thumbnailSize, options: nil, selectedIndexPath: indexPath.item, cell: cell) { image in
 			cell.thumbnailImage = image
 		}
 		return cell
