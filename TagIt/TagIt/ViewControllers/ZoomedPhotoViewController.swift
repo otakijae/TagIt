@@ -59,10 +59,10 @@ class ZoomedPhotoViewController: UIViewController {
 					self.textView.text = tagString
 					self.textView.resolveHashTags()
 					self.textView.font = UIFont.systemFont(ofSize: 17.0)
-					self.textView.textColor = UIColor(hexFromString: PhotographManager.sharedInstance.selectedPhotograph!.colorId!)
+					self.textView.tintColor = UIColor(hexFromString: photo.colorId)
 				}
 			}
-    }
+		}
 	
     func imageZoomSettings() {
         if let image = self.selectedImage {
