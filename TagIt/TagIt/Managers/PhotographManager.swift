@@ -66,7 +66,6 @@ class PhotographManager {
 			if let info = info {
 				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
 					if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
-						print(path.lastPathComponent)
 						if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
 							self.selectedPhotograph = result
 							resultHandler(result)
@@ -78,7 +77,7 @@ class PhotographManager {
 							
 							self.selectedPhotograph = unTaggedPhotograph
 							guard let photo: Photograph = self.selectedPhotograph else { return }
-							RealmManager.sharedInstance.saveObjects(object: photo)
+							RealmManager.sharedInstance.saveObject(object: photo)
 							resultHandler(unTaggedPhotograph)
 						}
 					}

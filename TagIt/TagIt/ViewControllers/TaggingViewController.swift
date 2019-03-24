@@ -173,7 +173,7 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
 	
 		public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 				if editingStyle == .delete {
-						guard var photo: Photograph = PhotographManager.sharedInstance.selectedPhotograph else { return }
+						guard let photo: Photograph = PhotographManager.sharedInstance.selectedPhotograph else { return }
 						photo.deleteTag(tagIndexPath: indexPath)
 						self.tableView.deleteRows(at: [indexPath], with: .automatic)
 				}
@@ -199,12 +199,10 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension TaggingViewController: UpdateColorDelegate {
-    func updateColor(selectedColor: UIColor) {
-        self.selectedColor = selectedColor
-        self.tableView.reloadData()
-        
-        //color add
-        
+    func updateColor(selectedColor: UIColor) {			
+				guard let photo: Photograph = PhotographManager.sharedInstance.selectedPhotograph else { return }
+				photo.editColor(selectedColorId: selectedColor.toHexString())
+				self.tableView.reloadData()
     }
 }
 
@@ -214,7 +212,7 @@ extension TaggingViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 				guard
-					var photo: Photograph = PhotographManager.sharedInstance.selectedPhotograph,
+					let photo: Photograph = PhotographManager.sharedInstance.selectedPhotograph,
 					let tag: String = textField.text else { return false }
 				photo.appendTag(tag: tag)
 				self.tableView.reloadData()

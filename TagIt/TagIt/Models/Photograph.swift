@@ -47,11 +47,15 @@ final class Photograph: Object {
     }
 	
 		func deleteTag(tagIndexPath: IndexPath) {
-				RealmManager.sharedInstance.deleteTagObjects(object: self, tagIndexPath: tagIndexPath)
+				RealmManager.sharedInstance.deleteTagObject(object: self, tagIndexPath: tagIndexPath)
 		}
 	
 		func appendTag(tag: String) {
-				RealmManager.sharedInstance.appendTagObjects(object: self, tag: tag)
+				RealmManager.sharedInstance.appendTagObject(object: self, tag: tag)
+		}
+	
+		func editColor(selectedColorId: String) {
+				RealmManager.sharedInstance.editColorObject(object: self, selectedColorId: selectedColorId)
 		}
 }
 

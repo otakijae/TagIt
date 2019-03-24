@@ -28,28 +28,36 @@ class RealmManager {
     }
     
     //Save array of objects to database
-    func saveObjects(object: Photograph) {
+    func saveObject(object: Photograph) {
         try! realm.write ({
             realm.add(object, update: false)
         })
     }
     
     // editing the object
-    func editObjects(object: Photograph) {
+    func editObject(object: Photograph) {
         try! realm.write ({
             realm.add(object, update: true)
         })
     }
 	
+		// editing the object's color
+		func editColorObject(object: Photograph, selectedColorId: String) {
+				try! realm.write({
+						object.colorId = selectedColorId
+						realm.add(object, update: true)
+				})
+		}
+	
 		// delete tags
-		func deleteTagObjects(object: Photograph, tagIndexPath: IndexPath) {
+		func deleteTagObject(object: Photograph, tagIndexPath: IndexPath) {
 				try! realm.write({
 						object.tagList.remove(at: tagIndexPath.row)
 				})
 		}
 	
 		// append tags
-		func appendTagObjects(object: Photograph, tag: String) {
+		func appendTagObject(object: Photograph, tag: String) {
 				try! realm.write ({
 						object.tagList.append(tag)
 				})
