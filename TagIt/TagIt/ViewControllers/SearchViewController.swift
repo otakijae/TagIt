@@ -108,7 +108,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
-		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SearchedPhotoItemCell.self), for: indexPath) as? SearchedPhotoItemCell else {
+		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell else {
 			fatalError("unexpected cell in collection view")
 		}
 		
@@ -117,6 +117,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 			//보여줄 필요 없는 셀은 안 보이게, 이미지를 반환하지 않도록 설정하기
 			cell.thumbnailImage = image
 		}
+		
 		return cell
 	}
 	

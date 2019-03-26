@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1346985D224789FA0024BC14 /* SearchedPhotoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1346985C224789FA0024BC14 /* SearchedPhotoItemCell.swift */; };
 		134E5BFC2222AD560047B8EE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134E5BFB2222AD560047B8EE /* SearchViewController.swift */; };
 		134E5BFE2223C6700047B8EE /* TaggingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134E5BFD2223C6700047B8EE /* TaggingViewCell.swift */; };
 		13547D7C221D42AA00E363AD /* TaggingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13547D7B221D42AA00E363AD /* TaggingViewController.swift */; };
@@ -33,7 +32,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1346985C224789FA0024BC14 /* SearchedPhotoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedPhotoItemCell.swift; sourceTree = "<group>"; };
 		134E5BFB2222AD560047B8EE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		134E5BFD2223C6700047B8EE /* TaggingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingViewCell.swift; sourceTree = "<group>"; };
 		13547D7B221D42AA00E363AD /* TaggingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingViewController.swift; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 				13CFD4DB2211AB5C009681EF /* LaunchScreen.storyboard */,
 				13CFD4D62211AB5A009681EF /* Main.storyboard */,
 				13CFD4FE2216887F009681EF /* PhotoItemCell.swift */,
-				1346985C224789FA0024BC14 /* SearchedPhotoItemCell.swift */,
 				134E5BFD2223C6700047B8EE /* TaggingViewCell.swift */,
 				13BBDBAD2224E53800B7F943 /* HashtagTextView.swift */,
 			);
@@ -319,7 +316,6 @@
 				13BBDBD6222AE4B800B7F943 /* PhotographManager.swift in Sources */,
 				13547D7C221D42AA00E363AD /* TaggingViewController.swift in Sources */,
 				13BBDBD12226E22F00B7F943 /* Photograph.swift in Sources */,
-				1346985D224789FA0024BC14 /* SearchedPhotoItemCell.swift in Sources */,
 				13CFD4D32211AB5A009681EF /* AppDelegate.swift in Sources */,
 				13BBDBAE2224E53800B7F943 /* HashtagTextView.swift in Sources */,
 				13547D94221FBF6300E363AD /* Extensions.swift in Sources */,

@@ -90,7 +90,7 @@ class PhotographManager {
 		})
 	}
 
-	func requestSearchedThumnailImage(by tag: String, targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: SearchedPhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
+	func requestSearchedThumnailImage(by tag: String, targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: PhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
 		
 		let asset = fetchResult.object(at: selectedIndexPath)
 		
