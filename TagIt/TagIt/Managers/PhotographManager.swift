@@ -20,8 +20,6 @@ class PhotographManager {
 	
 	var selectedPhotograph: Photograph?
 	
-	var searchedResult: PHFetchResult<PHAsset>?
-	
 	static let sharedInstance = PhotographManager()
 
 	init() {
@@ -89,31 +87,39 @@ class PhotographManager {
 			}
 		})
 	}
+	
+	
+	func requestSearchedAssetList(by tag: String, targetSize: CGSize, options: PHImageRequestOptions?, resultHandler: @escaping ([PHAsset]) -> Void) {
+		
+		var searchedAssetList: [PHAsset] = []
 
-	func requestSearchedThumnailImage(by tag: String, targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: PhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
-		
-		let asset = fetchResult.object(at: selectedIndexPath)
-		
 		guard let result = RealmManager.sharedInstance.getObjects(type: Photograph.self) else { return }
-		result.forEach {
-			if $0.tagList.contains(tag) {
-				print($0.name)
-				let name = $0.name
-				
-				self.imageData(asset: asset) { test in
-					if name == test {
-						print("### TEST ... test")
-						print(test)
-						//원하는 asset을 어떻게 가져오는가만 해결하면 끝남
-						self.imageCachingManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { image, info in
-							resultHandler(image)
-						})
-					} else {
-						return
+		let filteredArray = Array(result).filter({Array($0.tagList).map({$0}).contains(tag)})
+		
+		for index in 0..<fetchResult.count {
+			let asset = fetchResult.object(at: index)
+			self.imageData(asset: asset) { imageName in
+				filteredArray.forEach {
+					if $0.name == imageName {
+						searchedAssetList.append(asset)
+						if searchedAssetList.count == filteredArray.count {
+							resultHandler(searchedAssetList)
+						}
 					}
 				}
 			}
 		}
+	}
+	
+	func requestSearchedThumnailImage(with asset: PHAsset, targetSize: CGSize, options: PHImageRequestOptions?, cell: PhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
+		
+		cell.representedAssetIdentifier = asset.localIdentifier
+		
+		self.imageCachingManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { image, info in
+			if cell.representedAssetIdentifier == asset.localIdentifier {
+				resultHandler(image)
+			}
+		})
 	}
 	
 }

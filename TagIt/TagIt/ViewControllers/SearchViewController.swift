@@ -20,6 +20,8 @@ class SearchViewController: UIViewController {
 	var requestOptions = PHImageRequestOptions()
 	var cellSize: CGSize!
 	
+	var searchedAssetList: [PHAsset] = []
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -79,8 +81,13 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UITextFieldDelegate {
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		self.searchTextField.resignFirstResponder()
-		self.collectionView.reloadData()
+		
+		PhotographManager.sharedInstance.requestSearchedAssetList(by: self.searchTextField.text!, targetSize: self.thumbnailSize, options: nil) { searchedAssetList in
+			self.searchedAssetList = searchedAssetList
+			self.searchTextField.resignFirstResponder()
+			self.collectionView.reloadData()
+		}
+		
 		return true
 	}
 	
@@ -98,12 +105,12 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		
-//		let count = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter {
-//			$0.tagList.contains(self.searchTextField.text!)
-//		}
-//		guard let items = count?.count else { return 0 }
-//		return items
-		return PhotographManager.sharedInstance.fetchResult.count
+//		guard let result = RealmManager.sharedInstance.getObjects(type: Photograph.self) else { return 0 }
+//		let filteredArray = Array(result).filter({Array($0.tagList).map({$0}).contains(self.searchTextField.text)})
+//
+//		return filteredArray.count
+		
+		return self.searchedAssetList.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -112,9 +119,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 			fatalError("unexpected cell in collection view")
 		}
 		
-		guard let tag = self.searchTextField.text else { return UICollectionViewCell() }
-		PhotographManager.sharedInstance.requestSearchedThumnailImage(by: tag, targetSize: self.thumbnailSize, options: nil, selectedIndexPath: indexPath.item, cell: cell) { image in
-			//보여줄 필요 없는 셀은 안 보이게, 이미지를 반환하지 않도록 설정하기
+		PhotographManager.sharedInstance.requestSearchedThumnailImage(with: self.searchedAssetList[indexPath.item], targetSize: self.thumbnailSize, options: nil, cell: cell) { image in
 			cell.thumbnailImage = image
 		}
 		
