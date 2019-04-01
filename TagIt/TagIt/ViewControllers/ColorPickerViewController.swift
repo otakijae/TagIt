@@ -42,7 +42,6 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         self.updateColorDelegate?.updateColor(selectedColor: cell.backgroundColor!)
         self.navigationController?.popViewController(animated: true)
-			print("Color Picker View ###")
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

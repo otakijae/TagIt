@@ -30,8 +30,6 @@ class PhotographManager {
 		}
 	}
 	
-//	open func requestImage(for asset: PHAsset, targetSize: CGSize, contentMode: PHImageContentMode, options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) -> PHImageRequestID
-
 	func requestThumnailImage(targetSize: CGSize, options: PHImageRequestOptions?, selectedIndexPath: Int, cell: PhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
 		let asset = fetchResult.object(at: selectedIndexPath)
 		cell.representedAssetIdentifier = asset.localIdentifier
@@ -44,35 +42,27 @@ class PhotographManager {
 	}
 	
 	func requestOriginalImage(options: PHImageRequestOptions?, selectedIndexPath: Int, resultHandler: @escaping (UIImage?) -> Void) {
-		
 		let asset = fetchResult.object(at: selectedIndexPath)
-		
-		print(asset.localIdentifier)
 		
 		self.imageCachingManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
 			resultHandler(image)
 		})
-		
-//		self.requestImageData(selectedIndexPath: selectedIndexPath) { photograph in
-//			self.selectedPhotograph = photograph
-//		}
 	}
 
 	func requestImageData(selectedIndexPath: Int, resultHandler: @escaping (Photograph?) -> Void) {
-		
 		let asset: PHAsset = self.fetchResult.object(at: selectedIndexPath)
 
 		PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
 			if let info = info {
 				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
 					if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
-						if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent).first {
+						if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent!).first {
 							self.selectedPhotograph = result
 							resultHandler(result)
 						} else {
 							let unTaggedPhotograph = Photograph()
 							unTaggedPhotograph.name = path.lastPathComponent
-							unTaggedPhotograph.localIdentifier = ""
+							unTaggedPhotograph.localIdentifier = asset.localIdentifier
 							unTaggedPhotograph.colorId = "555555"
 							
 							self.selectedPhotograph = unTaggedPhotograph
@@ -85,4 +75,51 @@ class PhotographManager {
 			}
 		})
 	}
+	
+	func imageData(asset: PHAsset, resultHandler: @escaping (String?) -> Void) {
+		PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
+			if let info = info {
+				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
+					if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
+						resultHandler(path.lastPathComponent)
+					}
+				}
+			}
+		})
+	}
+	
+	
+	func requestSearchedAssetList(by tag: String, targetSize: CGSize, options: PHImageRequestOptions?, resultHandler: @escaping ([PHAsset]) -> Void) {
+		
+		var searchedAssetList: [PHAsset] = []
+
+		guard let result = RealmManager.sharedInstance.getObjects(type: Photograph.self) else { return }
+		let filteredArray = Array(result).filter({Array($0.tagList).map({$0}).contains(tag)})
+		
+		for index in 0..<fetchResult.count {
+			let asset = fetchResult.object(at: index)
+			self.imageData(asset: asset) { imageName in
+				filteredArray.forEach {
+					if $0.name == imageName {
+						searchedAssetList.append(asset)
+						if searchedAssetList.count == filteredArray.count {
+							resultHandler(searchedAssetList)
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	func requestSearchedThumnailImage(with asset: PHAsset, targetSize: CGSize, options: PHImageRequestOptions?, cell: PhotoItemCell, resultHandler: @escaping (UIImage?) -> Void) {
+		
+		cell.representedAssetIdentifier = asset.localIdentifier
+		
+		self.imageCachingManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { image, info in
+			if cell.representedAssetIdentifier == asset.localIdentifier {
+				resultHandler(image)
+			}
+		})
+	}
+	
 }

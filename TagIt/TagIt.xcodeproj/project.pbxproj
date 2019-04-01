@@ -154,7 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				13547D7A221D420600E363AD /* SemiModalTransition */,
-				13CFD4D22211AB5A009681EF /* AppDelegate.swift */,
 				13BBDBD22226ECCB00B7F943 /* Managers */,
 				13BBDBCF2226E1E700B7F943 /* Models */,
 				13547D91221ED57200E363AD /* ViewControllers */,
@@ -162,6 +161,7 @@
 				13547D95221FCDCE00E363AD /* Resources */,
 				13547D93221FBF6300E363AD /* Extensions.swift */,
 				13BBDBAB222434C200B7F943 /* Protocols.swift */,
+				13CFD4D22211AB5A009681EF /* AppDelegate.swift */,
 				13CFD4DE2211AB5C009681EF /* Info.plist */,
 			);
 			path = TagIt;

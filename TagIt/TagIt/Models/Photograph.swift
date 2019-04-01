@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Photos
 
 final class Photograph: Object {
     @objc dynamic var name: String!

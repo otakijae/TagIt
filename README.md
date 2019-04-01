@@ -176,4 +176,25 @@
   - 선택 / 공유 / 삭제 기능
   - 동영상 재생 기능 / 앨범에 따라 이미지를 가져올 수 있게 구현
   - 태그 추가된 이미지는 컬렉션 뷰에서 태그 표시 해주기
+
+- 코드 필요하면 참고
+
+  ```swift
+  if let dirPath        = paths.first {
+      let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent("IMG_0033.JPG")
+      let image    = UIImage(contentsOfFile: imageURL.path)
+  
+      PhotographManager.sharedInstance.PHAssetForFileURL(url: imageURL)
+      print("### TEST ")
+      print(PhotographManager.sharedInstance.PHAssetForFileURL(url: imageURL))
+      //Users/jaehyukshin/Library/Developer/CoreSimulator/Devices/31107B78-97FF-4F71-B16E-C0BE4F41786B/data/Media/DCIM/100APPLE/IMG_0047.JPG
+  }
+  ```
+
+  ```swift
+  let photograph: Photograph = Photograph(name: "IMG_0033.JPG", localIdentifier: "69676321-F746-4F2C-9489-07522BA9EBC5/L0/001", colorId: "FDA293", tagArray: ["신발", "패션"])
+  RealmManager.sharedInstance.saveObjects(object: photograph)
+  print(RealmManager.sharedInstance.getObjects(type: Photograph.self))
+  ```
+
 - 
