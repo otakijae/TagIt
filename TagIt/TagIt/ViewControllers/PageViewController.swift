@@ -12,6 +12,8 @@ import Photos
 class PageViewController: UIPageViewController {
 
     var selectedPhotoIndex: IndexPath?
+	var isSearchedPhotoType: Bool = false
+	var searchedAssetList: [PHAsset] = []
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +43,17 @@ class PageViewController: UIPageViewController {
             requestOptions.isNetworkAccessAllowed = true
             requestOptions.resizeMode = .exact
 					
-					PhotographManager.sharedInstance.requestOriginalImage(options: requestOptions, selectedIndexPath: index) { image in
-						zoomedPhotoViewController.selectedImage = image
-						zoomedPhotoViewController.photoIndex = index
-					}
+						if isSearchedPhotoType {
+							PhotographManager.sharedInstance.requestSearchedOriginalImage(with: self.searchedAssetList, options: requestOptions, selectedIndexPath: index) { image in
+								zoomedPhotoViewController.selectedImage = image
+								zoomedPhotoViewController.photoIndex = index
+							}
+						} else {
+							PhotographManager.sharedInstance.requestOriginalImage(options: requestOptions, selectedIndexPath: index) { image in
+								zoomedPhotoViewController.selectedImage = image
+								zoomedPhotoViewController.photoIndex = index
+							}
+						}
 					
             return zoomedPhotoViewController
         }

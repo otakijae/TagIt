@@ -58,7 +58,8 @@ class PhotoViewController: UIViewController {
             guard let pageViewController = segue.destination as? PageViewController else {
                 fatalError("unexpected view controller for segue")
             }
-            
+					
+						pageViewController.isSearchedPhotoType = false
             let indexPath = self.collectionView.indexPath(for: sender as! UICollectionViewCell)!
             pageViewController.selectedPhotoIndex = indexPath
         }

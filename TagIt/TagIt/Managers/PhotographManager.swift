@@ -122,4 +122,12 @@ class PhotographManager {
 		})
 	}
 	
+	func requestSearchedOriginalImage(with searchedAssetList: [PHAsset], options: PHImageRequestOptions?, selectedIndexPath: Int, resultHandler: @escaping (UIImage?) -> Void) {
+		let asset = searchedAssetList[selectedIndexPath]
+		
+		self.imageCachingManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+			resultHandler(image)
+		})
+	}
+	
 }
