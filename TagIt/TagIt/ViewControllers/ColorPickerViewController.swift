@@ -50,25 +50,23 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
         
         switch indexPath.row {
         case 0:
-            cell.backgroundColor = UIColor(hexFromString: "FF4F79", alpha: 1.0)
+            cell.backgroundColor = .pastelRed
         case 1:
-            cell.backgroundColor = UIColor(hexFromString: "FDA293", alpha: 1.0)
+            cell.backgroundColor = .pastelApricot
         case 2:
-            cell.backgroundColor = UIColor(hexFromString: "FDDA93", alpha: 1.0)
+            cell.backgroundColor = .pastelYellow
         case 3:
-            cell.backgroundColor = UIColor(hexFromString: "A4BDA7", alpha: 1.0)
+            cell.backgroundColor = .pastelGreen
         case 4:
-            cell.backgroundColor = UIColor(hexFromString: "7DB9CA", alpha: 1.0)
+            cell.backgroundColor = .pastelSkyblue
         case 5:
-            cell.backgroundColor = UIColor(hexFromString: "0278C6", alpha: 1.0)
+            cell.backgroundColor = .pastelBlue
         case 6:
-            cell.backgroundColor = UIColor(hexFromString: "D5C9DB", alpha: 1.0)
+            cell.backgroundColor = .pastelLightpurple
         case 7:
-            cell.backgroundColor = UIColor(hexFromString: "662E93", alpha: 1.0)
-        case 8:
-            cell.backgroundColor = UIColor(hexFromString: "555555", alpha: 1.0)
+            cell.backgroundColor = .pastelPurple
         default:
-            cell.backgroundColor = UIColor(hexFromString: "555555", alpha: 1.0)
+            cell.backgroundColor = .pastelDarkGray
         }
         
         return cell

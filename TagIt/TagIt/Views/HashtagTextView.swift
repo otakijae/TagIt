@@ -22,8 +22,8 @@ class HashtagTextView: UITextView {
         if hashtagArr?.count != 0 {
             var index = 0
             for var word in hashtagArr! {
-                word = "●" + word
-                if word.hasPrefix("●") {
+                word = "● " + word
+                if word.hasPrefix("● ") {
                     let matchRange: NSRange = nsText.range(of: word as String)
                     attrString.addAttribute(NSAttributedString.Key.link, value: "\(index):", range: matchRange)
                     index += 1
@@ -38,7 +38,9 @@ class HashtagTextView: UITextView {
 
 extension String {
     func getHashtags() -> [String]? {
-        let hashtagDetector = try? NSRegularExpression(pattern: "●(\\w+)", options: NSRegularExpression.Options.caseInsensitive)
+			
+        let hashtagDetector = try? NSRegularExpression(pattern: "● (\\w+)", options: NSRegularExpression.Options.caseInsensitive)
+			
         let results = hashtagDetector?.matches(in: self, options: NSRegularExpression.MatchingOptions.withoutAnchoringBounds, range: NSMakeRange(0, self.utf16.count)).map { $0 }
         
         return results?.map({

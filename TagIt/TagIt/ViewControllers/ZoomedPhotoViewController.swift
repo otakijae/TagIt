@@ -62,7 +62,7 @@ class ZoomedPhotoViewController: UIViewController {
 			
 			if let photo = photograph {
 				for tag in photo.listToArray(objectList: photo.tagList) {
-					tagString.append("●" + tag + "\n")
+					tagString.append("● " + tag + "\n")
 				}
 				
 				self.textView.text = tagString
@@ -153,9 +153,9 @@ class ZoomedPhotoViewController: UIViewController {
 extension ZoomedPhotoViewController: UITextViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let taggingViewController = segue.destination as? TaggingViewController {
-					
-        }
+//        if let taggingViewController = segue.destination as? TaggingViewController {
+//
+//        }
     }
     
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
