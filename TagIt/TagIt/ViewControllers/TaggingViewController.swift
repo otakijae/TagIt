@@ -115,7 +115,7 @@ class TaggingViewController: UIViewController {
 
 extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section:Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "설정"
         } else {

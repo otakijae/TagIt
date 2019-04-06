@@ -77,9 +77,13 @@
                         <viewLayoutGuide key="safeArea" id="FhN-NE-Ydl"/>
                     </view>
                     <toolbarItems>
-                        <barButtonItem systemItem="action" id="cm2-Gp-k8s"/>
+                        <barButtonItem systemItem="action" id="cm2-Gp-k8s">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="ofM-rO-4Dh"/>
-                        <barButtonItem systemItem="trash" id="V0y-dy-aY8"/>
+                        <barButtonItem systemItem="trash" id="V0y-dy-aY8">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Just Tag It" id="KJs-BL-qtI">
                         <rightBarButtonItems>
@@ -106,9 +110,13 @@
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Ltl-M9-n0b" customClass="PageViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems>
-                        <barButtonItem systemItem="action" id="qVN-OY-S7G"/>
+                        <barButtonItem systemItem="action" id="qVN-OY-S7G">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="j1G-xr-H9Z"/>
-                        <barButtonItem systemItem="trash" id="Vcx-4Z-EQo"/>
+                        <barButtonItem systemItem="trash" id="Vcx-4Z-EQo">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="날짜" id="oOd-sv-T9f">
                         <barButtonItem key="rightBarButtonItem" title="•••" id="fbz-gc-raZ">
@@ -580,6 +588,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="lGP-xe-S6b"/>
-        <segue reference="gYQ-k4-bDO"/>
+        <segue reference="D6V-le-AFq"/>
     </inferredMetricsTieBreakers>
 </document>

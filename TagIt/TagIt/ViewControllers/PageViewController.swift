@@ -12,8 +12,6 @@ import Photos
 class PageViewController: UIPageViewController {
 
     var selectedPhotoIndex: IndexPath?
-	var isSearchedPhotoType: Bool = false
-	var searchedAssetList: [PHAsset] = []
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +41,8 @@ class PageViewController: UIPageViewController {
             requestOptions.isNetworkAccessAllowed = true
             requestOptions.resizeMode = .exact
 					
-						if isSearchedPhotoType {
-							PhotographManager.sharedInstance.requestSearchedOriginalImage(with: self.searchedAssetList, options: requestOptions, selectedIndexPath: index) { image in
+						if PhotographManager.sharedInstance.isSearchedPhotoType {
+							PhotographManager.sharedInstance.requestSearchedOriginalImage(options: requestOptions, selectedIndexPath: index) { image in
 								zoomedPhotoViewController.selectedImage = image
 								zoomedPhotoViewController.photoIndex = index
 							}
@@ -61,19 +59,22 @@ class PageViewController: UIPageViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let taggingViewController = segue.destination as? TaggingViewController {
-//            print(self.selectedPhotoIndex?.row)
-//            taggingViewController.fetchResult = self.fetchResult
-//            taggingViewController.selectedIndex = self.selectedPhotoIndex?.row
-//            print("TEST TEST")
-//        }
+			
         if segue.identifier == "SemiModalTransitionSegue" {
 					guard let index = self.selectedPhotoIndex?.item else {
 						return
 					}
-					PhotographManager.sharedInstance.requestImageData(selectedIndexPath: index) { photograph in
-						print(photograph)
+					
+					if PhotographManager.sharedInstance.isSearchedPhotoType {
+						PhotographManager.sharedInstance.requestSearchedImageData(with: PhotographManager.sharedInstance.searchedAssetList[index]) { photograph in
+							print(photograph)
+						}
+					} else {
+						PhotographManager.sharedInstance.requestImageData(selectedIndexPath: index) { photograph in
+							print(photograph)
+						}
 					}
+					
         }
     }
     
@@ -96,7 +97,6 @@ extension PageViewController: UIPageViewControllerDataSource, UIPageViewControll
 			if (completed && finished) {
 				if let currentVC = pageViewController.viewControllers?.last as? ZoomedPhotoViewController {
 					self.selectedPhotoIndex?.item = currentVC.photoIndex
-					print(self.selectedPhotoIndex?.item)
 				}
 			}
 		}
@@ -113,10 +113,16 @@ extension PageViewController: UIPageViewControllerDataSource, UIPageViewControll
     
     //After
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        
-        if let viewController = viewController as? ZoomedPhotoViewController, let index = viewController.photoIndex, (index + 1) < PhotographManager.sharedInstance.fetchResult.count {
-            return viewZoomedPhotoViewController(index + 1)
-        }
+			
+				if PhotographManager.sharedInstance.isSearchedPhotoType {
+					if let viewController = viewController as? ZoomedPhotoViewController, let index = viewController.photoIndex, (index + 1) < PhotographManager.sharedInstance.searchedAssetList.count {
+						return viewZoomedPhotoViewController(index + 1)
+					}
+				} else {
+					if let viewController = viewController as? ZoomedPhotoViewController, let index = viewController.photoIndex, (index + 1) < PhotographManager.sharedInstance.fetchResult.count {
+						return viewZoomedPhotoViewController(index + 1)
+					}
+				}
         
         return nil
     }

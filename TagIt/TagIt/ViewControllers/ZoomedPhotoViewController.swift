@@ -27,9 +27,6 @@ class ZoomedPhotoViewController: UIViewController {
     
     var isBarVisible: Bool = true
     var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
-    
-    //for test
-    var selectedPhoto: Photograph?
 
     @IBOutlet weak var tagTextView: UITextView!
     
@@ -48,19 +45,30 @@ class ZoomedPhotoViewController: UIViewController {
     }
     
     func imageTagSettings() {
+			
+			if PhotographManager.sharedInstance.isSearchedPhotoType {
+				PhotographManager.sharedInstance.requestSearchedImageData(with: PhotographManager.sharedInstance.searchedAssetList[photoIndex]) { photograph in
+					self.configureTagTextView(photograph: photograph)
+				}
+			} else {
+				PhotographManager.sharedInstance.requestImageData(selectedIndexPath: photoIndex) { photograph in
+					self.configureTagTextView(photograph: photograph)
+				}
+			}
+		}
+	
+		func configureTagTextView(photograph: Photograph?) {
 			var tagString: String = ""
 			
-			PhotographManager.sharedInstance.requestImageData(selectedIndexPath: photoIndex) { photograph in
-				if let photo = photograph {
-					for tag in photo.listToArray(objectList: photo.tagList) {
-						tagString.append("●" + tag + "\n")
-					}
-					
-					self.textView.text = tagString
-					self.textView.resolveHashTags()
-					self.textView.font = UIFont.systemFont(ofSize: 17.0)
-					self.textView.tintColor = UIColor(hexFromString: photo.colorId)
+			if let photo = photograph {
+				for tag in photo.listToArray(objectList: photo.tagList) {
+					tagString.append("●" + tag + "\n")
 				}
+				
+				self.textView.text = tagString
+				self.textView.resolveHashTags()
+				self.textView.font = UIFont.systemFont(ofSize: 17.0)
+				self.textView.tintColor = UIColor(hexFromString: photo.colorId)
 			}
 		}
 	
@@ -146,8 +154,7 @@ extension ZoomedPhotoViewController: UITextViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let taggingViewController = segue.destination as? TaggingViewController {
-//            taggingViewController.selectedPhoto = self.selectedPhoto
-//            taggingViewController.fetchResult = self.fetchResult
+					
         }
     }
     
