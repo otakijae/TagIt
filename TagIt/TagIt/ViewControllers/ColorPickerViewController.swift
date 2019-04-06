@@ -12,7 +12,6 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
-    
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     
     var selectedTagIndex: IndexPath?

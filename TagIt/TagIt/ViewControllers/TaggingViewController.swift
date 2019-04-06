@@ -50,9 +50,6 @@ class TaggingViewController: UIViewController {
     
     private var isFirst: Bool = true
     var selectedColor: UIColor = UIColor(hexFromString: "555555")
-
-//    var selectedPhoto: Photograph?
-//    var fetchResult: PHFetchResult<PHAsset>!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,10 +68,6 @@ class TaggingViewController: UIViewController {
         self.tableView.backgroundColor = BGColor
     }
 	
-		func makeSelectedPhotographEditable() {
-			
-		}
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.layoutIfNeeded()

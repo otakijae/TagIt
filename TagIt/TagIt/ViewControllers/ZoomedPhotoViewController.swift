@@ -35,6 +35,10 @@ class ZoomedPhotoViewController: UIViewController {
 //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 //        self.navigationController?.navigationBar.shadowImage = UIImage()
 //        self.navigationController?.navigationBar.isTranslucent = true
+			
+				navigationController?.isNavigationBarHidden = false
+				navigationController?.isToolbarHidden = false
+				isBarVisible = true
         
         self.scrollView.delegate = self
         self.textView.delegate = self
