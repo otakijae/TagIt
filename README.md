@@ -35,7 +35,7 @@ target 'TagIt' do
 end
 ```
 
-## [개발 내용 정리](<https://github.com/ninetyfivejae/TagIt/blob/feature/select_searched_photo/%EA%B0%9C%EB%B0%9C%20%EB%82%B4%EC%9A%A9%20%EC%A0%95%EB%A6%AC.md#%EA%B0%9C%EB%B0%9C-%EB%82%B4%EC%9A%A9-%EC%A0%95%EB%A6%AC>)
+## [개발 내용 정리](<https://github.com/ninetyfivejae/TagIt/blob/master/%EA%B0%9C%EB%B0%9C%20%EB%82%B4%EC%9A%A9%20%EC%A0%95%EB%A6%AC.md#%EA%B0%9C%EB%B0%9C-%EB%82%B4%EC%9A%A9-%EC%A0%95%EB%A6%AC>)
 
 ## Contributors
 
