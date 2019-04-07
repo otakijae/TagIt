@@ -65,6 +65,7 @@ class SearchViewController: UIViewController {
 				fatalError("unexpected view controller for segue")
 			}
 			
+			PhotographManager.sharedInstance.isSearchedPhotoType = true
 			let indexPath = self.collectionView.indexPath(for: sender as! UICollectionViewCell)!
 			pageViewController.selectedPhotoIndex = indexPath
 		}

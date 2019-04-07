@@ -19,6 +19,8 @@ class PhotographManager {
 	var requestOptions = PHImageRequestOptions()
 	
 	var selectedPhotograph: Photograph?
+	var searchedAssetList: [PHAsset] = []
+	var isSearchedPhotoType: Bool = false
 	
 	static let sharedInstance = PhotographManager()
 
@@ -76,6 +78,32 @@ class PhotographManager {
 		})
 	}
 	
+	func requestSearchedImageData(with asset: PHAsset, resultHandler: @escaping (Photograph?) -> Void) {
+		
+		PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
+			if let info = info {
+				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
+					if let path = info[NSString(string: "PHImageFileURLKey")] as? NSURL {
+						if let result = RealmManager.sharedInstance.getObjects(type: Photograph.self)?.filter("name = %@", path.lastPathComponent!).first {
+							self.selectedPhotograph = result
+							resultHandler(result)
+						} else {
+							let unTaggedPhotograph = Photograph()
+							unTaggedPhotograph.name = path.lastPathComponent
+							unTaggedPhotograph.localIdentifier = asset.localIdentifier
+							unTaggedPhotograph.colorId = "555555"
+							
+							self.selectedPhotograph = unTaggedPhotograph
+							guard let photo: Photograph = self.selectedPhotograph else { return }
+							RealmManager.sharedInstance.saveObject(object: photo)
+							resultHandler(unTaggedPhotograph)
+						}
+					}
+				}
+			}
+		})
+	}
+	
 	func imageData(asset: PHAsset, resultHandler: @escaping (String?) -> Void) {
 		PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
 			if let info = info {
@@ -87,12 +115,11 @@ class PhotographManager {
 			}
 		})
 	}
-	
-	
+
 	func requestSearchedAssetList(by tag: String, targetSize: CGSize, options: PHImageRequestOptions?, resultHandler: @escaping ([PHAsset]) -> Void) {
 		
-		var searchedAssetList: [PHAsset] = []
-
+		self.searchedAssetList = []
+		
 		guard let result = RealmManager.sharedInstance.getObjects(type: Photograph.self) else { return }
 		let filteredArray = Array(result).filter({Array($0.tagList).map({$0}).contains(tag)})
 		
@@ -101,9 +128,9 @@ class PhotographManager {
 			self.imageData(asset: asset) { imageName in
 				filteredArray.forEach {
 					if $0.name == imageName {
-						searchedAssetList.append(asset)
-						if searchedAssetList.count == filteredArray.count {
-							resultHandler(searchedAssetList)
+						self.searchedAssetList.append(asset)
+						if self.searchedAssetList.count == filteredArray.count {
+							resultHandler(self.searchedAssetList)
 						}
 					}
 				}
@@ -119,6 +146,14 @@ class PhotographManager {
 			if cell.representedAssetIdentifier == asset.localIdentifier {
 				resultHandler(image)
 			}
+		})
+	}
+	
+	func requestSearchedOriginalImage(options: PHImageRequestOptions?, selectedIndexPath: Int, resultHandler: @escaping (UIImage?) -> Void) {
+		let asset = self.searchedAssetList[selectedIndexPath]
+		
+		self.imageCachingManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+			resultHandler(image)
 		})
 	}
 	

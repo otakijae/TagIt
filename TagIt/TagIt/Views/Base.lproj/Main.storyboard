@@ -77,9 +77,13 @@
                         <viewLayoutGuide key="safeArea" id="FhN-NE-Ydl"/>
                     </view>
                     <toolbarItems>
-                        <barButtonItem systemItem="action" id="cm2-Gp-k8s"/>
+                        <barButtonItem systemItem="action" id="cm2-Gp-k8s">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="ofM-rO-4Dh"/>
-                        <barButtonItem systemItem="trash" id="V0y-dy-aY8"/>
+                        <barButtonItem systemItem="trash" id="V0y-dy-aY8">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Just Tag It" id="KJs-BL-qtI">
                         <rightBarButtonItems>
@@ -106,9 +110,13 @@
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Ltl-M9-n0b" customClass="PageViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems>
-                        <barButtonItem systemItem="action" id="qVN-OY-S7G"/>
+                        <barButtonItem systemItem="action" id="qVN-OY-S7G">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="j1G-xr-H9Z"/>
-                        <barButtonItem systemItem="trash" id="Vcx-4Z-EQo"/>
+                        <barButtonItem systemItem="trash" id="Vcx-4Z-EQo">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="날짜" id="oOd-sv-T9f">
                         <barButtonItem key="rightBarButtonItem" title="•••" id="fbz-gc-raZ">
@@ -126,7 +134,7 @@
             </objects>
             <point key="canvasLocation" x="1270" y="81"/>
         </scene>
-        <!--Search View Controller-->
+        <!--Just Search It-->
         <scene sceneID="TDF-PA-jzj">
             <objects>
                 <viewController id="nfL-Yg-4rm" customClass="SearchViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
@@ -134,27 +142,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dfa-Uh-ZnR">
-                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </textAttributes>
-                                <textAttributes key="largeTitleTextAttributes">
-                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="Just Tag It" id="cte-vY-hdn">
-                                        <barButtonItem key="rightBarButtonItem" title="완료" id="sx3-Mt-dpZ">
-                                            <connections>
-                                                <action selector="doneButtonTapped:" destination="nfL-Yg-4rm" id="66f-g1-OL4"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="사진을 검색해보세요." textAlignment="justified" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="7MN-2O-eSf">
-                                <rect key="frame" x="0.0" y="108" width="375" height="55"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="55"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -170,7 +159,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Nq3-3x-kup">
-                                <rect key="frame" x="0.0" y="163" width="375" height="504"/>
+                                <rect key="frame" x="0.0" y="119" width="375" height="548"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="q1r-pq-1Mf">
                                     <size key="itemSize" width="174" height="158"/>
@@ -204,34 +193,27 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bz8-Wy-Hf3">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem systemItem="action" id="1j9-D1-UjA"/>
-                                    <barButtonItem systemItem="flexibleSpace" id="yYD-Cl-UDs"/>
-                                    <barButtonItem systemItem="trash" id="DiV-zf-Ipi"/>
-                                </items>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Nq3-3x-kup" firstAttribute="leading" secondItem="mUr-sY-W2h" secondAttribute="leading" id="0mD-YN-hex"/>
                             <constraint firstItem="7MN-2O-eSf" firstAttribute="width" secondItem="nda-71-irX" secondAttribute="width" id="1gv-96-uQE"/>
                             <constraint firstItem="mUr-sY-W2h" firstAttribute="trailing" secondItem="Nq3-3x-kup" secondAttribute="trailing" id="2SQ-Uf-FvB"/>
-                            <constraint firstItem="Dfa-Uh-ZnR" firstAttribute="top" secondItem="mUr-sY-W2h" secondAttribute="top" id="83H-zj-zRe"/>
-                            <constraint firstItem="Dfa-Uh-ZnR" firstAttribute="trailing" secondItem="mUr-sY-W2h" secondAttribute="trailing" id="ERR-T9-B1N"/>
                             <constraint firstItem="mUr-sY-W2h" firstAttribute="bottom" secondItem="Nq3-3x-kup" secondAttribute="bottom" id="KNP-Xc-IXe"/>
                             <constraint firstItem="Nq3-3x-kup" firstAttribute="top" secondItem="7MN-2O-eSf" secondAttribute="bottom" id="Qee-sC-DMv"/>
                             <constraint firstItem="7MN-2O-eSf" firstAttribute="centerX" secondItem="mUr-sY-W2h" secondAttribute="centerX" id="RhY-04-RwQ"/>
                             <constraint firstItem="Nq3-3x-kup" firstAttribute="top" secondItem="7MN-2O-eSf" secondAttribute="bottom" id="jb0-qB-429"/>
-                            <constraint firstItem="7MN-2O-eSf" firstAttribute="top" secondItem="Dfa-Uh-ZnR" secondAttribute="bottom" id="oWB-bS-f8W"/>
-                            <constraint firstItem="Dfa-Uh-ZnR" firstAttribute="leading" secondItem="mUr-sY-W2h" secondAttribute="leading" id="rmW-Pt-7lf"/>
+                            <constraint firstItem="7MN-2O-eSf" firstAttribute="top" secondItem="mUr-sY-W2h" secondAttribute="top" id="pBQ-Ok-61Y"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mUr-sY-W2h"/>
                     </view>
-                    <navigationItem key="navigationItem" id="p1N-eu-K5A"/>
+                    <navigationItem key="navigationItem" title="Just Search It" id="p1N-eu-K5A">
+                        <barButtonItem key="rightBarButtonItem" title="완료" id="nZS-Qq-hkf">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="nfL-Yg-4rm" id="A5X-0q-Zmo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Nq3-3x-kup" id="VOc-R9-Rgn"/>
                         <outlet property="collectionViewFlowLayout" destination="q1r-pq-1Mf" id="qqw-Qm-Pfl"/>
@@ -567,6 +549,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Fve-Pb-Vc6">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -580,6 +563,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="lGP-xe-S6b"/>
-        <segue reference="D6V-le-AFq"/>
+        <segue reference="gYQ-k4-bDO"/>
     </inferredMetricsTieBreakers>
 </document>
