@@ -17,6 +17,8 @@
 
 - https://zeddios.tistory.com/626
 
+- <https://www.youtube.com/watch?v=QS2mWk3fAWc>
+
 - [requestImage(for:targetSize:contentMode:options:resultHandler) 애플 문서](https://developer.apple.com/documentation/photokit/phimagemanager/1616964-requestimage)
 
   - 이 메소드를 호출하면 resultHandler에 UIImage가 담겨온다. 이 메소드는 사진 앱에서 asset이미지를 로드하거나 생성하는데, 그런 다음 resultHandler블록을 호출하여 요청된 이미지를 제공한다.
@@ -110,11 +112,16 @@
       }
   ```
 
+  - 참고
+    - <http://www.xmcgraw.com/10-actionable-performance-tips-to-speed-up-your-table-view/>
+
 ### ScrollView
 
 - 지금은 조금 미루는데, 아직 photo scroll할 때 이미지를 가운데로 가져와주는 기능이 안 되서 약간 부자연스러움
 - 이후에 스크롤뷰에 관한 공부 더 할 것
 - [페이지 뷰 컨트롤러 사용 및 스크롤 뷰로 확대 이미지 보기](https://www.raywenderlich.com/560-uiscrollview-tutorial-getting-started)
+- 참고
+  - <chrome://bookmarks/?id=789>
 
 ### UIGestureRecognizer
 
@@ -139,6 +146,13 @@
 
 ### SemiModalTransition
 
+- BottomSheet 참고
+  - <https://www.raywenderlich.com/221-recreating-the-apple-music-now-playing-transition>
+  - <https://martinnormark.com/presenting-ios-view-controller-as-bottom-half-modal/>
+  - <https://github.com/OfTheWolf/UBottomSheet>
+  - <https://stackoverflow.com/questions/37967555/how-can-i-mimic-the-bottom-sheet-from-the-maps-app>
+  - <https://github.com/usagimaru/Musical-View>
+
 - https://github.com/usagimaru/SemiModalTransition
 - 태그 추가하는 화면인 SemiModalPresentationController 추가
   - 태그 추가하기를 누르면 나오는 화면을 다 채우지 않는 view controller 추가
@@ -156,6 +170,24 @@
 
 - [Realm](http://realm.io/) is a cross-platform mobile database solution designed for mobile applications that you can integrate with your iOS projects. Unlike wrappers around Core Data, Realm doesn’t rely on Core Data or even an SQLite back end.
 - 이미지 저장할 때
+- <https://www.raywenderlich.com/9220-realm-tutorial-getting-started>
+- <https://stackoverflow.com/questions/35060391/how-to-save-a-struct-to-realm-in-swift>
+- <https://insights.nimblechapps.com/app-development/ios-app-development/using-realm-mobile-database-with-swift-4-0-insert-update-delete-list>
+- 
+
+### 권한
+
+- <http://minsone.github.io/programming/swift4-ios-make-async-to-sync-for-permission>
+- <https://www.andrewcbancroft.com/2018/02/24/swift-cheat-sheet-for-iphone-camera-access-usage/>
+
+### 태그 인식
+
+- <https://github.com/azsha/AZHashtagTextView>
+
+### 부드러운 앱 UX를 위해 참고할만한 앱들
+
+- <https://medium.com/@samstone/create-custom-uinavigationcontroller-transitions-in-ios-1acd6a0b6d25>
+- https://medium.com/@masamichiueta/create-transition-and-interaction-like-ios-photos-app-2b9f16313d3
 
 ## Todo
 
