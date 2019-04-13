@@ -51,6 +51,27 @@ extension UICollectionView {
     }
 }
 
+extension UIViewController {
+		func clearStatusBar() {
+				let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
+				statusBar?.backgroundColor = .clear
+		}
+	
+		func clearNavigationBar() {
+				self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+				self.navigationController?.navigationBar.shadowImage = UIImage()
+				self.navigationController?.navigationBar.isTranslucent = true
+				self.navigationController?.navigationBar.backgroundColor = .clear
+		}
+	
+		func clearToolbar() {
+				self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: UIBarMetrics.default)
+				self.navigationController?.toolbar.isTranslucent = true
+				self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .bottom)
+				self.navigationController?.toolbar.backgroundColor = .clear
+		}
+}
+
 extension UIColor {
     convenience init(hexFromString:String, alpha:CGFloat = 1.0) {
         var cString:String = hexFromString.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

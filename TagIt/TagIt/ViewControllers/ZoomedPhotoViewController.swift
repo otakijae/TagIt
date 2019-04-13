@@ -13,7 +13,7 @@ class ZoomedPhotoViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var textView: HashtagTextView!
+    @IBOutlet weak var hashtagTextView: HashtagTextView!
     
     @IBOutlet weak var imageViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageViewBottomConstraint: NSLayoutConstraint!
@@ -25,31 +25,33 @@ class ZoomedPhotoViewController: UIViewController {
     var selectedImage: UIImage?
     var imageSize = CGSize(width: 0, height: 0)
     
-    var isBarVisible: Bool = true
+    var isBarHidden: Bool = false
     var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
 
     @IBOutlet weak var tagTextView: UITextView!
     
     override func viewDidLoad() {
-        
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
-			
-				navigationController?.isNavigationBarHidden = false
-				navigationController?.isToolbarHidden = false
-				isBarVisible = true
-        
         self.scrollView.delegate = self
-        self.textView.delegate = self
-        
+        self.hashtagTextView.delegate = self
+			
         imageTagSettings()
         imageZoomSettings()
         gestureSettings()
+			
+				clearStatusBar()
+				clearNavigationBar()
+				clearToolbar()
+				imageViewDisplaySettings(isHidden: false)
     }
+	
+		func imageViewDisplaySettings(isHidden: Bool) {
+				navigationController?.navigationBar.isHidden = isHidden
+				navigationController?.toolbar.isHidden = isHidden
+				self.hashtagTextView.isHidden = isHidden
+				isBarHidden = !isHidden
+		}
     
     func imageTagSettings() {
-			
 			if PhotographManager.sharedInstance.isSearchedPhotoType {
 				PhotographManager.sharedInstance.requestSearchedImageData(with: PhotographManager.sharedInstance.searchedAssetList[photoIndex]) { photograph in
 					self.configureTagTextView(photograph: photograph)
@@ -69,17 +71,16 @@ class ZoomedPhotoViewController: UIViewController {
 					tagString.append("● " + tag + "\n")
 				}
 				
-				self.textView.text = tagString
-				self.textView.resolveHashTags()
-				self.textView.font = UIFont.systemFont(ofSize: 17.0)
-				self.textView.tintColor = UIColor(hexFromString: photo.colorId)
+				self.hashtagTextView.text = tagString
+				self.hashtagTextView.resolveHashTags()
+				self.hashtagTextView.font = UIFont.systemFont(ofSize: 17.0)
+				self.hashtagTextView.tintColor = UIColor(hexFromString: photo.colorId)
 			}
 		}
 	
     func imageZoomSettings() {
         if let image = self.selectedImage {
             self.imageView.image = image
-            
             //let maxScale = image.size.width / scrollView.frame.size.width
             self.scrollView.minimumZoomScale = 1.0
             //scrollView.maximumZoomScale = maxScale
@@ -107,32 +108,19 @@ class ZoomedPhotoViewController: UIViewController {
     }
     
     @objc func handleTapGesture(_ recognizer: UITapGestureRecognizer) {
-        if isBarVisible {
-            navigationController?.isNavigationBarHidden = true
-            navigationController?.isToolbarHidden = true
-            isBarVisible = false
-        } else {
-            navigationController?.isNavigationBarHidden = false
-            navigationController?.isToolbarHidden = false
-            isBarVisible = true
-        }
+				imageViewDisplaySettings(isHidden: isBarHidden)
     }
     
     @objc func handleDoubleTapGesture(_ recognizer: UITapGestureRecognizer) {
         if scrollView.zoomScale > scrollView.minimumZoomScale {
-            navigationController?.isNavigationBarHidden = true
-            navigationController?.isToolbarHidden = true
             scrollView.zoom(to: zoomRectForScale(scale: scrollView.minimumZoomScale, center: recognizer.location(in: recognizer.view)), animated: true)
         } else {
-            navigationController?.isNavigationBarHidden = true
-            navigationController?.isToolbarHidden = true
             scrollView.zoom(to: zoomRectForScale(scale: scrollView.maximumZoomScale, center: recognizer.location(in: recognizer.view)), animated: true)
         }
     }
     
     @objc func handleSwipeDownGesture(_ recognizer: UISwipeGestureRecognizer) {
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.isToolbarHidden = false
+				imageViewDisplaySettings(isHidden: false)
         let transition = CATransition()
         transition.duration = 0.4
         transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
@@ -149,18 +137,14 @@ class ZoomedPhotoViewController: UIViewController {
         let newCenter = imageView.convert(center, from: scrollView)
         zoomRect.origin.x = newCenter.x - (zoomRect.size.width / 2.0)
         zoomRect.origin.y = newCenter.y - (zoomRect.size.height / 2.0)
+			
+				imageViewDisplaySettings(isHidden: true)
         
         return zoomRect
     }
 }
 
 extension ZoomedPhotoViewController: UITextViewDelegate {
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let taggingViewController = segue.destination as? TaggingViewController {
-//
-//        }
-    }
     
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         
@@ -174,6 +158,10 @@ extension ZoomedPhotoViewController: UITextViewDelegate {
 }
 
 extension ZoomedPhotoViewController: UIScrollViewDelegate {
+	
+		func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+				imageViewDisplaySettings(isHidden: true)
+		}
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
 //        print("viewForZooming")

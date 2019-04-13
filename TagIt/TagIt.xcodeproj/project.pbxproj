@@ -85,6 +85,8 @@
 		13547D91221ED57200E363AD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				13CFD4FE2216887F009681EF /* PhotoItemCell.swift */,
+				134E5BFD2223C6700047B8EE /* TaggingViewCell.swift */,
 				13E884BA221AE83A00703ADD /* PhotoViewController.swift */,
 				13E64C4622172D5C00408A5D /* PageViewController.swift */,
 				134E5BFB2222AD560047B8EE /* SearchViewController.swift */,
@@ -100,8 +102,6 @@
 			children = (
 				13CFD4DB2211AB5C009681EF /* LaunchScreen.storyboard */,
 				13CFD4D62211AB5A009681EF /* Main.storyboard */,
-				13CFD4FE2216887F009681EF /* PhotoItemCell.swift */,
-				134E5BFD2223C6700047B8EE /* TaggingViewCell.swift */,
 				13BBDBAD2224E53800B7F943 /* HashtagTextView.swift */,
 			);
 			path = Views;

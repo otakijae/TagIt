@@ -33,6 +33,10 @@ class PhotoViewController: UIViewController {
     func initialSettings() {        
         self.cellSize = self.collectionViewFlowLayout.itemSize
         self.thumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
+				clearStatusBar()
+				clearNavigationBar()
+				clearToolbar()
+				self.navigationController?.toolbar.isHidden = true
     }
     
     func prepareUsingPhotos() {
