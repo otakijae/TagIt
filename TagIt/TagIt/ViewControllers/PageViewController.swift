@@ -64,17 +64,6 @@ class PageViewController: UIPageViewController {
 					guard let index = self.selectedPhotoIndex?.item else {
 						return
 					}
-					
-					if PhotographManager.sharedInstance.isSearchedPhotoType {
-						PhotographManager.sharedInstance.requestSearchedImageData(with: PhotographManager.sharedInstance.searchedAssetList[index]) { photograph in
-							print(photograph)
-						}
-					} else {
-						PhotographManager.sharedInstance.requestImageData(selectedIndexPath: index) { photograph in
-							print(photograph)
-						}
-					}
-					
         }
     }
     

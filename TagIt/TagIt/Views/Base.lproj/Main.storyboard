@@ -105,7 +105,7 @@
             </objects>
             <point key="canvasLocation" x="460" y="81"/>
         </scene>
-        <!--날짜-->
+        <!--Page View Controller-->
         <scene sceneID="8H0-eE-IvS">
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Ltl-M9-n0b" customClass="PageViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
@@ -120,7 +120,7 @@
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="날짜" id="oOd-sv-T9f">
+                    <navigationItem key="navigationItem" id="oOd-sv-T9f">
                         <barButtonItem key="rightBarButtonItem" title="•••" id="fbz-gc-raZ">
                             <connections>
                                 <action selector="addTagButtonTapped:" destination="Ltl-M9-n0b" id="Ffk-bg-1X0"/>

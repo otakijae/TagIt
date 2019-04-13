@@ -42,7 +42,7 @@ class ZoomedPhotoViewController: UIViewController {
 				clearNavigationBar()
 				clearToolbar()
 				imageViewDisplaySettings(isHidden: false)
-    }
+		}
 	
 		func imageViewDisplaySettings(isHidden: Bool) {
 				navigationController?.navigationBar.isHidden = isHidden

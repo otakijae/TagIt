@@ -104,7 +104,7 @@ class PhotographManager {
 		})
 	}
 	
-	func imageData(asset: PHAsset, resultHandler: @escaping (String?) -> Void) {
+	func requestImageName(asset: PHAsset, resultHandler: @escaping (String?) -> Void) {
 		PHImageManager.default().requestImageData(for: asset, options: PHImageRequestOptions(), resultHandler: { (imagedata, dataUTI, orientation, info) in
 			if let info = info {
 				if info.keys.contains(NSString(string: "PHImageFileURLKey")) {
@@ -115,7 +115,24 @@ class PhotographManager {
 			}
 		})
 	}
+	
+	func requestImageDate(selectedIndexPath: Int) -> String? {
+		let asset: PHAsset = self.fetchResult.object(at: selectedIndexPath)
+		
+		guard let creationDate = asset.creationDate else { return nil }
 
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "yyyy-MM-dd"
+		let dateString: String = dateFormatter.string(from: creationDate)
+
+		let date = dateFormatter.date(from: String(dateString.prefix(10)))
+		dateFormatter.dateFormat = "yyyy년 M월 d일"
+		if let date = date {
+			return dateFormatter.string(from: date)
+		}
+		return ""		
+	}
+	
 	func requestSearchedAssetList(by tag: String, targetSize: CGSize, options: PHImageRequestOptions?, resultHandler: @escaping ([PHAsset]) -> Void) {
 		
 		self.searchedAssetList = []
@@ -125,7 +142,7 @@ class PhotographManager {
 		
 		for index in 0..<fetchResult.count {
 			let asset = fetchResult.object(at: index)
-			self.imageData(asset: asset) { imageName in
+			self.requestImageName(asset: asset) { imageName in
 				filteredArray.forEach {
 					if $0.name == imageName {
 						self.searchedAssetList.append(asset)
