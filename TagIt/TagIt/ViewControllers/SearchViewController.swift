@@ -31,6 +31,8 @@ class SearchViewController: UIViewController {
 		
 		initialSettings()
 		prepareUsingPhotos()
+		clearNavigationBar()
+		clearToolbar()
 	
 		//텍스트필드에 포커스
 		self.searchTextField.becomeFirstResponder()

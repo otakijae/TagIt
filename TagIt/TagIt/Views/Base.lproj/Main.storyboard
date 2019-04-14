@@ -112,6 +112,9 @@
                     <toolbarItems>
                         <barButtonItem systemItem="action" id="qVN-OY-S7G">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="shareButtonTapped:" destination="Ltl-M9-n0b" id="ig1-3D-uHo"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="j1G-xr-H9Z">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -161,7 +164,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Nq3-3x-kup">
-                                <rect key="frame" x="0.0" y="119" width="375" height="548"/>
+                                <rect key="frame" x="0.0" y="119" width="375" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="q1r-pq-1Mf">
                                     <size key="itemSize" width="174" height="158"/>
@@ -544,7 +547,7 @@
         <!--Navigation Controller-->
         <scene sceneID="E2M-40-I5v">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I2L-XG-X7x" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="I2L-XG-X7x" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Fve-Pb-Vc6">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -552,6 +555,10 @@
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nRe-Nw-Gru">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="nfL-Yg-4rm" kind="relationship" relationship="rootViewController" id="Diq-sb-aNN"/>
                     </connections>
