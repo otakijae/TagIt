@@ -19,6 +19,9 @@ class PhotoViewController: UIViewController {
     var previousPreheatRect = CGRect.zero
     var requestOptions = PHImageRequestOptions()
     var cellSize: CGSize!
+	
+		var isSelectMode: Bool = false
+		var selectedPhotosList: [UIImage?] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +39,7 @@ class PhotoViewController: UIViewController {
 				clearStatusBar()
 				clearNavigationBar()
 				clearToolbar()
-				self.navigationController?.toolbar.isHidden = true
+				toolBarVisibleSettings(isHidden: true)
     }
     
     func prepareUsingPhotos() {
@@ -68,6 +71,23 @@ class PhotoViewController: UIViewController {
             pageViewController.selectedPhotoIndex = indexPath
         }
     }
+	
+	override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+		if isSelectMode {
+			return false
+		} else {
+			return true
+		}
+	}
+	
+	func toolBarVisibleSettings(isHidden: Bool) {
+		self.navigationController?.toolbar.isHidden = isHidden
+	}
+	
+	@IBAction func selectButtonTapped(_ sender: Any) {
+		isSelectMode.toggle()
+		toolBarVisibleSettings(isHidden: !isSelectMode)
+	}
 }
 
 // MARK: UICollectionView
@@ -77,6 +97,21 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return PhotographManager.sharedInstance.fetchResult.count
     }
+	
+		func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+			guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell else {
+				fatalError("unexpected cell in collection view")
+			}
+			
+			if isSelectMode {
+				self.collectionView.allowsMultipleSelection = isSelectMode
+				self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+				//selectedPhotos.removeAll()
+				cell.isSelected = true
+			} else {
+				cell.isSelected = false
+			}
+		}
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 			

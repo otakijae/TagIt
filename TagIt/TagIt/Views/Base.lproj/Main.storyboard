@@ -87,7 +87,11 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Just Tag It" id="KJs-BL-qtI">
                         <rightBarButtonItems>
-                            <barButtonItem title="•••" id="S0J-Oi-Euv"/>
+                            <barButtonItem title="•••" id="S0J-Oi-Euv">
+                                <connections>
+                                    <action selector="selectButtonTapped:" destination="7yk-LL-UdP" id="5Ok-ma-iqM"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="search" id="bVE-KE-fFm">
                                 <connections>
                                     <segue destination="I2L-XG-X7x" kind="presentation" id="DqY-Dl-sA6"/>

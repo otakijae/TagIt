@@ -20,9 +20,17 @@ class PhotoItemCell: UICollectionViewCell {
             imageView.image = thumbnailImage
         }
     }
+	
+	override var isSelected: Bool {
+		didSet {
+			imageView.layer.borderColor = UIColor.pastelLightpurple.cgColor
+			imageView.layer.borderWidth = isSelected ? 10 : 0
+		}
+	}
     
     override func prepareForReuse() {
         super.prepareForReuse()
+				isSelected = false
         imageView.image = nil
     }
 }
