@@ -23,8 +23,12 @@ class PhotoItemCell: UICollectionViewCell {
 	
 	override var isSelected: Bool {
 		didSet {
-			imageView.layer.borderColor = UIColor.pastelRed.cgColor
-			imageView.layer.borderWidth = isSelected ? 5 : 0
+			if isSelected {
+				imageView.layer.borderColor = UIColor.pastelBlue.cgColor
+				imageView.layer.borderWidth = 5
+			} else {
+				imageView.layer.borderWidth = 0
+			}
 		}
 	}
     

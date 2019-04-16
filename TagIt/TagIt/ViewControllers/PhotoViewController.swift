@@ -82,6 +82,7 @@ class PhotoViewController: UIViewController {
 	
 	func toolBarVisibleSettings(isHidden: Bool) {
 		self.navigationController?.toolbar.isHidden = isHidden
+		self.selectedPhotosList.removeAll()
 		if isHidden {
 			self.collectionView.reloadData()
 		}
@@ -91,6 +92,13 @@ class PhotoViewController: UIViewController {
 		isSelectMode.toggle()
 		toolBarVisibleSettings(isHidden: !isSelectMode)
 	}
+	
+	@IBAction func shareButtonTapped(_ sender: Any) {
+		let activityViewController = UIActivityViewController(activityItems: self.selectedPhotosList, applicationActivities: nil)
+		activityViewController.popoverPresentationController?.sourceView = self.view
+		self.present(activityViewController, animated: true, completion: nil)
+	}
+	
 }
 
 // MARK: UICollectionView
@@ -110,11 +118,16 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
 			if isSelectMode {
 				self.collectionView.allowsMultipleSelection = isSelectMode
 				self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-				//selectedPhotos.removeAll()
+				
+				PhotographManager.sharedInstance.requestOriginalImage(options: requestOptions, selectedIndexPath: indexPath.item) { image in
+					self.selectedPhotosList.append(image)
+				}
 				cell.isSelected = true
 			} else {
 				cell.isSelected = false
+				self.collectionView.deselectItem(at: indexPath, animated: true)
 			}
+			
 		}
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

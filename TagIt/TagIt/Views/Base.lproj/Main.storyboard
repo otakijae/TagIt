@@ -79,6 +79,9 @@
                     <toolbarItems>
                         <barButtonItem systemItem="action" id="cm2-Gp-k8s">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="shareButtonTapped:" destination="7yk-LL-UdP" id="d4S-te-ifc"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="ofM-rO-4Dh"/>
                         <barButtonItem systemItem="trash" id="V0y-dy-aY8">
