@@ -82,6 +82,9 @@ class PhotoViewController: UIViewController {
 	
 	func toolBarVisibleSettings(isHidden: Bool) {
 		self.navigationController?.toolbar.isHidden = isHidden
+		if isHidden {
+			self.collectionView.reloadData()
+		}
 	}
 	
 	@IBAction func selectButtonTapped(_ sender: Any) {
@@ -99,6 +102,7 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
 	
 		func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+			
 			guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell else {
 				fatalError("unexpected cell in collection view")
 			}
