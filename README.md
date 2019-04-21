@@ -7,7 +7,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-![앱 이미지 추후에 추가]()
+![TagIt](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FwSekf%2FbtquI2ao8qc%2FEHm8RtKDYHriORhGKOA1kk%2Fimg.png)
 
 - 아이폰 수많은 사진 중에서 내가 원하는 사진을 바로 찾고 싶어서 시작한 개인 프로젝트
 - 사진에 태그를 추가해주고, 태그를 검색하면 내가 원하는 사진을 바로 찾아볼 수 있어요
