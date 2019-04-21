@@ -45,8 +45,8 @@ class ZoomedPhotoViewController: UIViewController {
 		}
 	
 		func imageViewDisplaySettings(isHidden: Bool) {
-				navigationController?.navigationBar.isHidden = isHidden
-				navigationController?.toolbar.isHidden = isHidden
+				navigationController?.setNavigationBarHidden(isHidden, animated: true)
+				navigationController?.setToolbarHidden(isHidden, animated: true)
 				self.hashtagTextView.isHidden = isHidden
 				isBarHidden = !isHidden
 		}

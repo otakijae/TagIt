@@ -14,7 +14,8 @@ class PhotoViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
-
+		@IBOutlet weak var selectButton: UIBarButtonItem!
+	
     var thumbnailSize: CGSize!
     var previousPreheatRect = CGRect.zero
     var requestOptions = PHImageRequestOptions()
@@ -33,7 +34,7 @@ class PhotoViewController: UIViewController {
         prepareUsingPhotos()
     }
     
-    func initialSettings() {        
+    func initialSettings() {
         self.cellSize = self.collectionViewFlowLayout.itemSize
         self.thumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
 				clearStatusBar()
@@ -81,10 +82,15 @@ class PhotoViewController: UIViewController {
 	}
 	
 	func toolBarVisibleSettings(isHidden: Bool) {
-		self.navigationController?.toolbar.isHidden = isHidden
+		navigationController?.setToolbarHidden(isHidden, animated: true)
 		self.selectedPhotosList.removeAll()
 		if isHidden {
+			self.navigationController?.toolbar.isTranslucent = true
+			self.selectButton.title = "•••"
 			self.collectionView.reloadData()
+		} else {
+			self.navigationController?.toolbar.isTranslucent = false
+			self.selectButton.title = "취소"
 		}
 	}
 	
