@@ -12,6 +12,7 @@ import Photos
 class PageViewController: UIPageViewController {
 
     var selectedPhotoIndex: IndexPath?
+		var selectedImage: UIImage?
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,11 +46,13 @@ class PageViewController: UIPageViewController {
 							PhotographManager.sharedInstance.requestSearchedOriginalImage(options: requestOptions, selectedIndexPath: index) { image in
 								zoomedPhotoViewController.selectedImage = image
 								zoomedPhotoViewController.photoIndex = index
+								self.selectedImage = image
 							}
 						} else {
 							PhotographManager.sharedInstance.requestOriginalImage(options: requestOptions, selectedIndexPath: index) { image in
 								zoomedPhotoViewController.selectedImage = image
 								zoomedPhotoViewController.photoIndex = index
+								self.selectedImage = image
 							}
 						}
 					
@@ -64,23 +67,18 @@ class PageViewController: UIPageViewController {
 					guard let index = self.selectedPhotoIndex?.item else {
 						return
 					}
-					
-					if PhotographManager.sharedInstance.isSearchedPhotoType {
-						PhotographManager.sharedInstance.requestSearchedImageData(with: PhotographManager.sharedInstance.searchedAssetList[index]) { photograph in
-							print(photograph)
-						}
-					} else {
-						PhotographManager.sharedInstance.requestImageData(selectedIndexPath: index) { photograph in
-							print(photograph)
-						}
-					}
-					
         }
     }
     
     @IBAction func addTagButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "SemiModalTransitionSegue", sender: nil)
     }
+	
+		@IBAction func shareButtonTapped(_ sender: Any) {
+			let activityViewController = UIActivityViewController(activityItems: [self.selectedImage as Any], applicationActivities: nil)
+			activityViewController.popoverPresentationController?.sourceView = self.view
+			self.present(activityViewController, animated: true, completion: nil)
+		}
 }
 
 extension PHAsset {

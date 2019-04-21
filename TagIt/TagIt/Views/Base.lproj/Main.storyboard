@@ -79,6 +79,9 @@
                     <toolbarItems>
                         <barButtonItem systemItem="action" id="cm2-Gp-k8s">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="shareButtonTapped:" destination="7yk-LL-UdP" id="d4S-te-ifc"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="ofM-rO-4Dh"/>
                         <barButtonItem systemItem="trash" id="V0y-dy-aY8">
@@ -87,7 +90,11 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Just Tag It" id="KJs-BL-qtI">
                         <rightBarButtonItems>
-                            <barButtonItem title="•••" id="S0J-Oi-Euv"/>
+                            <barButtonItem title="•••" id="S0J-Oi-Euv">
+                                <connections>
+                                    <action selector="selectButtonTapped:" destination="7yk-LL-UdP" id="5Ok-ma-iqM"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="search" id="bVE-KE-fFm">
                                 <connections>
                                     <segue destination="I2L-XG-X7x" kind="presentation" id="DqY-Dl-sA6"/>
@@ -99,26 +106,32 @@
                     <connections>
                         <outlet property="collectionView" destination="zLY-il-2SS" id="RUs-Hv-gMm"/>
                         <outlet property="collectionViewFlowLayout" destination="p3j-84-3ix" id="ebl-MN-wGQ"/>
+                        <outlet property="selectButton" destination="S0J-Oi-Euv" id="0Q9-FS-RUM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WGV-WW-C6E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="460" y="81"/>
         </scene>
-        <!--날짜-->
+        <!--Page View Controller-->
         <scene sceneID="8H0-eE-IvS">
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Ltl-M9-n0b" customClass="PageViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems>
                         <barButtonItem systemItem="action" id="qVN-OY-S7G">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="shareButtonTapped:" destination="Ltl-M9-n0b" id="ig1-3D-uHo"/>
+                            </connections>
                         </barButtonItem>
-                        <barButtonItem systemItem="flexibleSpace" id="j1G-xr-H9Z"/>
+                        <barButtonItem systemItem="flexibleSpace" id="j1G-xr-H9Z">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
                         <barButtonItem systemItem="trash" id="Vcx-4Z-EQo">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="날짜" id="oOd-sv-T9f">
+                    <navigationItem key="navigationItem" id="oOd-sv-T9f">
                         <barButtonItem key="rightBarButtonItem" title="•••" id="fbz-gc-raZ">
                             <connections>
                                 <action selector="addTagButtonTapped:" destination="Ltl-M9-n0b" id="Ffk-bg-1X0"/>
@@ -159,7 +172,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Nq3-3x-kup">
-                                <rect key="frame" x="0.0" y="119" width="375" height="548"/>
+                                <rect key="frame" x="0.0" y="119" width="375" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="q1r-pq-1Mf">
                                     <size key="itemSize" width="174" height="158"/>
@@ -273,6 +286,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
+                        <outlet property="hashtagTextView" destination="zH6-L7-e95" id="ks1-3I-iDc"/>
                         <outlet property="imageView" destination="MnH-xl-LDR" id="jof-Yl-hrG"/>
                         <outlet property="imageViewBottomConstraint" destination="OLY-6r-ZvL" id="bhw-Oi-9YR"/>
                         <outlet property="imageViewLeadingConstraint" destination="QZj-gW-54W" id="QoU-Nk-O8X"/>
@@ -280,7 +294,6 @@
                         <outlet property="imageViewTrailingConstraint" destination="jni-z1-GWh" id="Q9x-hY-VQ5"/>
                         <outlet property="scrollView" destination="IeT-n4-Nxa" id="Nha-fy-xE1"/>
                         <outlet property="tagTextView" destination="zH6-L7-e95" id="Igd-ZO-SlU"/>
-                        <outlet property="textView" destination="zH6-L7-e95" id="ks1-3I-iDc"/>
                         <segue destination="ali-zv-mHo" kind="presentation" identifier="SemiModalTransitionSegue" customClass="SemiModalTransitionSegue" customModule="TagIt" customModuleProvider="target" id="9xB-Hy-gZp"/>
                     </connections>
                 </viewController>
@@ -501,9 +514,7 @@
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jwB-Uy-bEE">
                         <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
                                 <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -544,7 +555,7 @@
         <!--Navigation Controller-->
         <scene sceneID="E2M-40-I5v">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I2L-XG-X7x" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="I2L-XG-X7x" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Fve-Pb-Vc6">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -552,6 +563,10 @@
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nRe-Nw-Gru">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="nfL-Yg-4rm" kind="relationship" relationship="rootViewController" id="Diq-sb-aNN"/>
                     </connections>

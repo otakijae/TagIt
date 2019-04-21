@@ -14,11 +14,15 @@ class PhotoViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
-
+		@IBOutlet weak var selectButton: UIBarButtonItem!
+	
     var thumbnailSize: CGSize!
     var previousPreheatRect = CGRect.zero
     var requestOptions = PHImageRequestOptions()
     var cellSize: CGSize!
+	
+		var isSelectMode: Bool = false
+		var selectedPhotosList: [UIImage?] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,9 +34,13 @@ class PhotoViewController: UIViewController {
         prepareUsingPhotos()
     }
     
-    func initialSettings() {        
+    func initialSettings() {
         self.cellSize = self.collectionViewFlowLayout.itemSize
         self.thumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
+				clearStatusBar()
+				clearNavigationBar()
+				clearToolbar()
+				toolBarVisibleSettings(isHidden: true)
     }
     
     func prepareUsingPhotos() {
@@ -64,6 +72,39 @@ class PhotoViewController: UIViewController {
             pageViewController.selectedPhotoIndex = indexPath
         }
     }
+	
+	override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+		if isSelectMode {
+			return false
+		} else {
+			return true
+		}
+	}
+	
+	func toolBarVisibleSettings(isHidden: Bool) {
+		navigationController?.setToolbarHidden(isHidden, animated: true)
+		self.selectedPhotosList.removeAll()
+		if isHidden {
+			self.navigationController?.toolbar.isTranslucent = true
+			self.selectButton.title = "•••"
+			self.collectionView.reloadData()
+		} else {
+			self.navigationController?.toolbar.isTranslucent = false
+			self.selectButton.title = "취소"
+		}
+	}
+	
+	@IBAction func selectButtonTapped(_ sender: Any) {
+		isSelectMode.toggle()
+		toolBarVisibleSettings(isHidden: !isSelectMode)
+	}
+	
+	@IBAction func shareButtonTapped(_ sender: Any) {
+		let activityViewController = UIActivityViewController(activityItems: self.selectedPhotosList, applicationActivities: nil)
+		activityViewController.popoverPresentationController?.sourceView = self.view
+		self.present(activityViewController, animated: true, completion: nil)
+	}
+	
 }
 
 // MARK: UICollectionView
@@ -73,6 +114,27 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return PhotographManager.sharedInstance.fetchResult.count
     }
+	
+		func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+			
+			guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell else {
+				fatalError("unexpected cell in collection view")
+			}
+			
+			if isSelectMode {
+				self.collectionView.allowsMultipleSelection = isSelectMode
+				self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+				
+				PhotographManager.sharedInstance.requestOriginalImage(options: requestOptions, selectedIndexPath: indexPath.item) { image in
+					self.selectedPhotosList.append(image)
+				}
+				cell.isSelected = true
+			} else {
+				cell.isSelected = false
+				self.collectionView.deselectItem(at: indexPath, animated: true)
+			}
+			
+		}
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 			
