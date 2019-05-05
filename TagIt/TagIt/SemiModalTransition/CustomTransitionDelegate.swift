@@ -1,11 +1,3 @@
-//
-//  CustomTransitionDelegate.swift
-//  TagIt
-//
-//  Created by 신재혁 on 20/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 
 class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
@@ -18,6 +10,7 @@ class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
         
         return semiModalPresentationController
     }
+	
 }
 
 class SemiModalTransitionSegue: UIStoryboardSegue {
@@ -29,4 +22,5 @@ class SemiModalTransitionSegue: UIStoryboardSegue {
         destination.transitioningDelegate = self.transitioningDelegatee
         super.perform()
     }
+	
 }

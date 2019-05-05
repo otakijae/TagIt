@@ -1,15 +1,8 @@
-//
-//  DatabaseManager.swift
-//  TagIt
-//
-//  Created by 신재혁 on 28/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 import RealmSwift
 
 class RealmManager {
+	
     private let realm = try! Realm()
     static let sharedInstance = RealmManager()
     
@@ -70,4 +63,5 @@ class RealmManager {
     func incrementID() -> Int {
         return (realm.objects(Photograph.self).max(ofProperty: "id") as Int? ?? 0) + 1
     }
+	
 }

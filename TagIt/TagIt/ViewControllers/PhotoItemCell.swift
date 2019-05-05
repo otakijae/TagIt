@@ -1,11 +1,3 @@
-//
-//  PhotoItemCell.swift
-//  TagIt
-//
-//  Created by 신재혁 on 15/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 
 class PhotoItemCell: UICollectionViewCell {
@@ -37,4 +29,5 @@ class PhotoItemCell: UICollectionViewCell {
 				isSelected = false
         imageView.image = nil
     }
+	
 }

@@ -1,14 +1,7 @@
-//
-//  SemiModalPresentationController.swift
-//  TagIt
-//
-//  Created by 신재혁 on 20/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 
 class SemiModalPresentationController: UIPresentationController {
+	
     private(set) var tapGestureRecognizer: UITapGestureRecognizer?
     private var overlay = UIView()
     
@@ -107,9 +100,6 @@ class SemiModalPresentationController: UIPresentationController {
         self.frontViewController.dismiss(animated: true, completion: nil)
     }
     
-    
-    // MARK: -
-    
     //배경 뷰의 스케일과 차이를 적용하는 아핀 행렬을 반환
     static func backdropTransform(withScale scale: CGFloat, translates: CGPoint) -> CGAffineTransform {
         return CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: translates.x, y: translates.y)
@@ -177,4 +167,5 @@ class SemiModalPresentationController: UIPresentationController {
         let t = SemiModalPresentationController.backdropTransform(withScale: scale, translates: backdropMargins)
         self.backdropViewController.view.transform = t
     }
+	
 }

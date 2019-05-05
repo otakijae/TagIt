@@ -1,11 +1,3 @@
-//
-//  PhotoViewController.swift
-//  TagIt
-//
-//  Created by 신재혁 on 18/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 import Photos
 import PhotosUI
@@ -166,6 +158,7 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1.0
     }
+	
 }
 
 // MARK: UIScrollView
@@ -215,6 +208,7 @@ extension PhotoViewController: UICollectionViewDelegateFlowLayout {
         thumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
         collectionView.reloadData()
     }
+	
 }
 
 // MARK: Asset Caching
@@ -272,11 +266,13 @@ extension PhotoViewController {
             return ([new], [old])
         }
     }
+	
 }
 
 // MARK: PHPhotoLibraryChangeObserver
 
 extension PhotoViewController: PHPhotoLibraryChangeObserver {
+	
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         
         guard let changes = changeInstance.changeDetails(for: PhotographManager.sharedInstance.fetchResult) else { return }
@@ -305,4 +301,5 @@ extension PhotoViewController: PHPhotoLibraryChangeObserver {
             resetCachedAssets()
         }
     }
+	
 }

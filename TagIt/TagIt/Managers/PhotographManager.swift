@@ -1,11 +1,3 @@
-//
-//  PhotographManager.swift
-//  TagIt
-//
-//  Created by 신재혁 on 03/03/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import Foundation
 import Photos
 

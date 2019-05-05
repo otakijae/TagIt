@@ -1,11 +1,3 @@
-//
-//  ZoomedPhotoViewController.swift
-//  TagIt
-//
-//  Created by 신재혁 on 16/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 import Photos
 
@@ -142,6 +134,7 @@ class ZoomedPhotoViewController: UIViewController {
         
         return zoomRect
     }
+	
 }
 
 extension ZoomedPhotoViewController: UITextViewDelegate {
@@ -155,6 +148,7 @@ extension ZoomedPhotoViewController: UITextViewDelegate {
     
     //태그 추가 SemiModal 창에서 다시 이미지로 돌아오는 unwind
     @IBAction func prepareUnwind(segue: UIStoryboardSegue) { }
+	
 }
 
 extension ZoomedPhotoViewController: UIScrollViewDelegate {
@@ -169,4 +163,5 @@ extension ZoomedPhotoViewController: UIScrollViewDelegate {
 //        print(imageView.size)
         return imageView
     }
+	
 }

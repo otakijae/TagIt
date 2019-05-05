@@ -1,11 +1,3 @@
-//
-//  TaggingViewController.swift
-//  TagIt
-//
-//  Created by 신재혁 on 20/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 import Photos
 
@@ -40,6 +32,7 @@ class ModalNavigationController: UINavigationController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }
+	
 }
 
 class TaggingViewController: UIViewController {
@@ -102,6 +95,7 @@ class TaggingViewController: UIViewController {
             navi.semiModalPresentationController?.setModalViewHeight(height, animated: animated)
         }
     }
+	
 }
 
 // MARK: UITableView
@@ -133,7 +127,6 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if indexPath.section == 0 {
             let cell = UITableViewCell()
             cell.backgroundColor = BGColor
@@ -240,4 +233,5 @@ extension TaggingViewController: UITextFieldDelegate {
         }
         fitting(animated: true)
     }
+	
 }

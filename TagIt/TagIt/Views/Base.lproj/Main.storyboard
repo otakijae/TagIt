@@ -13,7 +13,7 @@
         <!--Just Tag It-->
         <scene sceneID="4Su-Iu-Mla">
             <objects>
-                <viewController id="7yk-LL-UdP" customClass="PhotoViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoViewController" id="7yk-LL-UdP" customClass="PhotoViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3xY-JW-vGG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -116,7 +116,7 @@
         <!--Page View Controller-->
         <scene sceneID="8H0-eE-IvS">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Ltl-M9-n0b" customClass="PageViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Ltl-M9-n0b" customClass="PageViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems>
                         <barButtonItem systemItem="action" id="qVN-OY-S7G">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -150,7 +150,7 @@
         <!--Just Search It-->
         <scene sceneID="TDF-PA-jzj">
             <objects>
-                <viewController id="nfL-Yg-4rm" customClass="SearchViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchViewController" id="nfL-Yg-4rm" customClass="SearchViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nda-71-irX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -429,7 +429,7 @@
         <!--Color Picker View Controller-->
         <scene sceneID="K7v-7a-xvm">
             <objects>
-                <viewController id="zic-Is-zMn" customClass="ColorPickerViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ColorPickerViewController" id="zic-Is-zMn" customClass="ColorPickerViewController" customModule="TagIt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dIh-cy-kgd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -577,7 +577,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lGP-xe-S6b"/>
-        <segue reference="gYQ-k4-bDO"/>
+        <segue reference="9xB-Hy-gZp"/>
+        <segue reference="D6V-le-AFq"/>
     </inferredMetricsTieBreakers>
 </document>

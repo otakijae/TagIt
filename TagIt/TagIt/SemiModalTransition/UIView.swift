@@ -1,11 +1,3 @@
-//
-//  UIView.swift
-//  TagIt
-//
-//  Created by 신재혁 on 20/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 
 extension UIView {
@@ -108,7 +100,6 @@ extension UIView {
         }
     }
     
-    
     var viewController: UIViewController? {
         var responder: UIResponder? = self
         while let next = responder?.next {
@@ -121,9 +112,6 @@ extension UIView {
         
         return nil
     }
-    
-    
-    // MARK: -
     
     class func initWithSize(_ size: CGSize) -> UIView {
         return UIView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))

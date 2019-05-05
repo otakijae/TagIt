@@ -1,11 +1,3 @@
-//
-//  PageViewController.swift
-//  TagIt
-//
-//  Created by 신재혁 on 16/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 import Photos
 
@@ -82,9 +74,11 @@ class PageViewController: UIPageViewController {
 }
 
 extension PHAsset {
+	
     var originalFilename: String? {
         return PHAssetResource.assetResources(for: self).first?.originalFilename
     }
+	
 }
 
 //MARK: UIPageViewControllerDataSource, UIPageViewControllerDelegate
@@ -124,4 +118,5 @@ extension PageViewController: UIPageViewControllerDataSource, UIPageViewControll
         
         return nil
     }
+	
 }

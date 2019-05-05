@@ -25,6 +25,9 @@
 		13CFD4DA2211AB5C009681EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13CFD4D92211AB5C009681EF /* Assets.xcassets */; };
 		13CFD4DD2211AB5C009681EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13CFD4DB2211AB5C009681EF /* LaunchScreen.storyboard */; };
 		13CFD4FF2216887F009681EF /* PhotoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFD4FE2216887F009681EF /* PhotoItemCell.swift */; };
+		13D5A3B3227EF710002BE8A1 /* UIKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D5A3B2227EF710002BE8A1 /* UIKit+Extensions.swift */; };
+		13D5A3B5227EF733002BE8A1 /* Foundation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D5A3B4227EF733002BE8A1 /* Foundation+Extensions.swift */; };
+		13D5A3B7227EF798002BE8A1 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D5A3B6227EF798002BE8A1 /* UIColor+Extensions.swift */; };
 		13E64C4722172D5C00408A5D /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E64C4622172D5C00408A5D /* PageViewController.swift */; };
 		13E64C4922172D9A00408A5D /* ZoomedPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E64C4822172D9A00408A5D /* ZoomedPhotoViewController.swift */; };
 		13E884BB221AE83A00703ADD /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E884BA221AE83A00703ADD /* PhotoViewController.swift */; };
@@ -52,6 +55,9 @@
 		13CFD4DC2211AB5C009681EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		13CFD4DE2211AB5C009681EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13CFD4FE2216887F009681EF /* PhotoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoItemCell.swift; sourceTree = "<group>"; };
+		13D5A3B2227EF710002BE8A1 /* UIKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Extensions.swift"; sourceTree = "<group>"; };
+		13D5A3B4227EF733002BE8A1 /* Foundation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Extensions.swift"; sourceTree = "<group>"; };
+		13D5A3B6227EF798002BE8A1 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		13E64C4622172D5C00408A5D /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		13E64C4822172D9A00408A5D /* ZoomedPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomedPhotoViewController.swift; sourceTree = "<group>"; };
 		13E884BA221AE83A00703ADD /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
@@ -159,12 +165,23 @@
 				13547D91221ED57200E363AD /* ViewControllers */,
 				13547D92221ED58400E363AD /* Views */,
 				13547D95221FCDCE00E363AD /* Resources */,
-				13547D93221FBF6300E363AD /* Extensions.swift */,
+				13D5A3B1227EF599002BE8A1 /* Extensions */,
 				13BBDBAB222434C200B7F943 /* Protocols.swift */,
 				13CFD4D22211AB5A009681EF /* AppDelegate.swift */,
 				13CFD4DE2211AB5C009681EF /* Info.plist */,
 			);
 			path = TagIt;
+			sourceTree = "<group>";
+		};
+		13D5A3B1227EF599002BE8A1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				13547D93221FBF6300E363AD /* Extensions.swift */,
+				13D5A3B2227EF710002BE8A1 /* UIKit+Extensions.swift */,
+				13D5A3B4227EF733002BE8A1 /* Foundation+Extensions.swift */,
+				13D5A3B6227EF798002BE8A1 /* UIColor+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		904CBC51C511232A91B76C34 /* Pods */ = {
@@ -310,14 +327,17 @@
 				13E64C4922172D9A00408A5D /* ZoomedPhotoViewController.swift in Sources */,
 				134E5BFC2222AD560047B8EE /* SearchViewController.swift in Sources */,
 				13E64C4722172D5C00408A5D /* PageViewController.swift in Sources */,
+				13D5A3B7227EF798002BE8A1 /* UIColor+Extensions.swift in Sources */,
 				13BBDBD42226ECE300B7F943 /* RealmManager.swift in Sources */,
 				13547D80221D43E700E363AD /* CustomTransitionDelegate.swift in Sources */,
 				134E5BFE2223C6700047B8EE /* TaggingViewCell.swift in Sources */,
 				13BBDBD6222AE4B800B7F943 /* PhotographManager.swift in Sources */,
+				13D5A3B5227EF733002BE8A1 /* Foundation+Extensions.swift in Sources */,
 				13547D7C221D42AA00E363AD /* TaggingViewController.swift in Sources */,
 				13BBDBD12226E22F00B7F943 /* Photograph.swift in Sources */,
 				13CFD4D32211AB5A009681EF /* AppDelegate.swift in Sources */,
 				13BBDBAE2224E53800B7F943 /* HashtagTextView.swift in Sources */,
+				13D5A3B3227EF710002BE8A1 /* UIKit+Extensions.swift in Sources */,
 				13547D94221FBF6300E363AD /* Extensions.swift in Sources */,
 				13BBDBAC222434C200B7F943 /* Protocols.swift in Sources */,
 				13CFD4FF2216887F009681EF /* PhotoItemCell.swift in Sources */,

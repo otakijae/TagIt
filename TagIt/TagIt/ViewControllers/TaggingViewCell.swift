@@ -1,14 +1,7 @@
-//
-//  TaggingViewCell.swift
-//  TagIt
-//
-//  Created by 신재혁 on 25/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 
 class TaggingViewCell: UITableViewCell {
+	
     @IBOutlet weak var colorTagView: UIView!
     @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var removeButton: UIButton!
@@ -29,4 +22,5 @@ class TaggingViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+	
 }

@@ -1,11 +1,3 @@
-//
-//  SearchViewController.swift
-//  TagIt
-//
-//  Created by 신재혁 on 24/02/2019.
-//  Copyright © 2019 ninetyfivejae. All rights reserved.
-//
-
 import UIKit
 import Photos
 
@@ -75,7 +67,6 @@ class SearchViewController: UIViewController {
 		
 	@IBAction func doneButtonTapped(_ sender: Any) {
 		self.view.endEditing(true)
-
 		self.dismiss(animated: true, completion: nil)
 	}
 	
@@ -84,19 +75,16 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UITextFieldDelegate {
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		
 		PhotographManager.sharedInstance.requestSearchedAssetList(by: self.searchTextField.text!, targetSize: self.thumbnailSize, options: nil) { searchedAssetList in
 			self.searchedAssetList = searchedAssetList
 			self.searchTextField.resignFirstResponder()
 			self.collectionView.reloadData()
 		}
-		
 		return true
 	}
 	
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		super.touchesBegan(touches, with: event)
-		
 		self.view.endEditing(true)
 	}
 	
@@ -117,7 +105,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		
 		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoItemCell.self), for: indexPath) as? PhotoItemCell else {
 			fatalError("unexpected cell in collection view")
 		}
@@ -130,7 +117,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		
 		let width = self.collectionView.frame.width
 		
 		if DeviceInfo.Orientation.isPortrait {
@@ -253,11 +239,13 @@ extension SearchViewController {
 			return ([new], [old])
 		}
 	}
+	
 }
 
 // MARK: PHPhotoLibraryChangeObserver
 
 extension SearchViewController: PHPhotoLibraryChangeObserver {
+	
 	func photoLibraryDidChange(_ changeInstance: PHChange) {
 		
 		guard let changes = changeInstance.changeDetails(for: PhotographManager.sharedInstance.fetchResult) else { return }
@@ -286,4 +274,5 @@ extension SearchViewController: PHPhotoLibraryChangeObserver {
 			resetCachedAssets()
 		}
 	}
+	
 }
