@@ -1,8 +1,6 @@
 import UIKit
 import Photos
 
-let BGColor = UIColor(displayP3Red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
-
 class ModalNavigationController: UINavigationController {
     
     weak var semiModalPresentationController: SemiModalPresentationController?
@@ -12,8 +10,8 @@ class ModalNavigationController: UINavigationController {
         
         semiModalPresentationController = presentationController as? SemiModalPresentationController
         
-        navigationBar.backgroundColor = BGColor
-        view.backgroundColor = BGColor
+        navigationBar.backgroundColor = .backgroundColor
+        view.backgroundColor = .backgroundColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,8 +55,8 @@ class TaggingViewController: UIViewController {
     
     func initialSettings() {
         self.tableViewHeightContraint.constant = self.view.height / 2
-        self.view.backgroundColor = BGColor
-        self.tableView.backgroundColor = BGColor
+        self.view.backgroundColor = .backgroundColor
+        self.tableView.backgroundColor = .backgroundColor
     }
 	
     override func viewWillAppear(_ animated: Bool) {
@@ -129,7 +127,7 @@ extension TaggingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = UITableViewCell()
-            cell.backgroundColor = BGColor
+            cell.backgroundColor = .backgroundColor
             cell.textLabel?.textColor = .darkGray
             cell.textLabel?.font = UIFont.systemFont(ofSize: 17.0)
             cell.textLabel?.text = "🍑 색깔 추가"

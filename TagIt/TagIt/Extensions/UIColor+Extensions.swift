@@ -126,6 +126,10 @@ extension UIColor {
 	static var veryLightBlueTwo: UIColor {
 		return UIColor(red: 248/255, green: 250/255, blue: 255/255, alpha: 1)
 	}
+
+	static var backgroundColor: UIColor {
+		return UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
+	}
 	
 	convenience init(hexFromString:String, alpha:CGFloat = 1.0) {
 		var cString: String = hexFromString.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

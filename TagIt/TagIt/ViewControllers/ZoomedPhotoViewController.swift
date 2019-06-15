@@ -139,7 +139,8 @@ class ZoomedPhotoViewController: UIViewController {
 
 extension ZoomedPhotoViewController: UITextViewDelegate {
     
-    func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+	@available(iOS 10.0, *)
+	func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         
         performSegue(withIdentifier: "SemiModalTransitionSegue", sender: nil)
         

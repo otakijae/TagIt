@@ -36,7 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     //MARK:- PHOTO LIBRARY ACCESS CHECK
-    func photoLibraryAvailabilityCheck() {
+	@available(iOS 10.0, *)
+	func photoLibraryAvailabilityCheck() {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
             
         } else {
@@ -44,7 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func requestAuthorizationHandler(status: PHAuthorizationStatus) {
+	@available(iOS 10.0, *)
+	func requestAuthorizationHandler(status: PHAuthorizationStatus) {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
             
         } else {
@@ -53,7 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //MARK:- CAMERA & GALLERY NOT ALLOWING ACCESS - ALERT
-    func alertToEncourageCameraAccessWhenApplicationStarts() {
+	@available(iOS 10.0, *)
+	func alertToEncourageCameraAccessWhenApplicationStarts() {
         //Camera not available - Alert
         let internetUnavailableAlertController = UIAlertController (title: "Camera Unavailable", message: "Please check to see if it is disconnected or in use by another application", preferredStyle: .alert)
         
@@ -72,7 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController!.present(internetUnavailableAlertController , animated: true, completion: nil)
     }
     
-    func alertToEncouragePhotoLibraryAccessWhenApplicationStarts() {
+	@available(iOS 10.0, *)
+	func alertToEncouragePhotoLibraryAccessWhenApplicationStarts() {
         //Photo Library not available - Alert
         let cameraUnavailableAlertController = UIAlertController (title: "Photo Library Unavailable", message: "Please check to see if device settings doesn't allow photo library access", preferredStyle: .alert)
         

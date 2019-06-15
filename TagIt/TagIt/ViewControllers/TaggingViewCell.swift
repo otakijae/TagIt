@@ -15,7 +15,7 @@ class TaggingViewCell: UITableViewCell {
         self.backgroundColor = UIColor.clear
 
         let backgroundView = UIView()
-        backgroundView.backgroundColor = BGColor
+        backgroundView.backgroundColor = .backgroundColor
         self.backgroundView = backgroundView
     }
 
