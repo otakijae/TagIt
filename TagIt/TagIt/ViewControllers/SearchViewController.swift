@@ -13,8 +13,9 @@ class SearchViewController: UIViewController {
 	var previousPreheatRect = CGRect.zero
 	var requestOptions = PHImageRequestOptions()
 	var cellSize: CGSize!
-	
 	var searchedAssetList: [PHAsset] = []
+	
+	let disposeBag = DisposeBag()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -30,6 +31,26 @@ class SearchViewController: UIViewController {
 	
 		//텍스트필드에 포커스
 		self.searchTextField.becomeFirstResponder()
+		
+		bindToRx()
+	}
+	
+	func bindToRx() {
+		searchTextField.rx.text.orEmpty
+			.observeOn(MainScheduler.instance)
+			.throttle(0.3, scheduler: MainScheduler.instance)
+			.distinctUntilChanged()
+			.bind(onNext: { [unowned self] _ in
+				self.searchPhoto()
+			}).disposed(by: disposeBag)
+	}
+	
+	func searchPhoto() {
+		PhotographManager.sharedInstance.requestSearchedAssetList(by: self.searchTextField.text!, targetSize: self.thumbnailSize, options: nil) { searchedAssetList in
+			self.searchedAssetList = searchedAssetList
+			self.searchTextField.resignFirstResponder()
+			self.collectionView.reloadData()
+		}
 	}
 	
 	func initialSettings() {
