@@ -7,6 +7,6 @@ target 'TagIt' do
 
   # Pods for TagIt
   pod 'RealmSwift'
-  pod 'RxSwift', '~> 4.5'
-  pod 'RxCocoa', '~> 4.5'
+  pod 'RxSwift', '~> 5'
+  pod 'RxCocoa', '~> 5'
 end
