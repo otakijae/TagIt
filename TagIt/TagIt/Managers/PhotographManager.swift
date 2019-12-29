@@ -1,5 +1,6 @@
 import Foundation
 import Photos
+import PhotosUI
 
 class PhotographManager {
     

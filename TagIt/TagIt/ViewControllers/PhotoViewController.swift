@@ -29,7 +29,6 @@ class PhotoViewController: UIViewController {
     func initialSettings() {
         self.cellSize = self.collectionViewFlowLayout.itemSize
         self.thumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
-				clearStatusBar()
 				clearNavigationBar()
 				clearToolbar()
 				toolBarVisibleSettings(isHidden: true)
@@ -182,18 +181,17 @@ extension PhotoViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func getScrollViewSpeed(_ scrollView: UIScrollView) -> Float {
-        let lastOffset: CGPoint? = CGPoint()
-        let lastOffsetCapture: TimeInterval? = 0
+        let lastOffset = CGPoint()
+        let lastOffsetCapture: TimeInterval = 0
         let currentOffset = scrollView.contentOffset
-        let currentTime = NSDate().timeIntervalSinceReferenceDate
-        let timeDiff = currentTime - lastOffsetCapture!
+        let currentTime = Date().timeIntervalSinceReferenceDate
+        let timeDifference = currentTime - lastOffsetCapture
         let captureInterval = 0.1
         
-        if timeDiff > captureInterval {
-            let distance = currentOffset.y - lastOffset!.y     // calc distance
-            let scrollSpeedNotAbs = (distance * 10) / 1000     // pixels per ms*10
-            let scrollSpeed = fabsf(Float(scrollSpeedNotAbs))  // absolute value
-            
+        if timeDifference > captureInterval {
+            let distance = currentOffset.y - lastOffset.y
+            let scrollSpeedNotAbs = (distance * 10) / 1000
+            let scrollSpeed = fabsf(Float(scrollSpeedNotAbs))
             return scrollSpeed
         } else {
             return 0

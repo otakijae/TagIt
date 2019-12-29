@@ -30,7 +30,6 @@ class ZoomedPhotoViewController: UIViewController {
         imageZoomSettings()
         gestureSettings()
 			
-				clearStatusBar()
 				clearNavigationBar()
 				clearToolbar()
 				imageViewDisplaySettings(isHidden: false)

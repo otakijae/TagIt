@@ -1,5 +1,6 @@
 import Foundation
 import Photos
+import PhotosUI
 
 enum PHPhotoLibraryAuthorizationError: Error {
     case error(PHAuthorizationStatus)

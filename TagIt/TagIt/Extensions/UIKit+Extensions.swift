@@ -12,11 +12,6 @@ extension UICollectionView {
 
 extension UIViewController {
 	
-	func clearStatusBar() {
-		let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
-		statusBar?.backgroundColor = .clear
-	}
-	
 	func clearNavigationBar() {
 		self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 		self.navigationController?.navigationBar.shadowImage = UIImage()
